@@ -1,0 +1,17 @@
+{
+  "libs": [
+    "browser",
+    "jquery",
+    "ecma5",
+    "underscore"
+  ],
+  "loadEagerly": [
+    "src/**/*.js",
+    "./*.js"
+  ],
+  "plugins": {
+    "angular": "./",
+    "doc_comment": "./",
+    "complete_strings": "./"
+  }
+}
