@@ -1,0 +1,23 @@
+{
+  "name": "showcase",
+  "version": "0.0.1",
+  "description": "My showcase module",
+  "devDependencies": {
+    "express": "latest",
+    "express-http-proxy": "latest",
+    "gulp": "latest",
+    "gulp-useref": "latest",
+    "gulp-util": "latest",
+    "wiredep": "latest"
+  },
+  "config" : {
+    "backend-port": "8080",
+    "express-port": "8081",
+    "backend-server-name": "gumartinm.name",
+    "backend-server-url": "showcase"
+  },
+  "scripts": {
+    "prestart": "wiredep -s app/index.html",
+    "postinstall": "bower install --force-latest && wiredep -s app/index.html"
+  }
+}

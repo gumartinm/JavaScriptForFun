@@ -1,0 +1,32 @@
+{
+  "name": "showcase",
+  "description": "My showcase module",
+  "version": "0.0.1",
+  "keywords": [
+    "showcase"
+  ],
+  "appPath": "app",
+  "private": "true",
+  "ignore": [
+    "src/",
+    "test/",
+    "package.json",
+    "gulpfile.js",
+    "karma.conf.js",
+    "server.js"
+  ],
+  "dependencies": {
+    "angular-translate": "2.7.2",
+    "angular-ui-router": "0.2.13",
+    "angular-bootstrap": "0.12.1",
+    "bootstrap": "latest",
+    "sb-admin": "latest"
+  },
+  "devDependencies": {
+    "angular-mocks": "latest"
+  },
+  "resolutions": {
+    "angular-bootstrap": "0.12.1",
+    "angular": "1.x"
+  }
+}
