@@ -16,11 +16,13 @@
     "server.js"
   ],
   "dependencies": {
+    "angular": "~1.4.4",
+    "angular-bootstrap": "~0.13.3",
     "angular-translate": "2.7.2",
-    "angular-ui-router": "0.2.13",
-    "angular-bootstrap": "0.12.1",
-    "bootstrap": "latest",
-    "sb-admin": "latest"
+    "angular-ui-router": "~0.2.15",
+    "oclazyload": "~0.5.2",
+    "bootstrap": "~3.3.4",
+    "font-awesome": "~4.3.0"
   },
   "devDependencies": {
     "angular-mocks": "latest"
@@ -28,5 +30,14 @@
   "resolutions": {
     "angular-bootstrap": "0.12.1",
     "angular": "1.x"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
   }
 }

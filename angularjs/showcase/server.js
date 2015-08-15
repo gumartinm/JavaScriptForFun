@@ -12,6 +12,7 @@ var serverPort = process.env.npm_package_config_backend_port;
 var serverName = process.env.npm_package_config_backend_server_name;
 
 
+app.use('/', express.static(__dirname));
 app.use('/', express.static('app'));
 app.use('/' + moduleName, proxy('http://' + serverName, {
   forwardPath: function(req, res) {
