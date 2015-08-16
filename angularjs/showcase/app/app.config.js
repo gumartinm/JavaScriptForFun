@@ -9,12 +9,13 @@
 
       function($stateProvider, $urlRouterProvider) {
         var welcome = {
+          abstract: false,
           url: '/welcome',
           templateUrl: 'app/welcome/welcome.html'
         };
 
-        $urlRouterProvider.otherwise('app/welcome');
-        $stateProvider.state('app.welcome', welcome);
+        $urlRouterProvider.otherwise('welcome');
+        $stateProvider.state('welcome', welcome);
       }
     ]);
 }());

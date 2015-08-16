@@ -46,19 +46,6 @@
     <!-- endbuild -->
 
 
-    <script>
-    (function() {
-      'use strict';
-
-      angular
-        .element(document)
-        .ready(function() {
-          angular.bootstrap(document.body, ['app'
-          ]);
-        });
-    })();
-    </script>
-
 
     <!-- build:remove -->
     <!-- MOCKS -->
@@ -70,9 +57,41 @@
 
   <body>
 
-    <div ng-app="app">
+    <!-- Automatic initialization. Using strict dependency injection.
+
+         In my case title is not going to be changed from AngularJS, so ng-app is being used in body section
+         instead of html section (documentation recommends html section)
+
+         AngularJS will work with DOM elements under the div section where ng-app is declared.
+         This could be useful when using different frameworks in the same html application where one framework
+         works with some DOM elements and another framework works with other DOM elements.
+    -->
+    <div ng-app="app" ng-strict-di>
       <div ui-view></div>
+      <div>
+        <ui-view>
+          <i>Hello World!!! You should never see this if ui-router works as expected.</i>
+        </ui-view>
+      </div>
     </div>
+
+    <!-- Manual initialization, instead of ng-app. It could be useful in case of loading more
+         than one AngularJS application (what is not usual) In my case I load just one, called 'app'.
+         I will always use strict dependency injection.
+    <script>
+      (function() {
+        'use strict';
+
+        angular
+          .element(document)
+            .ready(function() {
+              angular.bootstrap(document.body, ['app'], {
+                strictDi: true
+              });
+            });
+      })();
+    </script>
+    -->
 
   </body>
 

@@ -7,4 +7,5 @@
     'ui.bootstrap',
     'ui.bootstrap.modal'
   ]);
+
 }());
