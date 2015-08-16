@@ -41,3 +41,6 @@ atlassian-ide-plugin.xml
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 
+# karma tests
+test-tmp/
+coverage/
