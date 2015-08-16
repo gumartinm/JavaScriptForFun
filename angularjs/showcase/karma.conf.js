@@ -63,6 +63,9 @@ module.exports = function(config) {
       'karma-junit-reporter'
     ],
 
+    // command line argument override the configuration from the config file
+    reporters: ['progress', 'junit', 'coverage'],
+
     junitReporter: {
       // results will be saved as $outputDir/$browserName.xml
       outputDir: 'test-tmp',
@@ -70,6 +73,10 @@ module.exports = function(config) {
       outputFile: 'test-results.xml'
       // suite will become the package name attribute in xml testsuite element
       // suite: ''
+    },
+
+    preprocessors: {
+      'app/**/*.js': ['coverage']
     },
 
     coverageReporter: {
