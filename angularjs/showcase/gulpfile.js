@@ -1,14 +1,8 @@
 var args = require('yargs').argv;
 var config = require('./gulp.config')();
+var serverConfig = require('./server/server.config')();
 var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')({
-  pattern: ['gulp-*', 'gulp.*'],                                  // the glob(s) to search for
-  scope: ['dependencies', 'devDependencies', 'peerDependencies'], // which keys in the config to look within
-  replaceString: /^gulp(-|\.)/,  // what to remove from the name of the module when adding it to the context
-  camelize: true,   // if true, transforms hyphenated plugins names to camel case
-  lazy: true,       // whether the plugins should be lazy loaded on demand
-  rename: {}        // a mapping of plugins to rename
-});
+var plugins = require('gulp-load-plugins')({lazy: true});
 
 /**
  * Arguments:
@@ -17,17 +11,23 @@ var plugins = require('gulp-load-plugins')({
  * --stubs    : Using stubs in index.html (for mocking services, controllers or any other stuff)
  */
 
-gulp.task('help', plugins.taskListing);
 
 /**
- * @description
- * vet (evaluate) the code and create coverage report
+ * Default tasks
+ *
+ */
+gulp.task('help', plugins.taskListing);
+gulp.task('default', ['help']);
+
+
+/**
+ * vet (evaluate) the code and create coverage report.
  *
  * @return {Stream}
  */
 gulp.task('vet', function() {
 
-  plugins.util.log(plugins.util.colors.blue('Checking source with JSHint and JSCS'));
+  log('Checking source files with JSHint and JSCS');
 
   return gulp.src(config.jsAllFiles)
     .pipe(plugins.if(args.verbose, plugins.print()))
@@ -40,12 +40,17 @@ gulp.task('vet', function() {
     }));
 });
 
+/**
+ * wire up bower dependencies and inject files in index.html
+ *
+ * @return {Stream}
+ */
 gulp.task('wiredep', function() {
 
-  plugins.util.log('Wiring bower dependencies into html');
+  log('Wiring bower dependencies into html');
 
   var wiredep = require('wiredep').stream;
-  var wiredepOptions = config.getWiredepDefaultOptions();
+  var wiredepOptions = config.getWiredepOptions();
 
   var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
 
@@ -56,7 +61,15 @@ gulp.task('wiredep', function() {
 });
 
 /**
- * @description
+ * Runs HTTP server in development mode.
+ */
+gulp.task('server-dev', ['wiredep'], function() {
+  log('Starting server in development mode');
+
+  server(true);
+});
+
+/**
  * Inject files in a sorted sequence at a specified inject label.
  *
  * @param {Array} source Source files (glob patterns)
@@ -72,4 +85,39 @@ function inject(source, label) {
   return plugins.inject(
     gulp.src(source)
       .pipe(plugins.angularFilesort(), options));
+}
+
+/**
+ * Runs HTTP server.
+ *
+ * @param  {boolean} isDev - development or build mode.
+ */
+function server(isDev) {
+  var nodeOptions = {
+    script: serverConfig.script,
+    delayTime: 1,
+    env: {
+      'NODE_ENV': isDev ? 'dev' : 'build'
+    },
+    watch: [serverConfig.directory]
+  };
+
+  return plugins.nodemon(nodeOptions)
+    .on('restart', ['vet'], function(ev) {
+      log('HTTP server restarted');
+      log('files changed:\n' + ev);
+    })
+    .on('start', function () {
+      log('HTTP server started');
+    })
+    .on('crash', function () {
+      log('HTTP server crashed');
+    })
+    .on('exit', function () {
+      log('HTTP server exited');
+    });
+}
+
+function log(message) {
+  plugins.util.log(plugins.util.colors.blue(message));
 }

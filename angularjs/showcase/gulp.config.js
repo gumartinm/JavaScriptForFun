@@ -26,7 +26,7 @@ module.exports = function() {
     jscsConfigurationFile: '.jscsrc'
   };
 
-  config.getWiredepDefaultOptions = function() {
+  config.getWiredepOptions = function() {
     return {
       // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
       bowerJson: bower.json,
