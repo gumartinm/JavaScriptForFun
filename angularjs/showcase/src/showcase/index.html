@@ -7,51 +7,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
 
-    <!-- Using wiredep for filling up index.html file with bower dependencies (no devDependencies) by means of tags: bower:css/bower:js/-->
-    <!-- Using gulp-useref for combining css and js files by means of the found tags in index.html file: build:css/build:js/build:remove -->
+    <!--
+    * Using wiredep for filling up index.html file with bower dependencies (no devDependencies) by means of tags:
+    bower:css/bower:js/
 
+    * Using gulp-inject for filling up index.html file with the required files for this application by means of tags:
+    inject:css/inject:js/inject:templates:js
+
+    * Using gulp-useref for combining css and js files by means of the found tags in index.html file:
+    build:css/build:js/build:remove
+    -->
 
     <!-- Vendor styles -->
-    <!-- build:css(.) styles/vendor.css -->
+    <!-- build:css(.) styles/lib.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- Custom styles -->
-    <!-- build:css(.tmp) styles/main.css -->
+    <!-- build:css(.tmp) styles/app.css -->
+    <!-- inject:css -->
+    <!-- endinject -->
     <!-- endbuild -->
 
 
 
     <!-- Vendor JavaScript -->
-    <!-- build:js(.) scripts/vendor.js -->
+    <!-- build:js(.) js/lib.js -->
     <!-- bower:js -->
-    <script src="../bower_components/angular/angular.js"></script>
-    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="../bower_components/angular-translate/angular-translate.js"></script>
-    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="../bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
-    <script src="../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/angular-translate/angular-translate.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
 
     <!-- Custom JavaScript -->
-    <!-- build:js({.tmp,app}) scripts/showcase.js -->
-    <script src="app.module.js"></script>
-    <script src="app.config.js"></script>
+    <!-- build:js({.tmp,app}) js/app.js -->
+    <!-- inject:js -->
+    <script src="/src/showcase/app/welcome/welcome.controller.js"></script>
+    <script src="/src/showcase/app/app.module.js"></script>
+    <script src="/src/showcase/app/app.config.js"></script>
+    <!-- endinject -->
+
+    <!-- inject:templates:js -->
+    <!-- endinject -->
     <!-- endbuild -->
-
-
-
-    <!-- build:remove -->
-    <!-- MOCKS -->
-    <!-- MOCKS END -->
-    <!-- endbuild -->
-
   </head>
 
 
