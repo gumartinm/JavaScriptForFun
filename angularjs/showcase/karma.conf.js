@@ -67,7 +67,7 @@ module.exports = function(config) {
 
     junitReporter: {
       // results will be saved as $outputDir/$browserName.xml
-      outputDir: 'test-tmp',
+      outputDir: 'report',
       // if included, results will be saved as $outputDir/$browserName/$outputFile
       outputFile: 'test-results.xml'
       // suite will become the package name attribute in xml testsuite element
