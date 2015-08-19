@@ -55,6 +55,15 @@
   "node": true,
 
   "globals": {
-    "angular": false
+    "angular": false,
+    /* Jasmine */
+    "describe"   : false,
+    "expect"     : false,
+    "inject"     : false,
+    "it"         : false,
+    "before"     : false,
+    "beforeEach" : false,
+    "after"      : false,
+    "afterEach"  : false
   }
 }
