@@ -30,9 +30,8 @@
     "yargs": "~3.19.0"
   },
   "scripts": {
-    "prestart": "wiredep -s app/index.html",
     "pretest": "wiredep -s karma.conf.js --dependencies --devDependencies",
-    "test": "karma start --reporters progress,junit,coverage",
-    "postinstall": "bower install --force-latest && wiredep -s app/index.html"
+    "test": "gulp test",
+    "postinstall": "bower install --force-latest"
   }
 }
