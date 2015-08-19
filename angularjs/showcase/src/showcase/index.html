@@ -51,6 +51,7 @@
     <!-- Custom JavaScript -->
     <!-- build:js({.tmp,app}) js/app.js -->
     <!-- inject:js -->
+    <script src="/src/showcase/app/welcome/welcome.module.js"></script>
     <script src="/src/showcase/app/welcome/welcome.controller.js"></script>
     <script src="/src/showcase/app/app.module.js"></script>
     <script src="/src/showcase/app/app.config.js"></script>
@@ -75,8 +76,7 @@
          This could be useful when using different frameworks in the same html application where one framework
          works with some DOM elements and another framework works with other DOM elements.
     -->
-    <div ng-app="app" ng-strict-di>
-      <div ui-view></div>
+    <div ng-app="app">
       <div>
         <ui-view>
           <i>Hello World!!! You should never see this message if ui-router works as expected.</i>

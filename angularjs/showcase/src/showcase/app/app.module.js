@@ -5,7 +5,10 @@
   angular.module('app', [
     'ui.router',
     'ui.bootstrap',
-    'ui.bootstrap.modal'
+    'ui.bootstrap.modal',
+
+    /* Feature areas */
+    'app.welcome'
   ]);
 
 }());
