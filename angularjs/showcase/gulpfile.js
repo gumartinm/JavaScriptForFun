@@ -7,10 +7,10 @@ var plugins = require('gulp-load-plugins')({lazy: true});
 /**
  * Arguments:
  *
- * --verbose  : Various tasks will produce more output to the console.
- * --stubs    : Using stubs in index.html (for mocking services, controllers or any other stuff)
+ * [--verbose]  : Various tasks will produce more output to the console. No verbose by default.
+ * [--stubs]    : Using stubs in index.html (for mocking services, controllers or any other stuff) No stubs by default.
+ * [--environment]  : Running tasks in integration or development environment. Development by default.
  */
-
 
 /**
  * Default tasks
@@ -18,7 +18,6 @@ var plugins = require('gulp-load-plugins')({lazy: true});
  */
 gulp.task('help', plugins.taskListing);
 gulp.task('default', ['help']);
-
 
 /**
  * vet (evaluate) the code and create coverage report.
@@ -50,23 +49,43 @@ gulp.task('wiredep', function() {
   log('Wiring bower dependencies into html');
 
   var wiredep = require('wiredep').stream;
-  var wiredepOptions = config.getWiredepOptions();
-
   var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
 
   return gulp.src(config.index)
-    .pipe(wiredep(wiredepOptions))
+    .pipe(wiredep(config.getWiredepOptions()))
     .pipe(inject(jsFiles, ''))
     .pipe(gulp.dest(config.main));
 });
 
 /**
- * Runs HTTP server in development mode.
+ * Runs HTTP server.
  */
-gulp.task('server-dev', ['wiredep'], function() {
-  log('Starting server in development mode');
+gulp.task('server', ['wiredep'], function(done) {
+  var environment = 'development';
 
-  server(true);
+  if (args.environment) {
+    environment = args.environment;
+  }
+
+  log('Starting server in ' + environment + ' mode');
+  server(environment);
+  done();
+});
+
+/**
+ * Runs specs once and exit.
+ *
+ * @return {Stream}
+ */
+gulp.task('test', ['vet'], function(done) {
+  startTests(true, done);
+});
+
+/**
+ * Run specs and wait. Watch for file changes and re-run tests on each change
+ */
+gulp.task('autotest', function(done) {
+  startTests(false, done);
 });
 
 /**
@@ -90,14 +109,14 @@ function inject(source, label) {
 /**
  * Runs HTTP server.
  *
- * @param  {boolean} isDev - development or build mode.
+ * @param  {string=} [environment='development'] development or integration environments.
  */
-function server(isDev) {
+function server(environment) {
   var nodeOptions = {
     script: serverConfig.script,
     delayTime: 1,
     env: {
-      'NODE_ENV': isDev ? 'dev' : 'build'
+      'NODE_ENV': environment ? environment : 'development'
     },
     watch: [serverConfig.directory]
   };
@@ -116,6 +135,30 @@ function server(isDev) {
     .on('exit', function () {
       log('HTTP server exited');
     });
+}
+
+/**
+ * Tests runner, karma launcher.
+ *
+ * @param  {boolean} singleRun True means run once and end (continuous integration), or keep running (development)
+ * @param  {function} done Callback to fire when karma is done
+ * @return {undefined}
+ */
+function startTests(singleRun, done) {
+  var excludeFiles = [];
+  var karma = require('karma').server;
+
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    exclude: excludeFiles,
+    singleRun: singleRun
+  }, doneKarma);
+
+  function doneKarma(result) {
+    log('Karma completed');
+    log('Karma: tests exited with code ' + result);
+    done();
+  }
 }
 
 function log(message) {

@@ -12,13 +12,13 @@ app.use(favicon(__dirname + '/favicon.ico'));
 app.use(logger('dev'));
 
 switch (environment) {
-  case 'build':
-    console.log('build mode');
+  case 'integration':
+    console.log('integration mode');
 
-    app.use(express.static('./build/'));
+    app.use(express.static('./dist/'));
 
     // Deep linking
-    app.use('/*', express.static('./build/index.html'));
+    app.use('/*', express.static('./dist/index.html'));
     break;
   default:
     console.log('development mode');

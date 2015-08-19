@@ -31,9 +31,8 @@ module.exports = function(config) {
       'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/angular-mocks/angular-mocks.js',
       //endbower
-
-      'app/**/*.module.js',
-      'app/**/*.js'
+      'src/showcase/app/**/*.module.js',
+      'src/showcase/app/**/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -76,23 +75,23 @@ module.exports = function(config) {
     },
 
     preprocessors: {
-      'app/**/*.js': ['coverage']
+      'src/showcase/app/**/!(*.spec)+(.js)': ['coverage']
     },
 
     coverageReporter: {
       // specify a common output directory
-      dir: 'test-tmp/coverage',
+      dir: 'report/coverage',
       reporters: [
         // reporters not supporting the `file` property
-        { type: 'html', subdir: 'report-html' },
-        { type: 'lcov', subdir: 'report-lcov' },
+        {type: 'html', subdir: 'report-html'},
+        {type: 'lcov', subdir: 'report-lcov'},
         // reporters supporting the `file` property, use `subdir` to directly
         // output them in the `dir` directory
-        { type: 'cobertura', subdir: '.', file: 'cobertura.txt' },
-        { type: 'lcovonly', subdir: '.', file: 'report-lcovonly.txt' },
-        { type: 'teamcity', subdir: '.', file: 'teamcity.txt' },
-        { type: 'text', subdir: '.', file: 'text.txt' },
-        { type: 'text-summary', subdir: '.', file: 'text-summary.txt' },
+        {type: 'cobertura', subdir: '.', file: 'cobertura.txt'},
+        {type: 'lcovonly', subdir: '.', file: 'report-lcovonly.txt'},
+        {type: 'teamcity', subdir: '.', file: 'teamcity.txt'},
+        {type: 'text', subdir: '.', file: 'text.txt'},
+        {type: 'text-summary', subdir: '.', file: 'text-summary.txt'}
       ]
     },
 
@@ -104,7 +103,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_INFO
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

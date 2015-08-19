@@ -17,13 +17,18 @@ module.exports = function() {
       app + '**/*.js',
       '!' + app + '**/*.spec.js'
     ],
+    jsFilesWithSpecs: [
+      app + '**/*.module.js',
+      app + '**/*.js'
+    ],
     jsFilesStubs: [
-      bower.directory + 'angular-mocks/angular-mocks.js',
       main + 'stubs/**/*.js'
     ],
     index: main + 'index.html',
     jshintConfigurationFile: '.jshintrc',
-    jscsConfigurationFile: '.jscsrc'
+    jscsConfigurationFile: '.jscsrc',
+
+    karmaConf: 'karma.conf.js'
   };
 
   config.getWiredepOptions = function() {
