@@ -9,7 +9,8 @@ var plugins = require('gulp-load-plugins')({lazy: true});
  *
  * [--verbose]  : Various tasks will produce more output to the console. No verbose by default.
  * [--stubs]    : Using stubs in index.html (for mocking services, controllers or any other stuff) No stubs by default.
- * [--environment]  : Running tasks in integration or development environment. Development by default.
+ * [--environment production|development]  : Running tasks in production or development environment.
+ * Development by default.
  */
 
 /**
@@ -22,11 +23,11 @@ gulp.task('default', ['help']);
 /**
  * vet (evaluate) the code and create coverage report.
  *
- * @return {Stream}
+ * @return {stream}
  */
 gulp.task('vet', function() {
 
-  log('Checking source files with JSHint and JSCS');
+  log('*** Checking source files with JSHint and JSCS ***');
 
   return gulp.src(config.jsAllFiles)
     .pipe(plugins.if(args.verbose, plugins.print()))
@@ -46,13 +47,13 @@ gulp.task('vet', function() {
  */
 gulp.task('wiredep', function() {
 
-  log('Wiring bower dependencies into html');
+  log('*** Wiring bower dependencies into html ***');
 
   var wiredep = require('wiredep').stream;
   var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
 
   return gulp.src(config.index)
-    .pipe(wiredep(config.getWiredepOptions()))
+    .pipe(wiredep(config.wiredepOptions))
     .pipe(inject(jsFiles, ''))
     .pipe(gulp.dest(config.main));
 });
@@ -64,12 +65,12 @@ gulp.task('wiredep', function() {
  */
 gulp.task('wiredepkarma', function() {
 
-  log('Wiring bower dependencies into karma.conf.js');
+  log('*** Wiring bower dependencies into karma.conf.js ***');
 
   var wiredep = require('wiredep').stream;
 
   return gulp.src(config.karmaConf)
-    .pipe(wiredep(config.getWiredepKarmaOptions()))
+    .pipe(wiredep(config.wiredepKarmaOptions))
     .pipe(gulp.dest(__dirname));
 });
 
@@ -83,7 +84,8 @@ gulp.task('server', ['wiredep'], function(done) {
     environment = args.environment;
   }
 
-  log('Starting server in ' + environment + ' mode');
+  log('*** Starting server in ' + environment + ' mode ***');
+
   server(environment);
   done();
 });
@@ -94,6 +96,9 @@ gulp.task('server', ['wiredep'], function(done) {
  * @return {Stream}
  */
 gulp.task('test', ['vet', 'wiredepkarma'], function(done) {
+
+  log('*** Run tests once ***');
+
   startTests(true, done);
 });
 
@@ -101,22 +106,26 @@ gulp.task('test', ['vet', 'wiredepkarma'], function(done) {
  * Run specs and wait. Watch for file changes and re-run tests on each change
  */
 gulp.task('autotest', ['wiredepkarma'], function(done) {
+
+  log('*** Run tests and wait ***');
+
   startTests(false, done);
 });
 
 /**
- * Builds application.
+ * Builds application for production.
  *
- * @returns {stream} The stream.
+ * @return {stream} The stream.
  */
 gulp.task('build', ['wiredep', 'test'], function() {
-  log('Building application.');
+
+  log('*** Building application for production - Optimizing assets - HTML,CSS,JS');
 
   var assets = plugins.useref.assets({searchPath: './'});
   // Filters are named for the gulp-useref path
-  var cssFilter = plugins.filter('**/*.css');
-  var jsAppFilter = plugins.filter('**/' + config.build.app);
-  var jslibFilter = plugins.filter('**/' + config.build.lib);
+  var cssFilter = plugins.filter('**/*.css', {restore: true});
+  var jsAppFilter = plugins.filter('**/app.js', {restore: true});
+  var jslibFilter = plugins.filter('**/lib.js', {restore: true});
 
   return gulp.src(config.index)
     // Gather all assets from the html with useref
@@ -124,7 +133,7 @@ gulp.task('build', ['wiredep', 'test'], function() {
     // Get the css
     .pipe(cssFilter)
     .pipe(plugins.minifyCss())
-    .pipe(cssFilter.restore())
+    .pipe(cssFilter.restore)
     // Get the custom javascript
     .pipe(jsAppFilter)
     .pipe(plugins.ngAnnotate({add: true}))
@@ -137,11 +146,11 @@ gulp.task('build', ['wiredep', 'test'], function() {
       }
     }))
     .pipe(getHeader())
-    .pipe(jsAppFilter.restore())
+    .pipe(jsAppFilter.restore)
     // Get the vendor javascript
     .pipe(jslibFilter)
     .pipe(plugins.uglify())
-    .pipe(jslibFilter.restore())
+    .pipe(jslibFilter.restore)
     // Take inventory of the file names for future rev numbers
     .pipe(plugins.rev())
     // Apply the concat and file replacement with useref
@@ -177,7 +186,7 @@ gulp.task('build', ['wiredep', 'test'], function() {
  *
  * @param {Array} source Source files (glob patterns)
  * @param {string=} label The label name to be used by gulp-inject.
- * @returns {stream} The stream.
+ * @return {stream} The stream.
  */
 function inject(source, label) {
   var options = {relative: false};
@@ -193,7 +202,8 @@ function inject(source, label) {
 /**
  * Runs HTTP server.
  *
- * @param  {string=} [environment='development'] development or integration environments.
+ * @param  {string=} [environment='development'] development or production environments.
+ * @return {undefined}
  */
 function server(environment) {
   var nodeOptions = {

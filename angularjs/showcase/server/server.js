@@ -12,8 +12,8 @@ app.use(favicon(__dirname + '/favicon.ico'));
 app.use(logger('dev'));
 
 switch (environment) {
-  case 'integration':
-    console.log('integration mode');
+  case 'production':
+    console.log('production mode');
 
     app.use(express.static('./dist/'));
 

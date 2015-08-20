@@ -32,13 +32,13 @@ module.exports = function() {
     build: {
       app: 'app.js',
       lib: 'lib.js',
-      directory: './dist/',
-    }
+      directory: './dist/'
+    },
 
-  };
-
-  config.getWiredepOptions = function() {
-    return {
+    /**
+     * wiredep options for index.html and karma.conf.js
+     */
+    wiredepOptions: {
       // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
       bowerJson: bower.json,
       // Your bower.json file contents. default: require('./bower.json')
@@ -46,11 +46,8 @@ module.exports = function() {
       // string or regexp to ignore from the injected filepath
       ignorePath: bower.ignorePath,
       dependencies: true     // default: true
-    };
-  };
-
-  config.getWiredepKarmaOptions = function() {
-    return {
+    },
+    wiredepKarmaOptions: {
       // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
       bowerJson: bower.json,
       // Your bower.json file contents. default: require('./bower.json')
@@ -59,7 +56,7 @@ module.exports = function() {
       ignorePath: bower.ignorePath,
       dependencies: true,     // default: true
       devDependencies: true // default: false
-    };
+    }
   };
 
   return config;
