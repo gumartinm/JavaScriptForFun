@@ -1,8 +1,9 @@
 var args = require('yargs').argv;
 var config = require('./gulp.config')();
-var serverConfig = require('./server/server.config')();
+var del = require('del');
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')({lazy: true});
+var serverConfig = require('./server/server.config')();
 
 /**
  * Arguments:
@@ -117,47 +118,82 @@ gulp.task('autotest', ['wiredepkarma'], function(done) {
  *
  * @return {stream} The stream.
  */
-gulp.task('build', ['wiredep', 'test'], function() {
+gulp.task('build', ['wiredep', 'test', 'templatecache'], function() {
 
-  log('*** Building application for production - Optimizing assets - HTML,CSS,JS');
+  log('*** Building application for production - Optimizing assets - HTML,CSS,JS ***');
 
   var assets = plugins.useref.assets({searchPath: './'});
   // Filters are named for the gulp-useref path
   var cssFilter = plugins.filter('**/*.css', {restore: true});
-  var jsAppFilter = plugins.filter('**/app.js', {restore: true});
-  var jslibFilter = plugins.filter('**/lib.js', {restore: true});
+  var jsAppFilter = plugins.filter('**/app.min.js', {restore: true});
+  var jslibFilter = plugins.filter('**/lib.min.js', {restore: true});
+  var templateCache = config.temp + config.templateFile;
 
   return gulp.src(config.index)
+
+    // Inject templates
+    .pipe(inject(templateCache, 'templates'))
+
     // Gather all assets from the html with useref
     .pipe(assets)
+
     // Get the css
     .pipe(cssFilter)
+    .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
     .pipe(plugins.minifyCss())
+    .pipe(plugins.if(args.verbose, plugins.bytediff.stop(byteDiffFormat)))
     .pipe(cssFilter.restore)
+
     // Get the custom javascript
     .pipe(jsAppFilter)
-    .pipe(plugins.ngAnnotate({add: true}))
+    .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
+    .pipe(plugins.ngAnnotate({
+      //jscs:disable
+      single_quotes: true, // jshint ignore:line
+      //jscs:enable
+      add: true
+    }))
     .pipe(plugins.uglify({
       compress: {
         //jscs:disable
         drop_console: true, // jshint ignore:line
         drop_debugger: true // jshint ignore:line
         //jscs:enable
+      },
+      output: {
+        //jscs:disable
+        quote_style: 3 // jshint ignore:line
+        //jscs:enable
       }
     }))
+    .pipe(plugins.if(args.verbose, plugins.bytediff.stop(byteDiffFormat)))
     .pipe(getHeader())
     .pipe(jsAppFilter.restore)
+
     // Get the vendor javascript
     .pipe(jslibFilter)
-    .pipe(plugins.uglify())
+    .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
+    .pipe(plugins.uglify({
+      output: {
+        //jscs:disable
+        quote_style: 3 // jshint ignore:line
+        //jscs:enable
+      }
+    }))
+    .pipe(plugins.if(args.verbose, plugins.bytediff.stop(byteDiffFormat)))
     .pipe(jslibFilter.restore)
+
     // Take inventory of the file names for future rev numbers
     .pipe(plugins.rev())
+
     // Apply the concat and file replacement with useref
     .pipe(assets.restore())
     .pipe(plugins.useref())
+
     // Replace the file names in the html with rev numbers
     .pipe(plugins.revReplace())
+
+    // Output to destination
     .pipe(gulp.dest(config.build.directory));
 
   /**
@@ -169,9 +205,9 @@ gulp.task('build', ['wiredep', 'test'], function() {
     var pkg = require('./package.json');
     var banner = ['/**',
       ' * <%= pkg.name %> - <%= pkg.description %>',
-      ' * @author <%= pkg.author.name %>\n' +
-      ' * @email <%= pkg.author.email %>\n' +
-      ' * @url <%= pkg.author.url %>\n' +
+      ' * @author <%= pkg.author.name %>',
+      ' * @email <%= pkg.author.email %>',
+      ' * @url <%= pkg.author.url %>',
       ' * @version <%= pkg.version %>',
       ' * @link <%= pkg.homepage %>',
       ' * @license <%= pkg.license %>',
@@ -184,9 +220,49 @@ gulp.task('build', ['wiredep', 'test'], function() {
 });
 
 /**
+ * Cleans up files in distribution directory.
+ *
+ * @return {undefined}
+ */
+gulp.task('clean', function(done) {
+
+  log('*** Cleans up directories ***');
+
+  del.sync([config.build.directory + '/**/*', config.temp]);
+  done();
+});
+
+/**
+ * Creates $templateCache from html templates
+ *
+ * @return {stream}
+ */
+gulp.task('templatecache', ['clean'], function() {
+
+  log('*** Creating AngularJS $templateCache ***');
+
+  return gulp
+    .src(config.templates)
+    .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
+    .pipe(plugins.minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true
+    }))
+    .pipe(plugins.if(args.verbose, plugins.bytediff.stop(byteDiffFormat)))
+    .pipe(plugins.angularTemplatecache(config.templateFile, {
+        module: 'app.core',
+        root: 'app/',
+        standalone: false
+      }
+    ))
+    .pipe(gulp.dest(config.temp));
+});
+
+/**
  * Inject files in a sorted sequence at a specified inject label.
  *
- * @param {Array} source Source files (glob patterns)
+ * @param {Array|string} source Source files (glob patterns)
  * @param {string=} label The label name to be used by gulp-inject.
  * @return {stream} The stream.
  */
@@ -198,7 +274,7 @@ function inject(source, label) {
 
   return plugins.inject(
     gulp.src(source)
-      .pipe(plugins.angularFilesort(), options));
+      .pipe(plugins.angularFilesort()), options);
 }
 
 /**
@@ -260,4 +336,9 @@ function startTests(singleRun, done) {
 
 function log(message) {
   plugins.util.log(plugins.util.colors.blue(message));
+}
+
+function byteDiffFormat(data) {
+  var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
+  return data.fileName + ' is ' + data.percent + '%' + difference;
 }

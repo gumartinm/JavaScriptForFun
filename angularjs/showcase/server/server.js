@@ -15,10 +15,10 @@ switch (environment) {
   case 'production':
     console.log('production mode');
 
-    app.use(express.static('./dist/'));
+    app.use(express.static('./build/'));
 
     // Deep linking
-    app.use('/*', express.static('./dist/index.html'));
+    app.use('/*', express.static('./build/index.html'));
     break;
   default:
     console.log('development mode');

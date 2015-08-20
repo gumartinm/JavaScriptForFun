@@ -6,7 +6,8 @@ module.exports = function() {
     directory: './bower_components/',
     ignorePath: '../..'
   };
-  var config = {
+
+  return {
     main: main,
     jsAllFiles: [
         './src/**/*.js',
@@ -26,14 +27,14 @@ module.exports = function() {
 
     karmaConf: 'karma.conf.js',
 
-    /**
-     * build files
-     */
     build: {
-      app: 'app.js',
-      lib: 'lib.js',
-      directory: './dist/'
+      directory: './build/'
     },
+
+    templates: app + '**/*.html',
+    templateFile: 'templates.js',
+
+    temp: './.tmp/',
 
     /**
      * wiredep options for index.html and karma.conf.js
@@ -59,5 +60,4 @@ module.exports = function() {
     }
   };
 
-  return config;
 };

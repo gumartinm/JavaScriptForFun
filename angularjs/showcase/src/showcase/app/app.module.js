@@ -3,9 +3,8 @@
   'use strict';
 
   angular.module('app', [
-    'ui.router',
-    'ui.bootstrap',
-    'ui.bootstrap.modal',
+    /* Shared modules */
+    'app.core',
 
     /* Feature areas */
     'app.welcome'
