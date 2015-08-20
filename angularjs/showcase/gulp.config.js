@@ -39,9 +39,20 @@ module.exports = function() {
       directory: bower.directory,
       // string or regexp to ignore from the injected filepath
       ignorePath: bower.ignorePath,
+      dependencies: true     // default: true
+    };
+  };
+
+  config.getWiredepKarmaOptions = function() {
+    return {
+      // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
+      bowerJson: bower.json,
+      // Your bower.json file contents. default: require('./bower.json')
+      directory: bower.directory,
+      // string or regexp to ignore from the injected filepath
+      ignorePath: bower.ignorePath,
       dependencies: true,     // default: true
-      devDependencies: false, // default: false
-      includeSelf: false      // default: false
+      devDependencies: true // default: false
     };
   };
 
