@@ -169,8 +169,10 @@ gulp.task('build', ['wiredep', 'test'], function() {
     var pkg = require('./package.json');
     var banner = ['/**',
       ' * <%= pkg.name %> - <%= pkg.description %>',
-      ' * @authors <%= pkg.authors %>',
-      ' * @version v<%= pkg.version %>',
+      ' * @author <%= pkg.author.name %>\n' +
+      ' * @email <%= pkg.author.email %>\n' +
+      ' * @url <%= pkg.author.url %>\n' +
+      ' * @version <%= pkg.version %>',
       ' * @link <%= pkg.homepage %>',
       ' * @license <%= pkg.license %>',
       ' */',
