@@ -17,10 +17,6 @@ module.exports = function() {
       app + '**/*.js',
       '!' + app + '**/*.spec.js'
     ],
-    jsFilesWithSpecs: [
-      app + '**/*.module.js',
-      app + '**/*.js'
-    ],
     jsFilesStubs: [
       main + 'stubs/**/*.js'
     ],
@@ -28,7 +24,17 @@ module.exports = function() {
     jshintConfigurationFile: '.jshintrc',
     jscsConfigurationFile: '.jscsrc',
 
-    karmaConf: 'karma.conf.js'
+    karmaConf: 'karma.conf.js',
+
+    /**
+     * build files
+     */
+    build: {
+      app: 'app.js',
+      lib: 'lib.js',
+      directory: './dist/',
+    }
+
   };
 
   config.getWiredepOptions = function() {

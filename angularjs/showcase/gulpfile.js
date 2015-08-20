@@ -67,7 +67,6 @@ gulp.task('wiredepkarma', function() {
   log('Wiring bower dependencies into karma.conf.js');
 
   var wiredep = require('wiredep').stream;
-  var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
 
   return gulp.src(config.karmaConf)
     .pipe(wiredep(config.getWiredepKarmaOptions()))
@@ -106,11 +105,79 @@ gulp.task('autotest', ['wiredepkarma'], function(done) {
 });
 
 /**
+ * Builds application.
+ *
+ * @returns {stream} The stream.
+ */
+gulp.task('build', ['wiredep', 'test'], function() {
+  log('Building application.');
+
+  var assets = plugins.useref.assets({searchPath: './'});
+  // Filters are named for the gulp-useref path
+  var cssFilter = plugins.filter('**/*.css');
+  var jsAppFilter = plugins.filter('**/' + config.build.app);
+  var jslibFilter = plugins.filter('**/' + config.build.lib);
+
+  return gulp.src(config.index)
+    // Gather all assets from the html with useref
+    .pipe(assets)
+    // Get the css
+    .pipe(cssFilter)
+    .pipe(plugins.minifyCss())
+    .pipe(cssFilter.restore())
+    // Get the custom javascript
+    .pipe(jsAppFilter)
+    .pipe(plugins.ngAnnotate({add: true}))
+    .pipe(plugins.uglify({
+      compress: {
+        //jscs:disable
+        drop_console: true, // jshint ignore:line
+        drop_debugger: true // jshint ignore:line
+        //jscs:enable
+      }
+    }))
+    .pipe(getHeader())
+    .pipe(jsAppFilter.restore())
+    // Get the vendor javascript
+    .pipe(jslibFilter)
+    .pipe(plugins.uglify())
+    .pipe(jslibFilter.restore())
+    // Take inventory of the file names for future rev numbers
+    .pipe(plugins.rev())
+    // Apply the concat and file replacement with useref
+    .pipe(assets.restore())
+    .pipe(plugins.useref())
+    // Replace the file names in the html with rev numbers
+    .pipe(plugins.revReplace())
+    .pipe(gulp.dest(config.build.directory));
+
+  /**
+   * Format and return the header for files
+   *
+   * @return {stream} The stream.
+   */
+  function getHeader() {
+    var pkg = require('./package.json');
+    var banner = ['/**',
+      ' * <%= pkg.name %> - <%= pkg.description %>',
+      ' * @authors <%= pkg.authors %>',
+      ' * @version v<%= pkg.version %>',
+      ' * @link <%= pkg.homepage %>',
+      ' * @license <%= pkg.license %>',
+      ' */',
+      ''
+    ].join('\n');
+    return plugins.header(banner, {pkg: pkg});
+  }
+
+});
+
+/**
  * Inject files in a sorted sequence at a specified inject label.
  *
  * @param {Array} source Source files (glob patterns)
  * @param {string=} label The label name to be used by gulp-inject.
- * @returns {Stream} The stream.
+ * @returns {stream} The stream.
  */
 function inject(source, label) {
   var options = {relative: false};
