@@ -76,6 +76,13 @@
          This could be useful when using different frameworks in the same html application where one framework
          works with some DOM elements and another framework works with other DOM elements.
     -->
+    <!-- <div ng-app="app" ng-strict-di>
+        When using ng-strict-di we must manually identify dependencies.
+        For example, Welcome controller, if using strict mode, would require
+        Welcome.$inject = ['$location'];
+
+        Instead I am going to use @ngInject because it is cool.
+    -->
     <div ng-app="app">
       <div>
         <ui-view>
