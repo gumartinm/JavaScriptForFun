@@ -1,6 +1,8 @@
 (function() {
   'use strict';
 
-  angular.module('app.welcome', []);
+  angular.module('app.welcome', [
+    'app.core'
+  ]);
 
 })();

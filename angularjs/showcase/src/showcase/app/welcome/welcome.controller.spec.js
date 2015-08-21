@@ -1,7 +1,8 @@
 describe('app.welcome', function() {
   'use strict';
 
-  var controller, scope;
+  var controller;
+  var scope;
 
   beforeEach(function() {
     module('app.welcome');
