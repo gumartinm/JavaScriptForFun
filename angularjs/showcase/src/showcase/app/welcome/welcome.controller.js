@@ -10,6 +10,15 @@
   // Instead I am going to use ngInject because it is cool :)
   // Welcome.$inject = ['$location'];
 
+  /**
+   * @ngdoc object
+   * @name app.welcome.$Welcome
+   *
+   * @requires $location
+   *
+   * @description
+   * Welcome controller.
+   */
   /* @ngInject */
   function Welcome($location) {
     var vm = this;
