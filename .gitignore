@@ -7,6 +7,9 @@ npm-debug.log
 # bower
 bower_components/
 
+# gulp temporary folder
+.tmp/
+
 # From: https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 *.iml
@@ -44,3 +47,4 @@ com_crashlytics_export_strings.xml
 # karma tests
 test-tmp/
 coverage/
+report/
