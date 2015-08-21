@@ -12,7 +12,6 @@
    *
    * ## Module welcome.
    * Module in charge of displaying a nice welcome page.
-   *
    */
   angular.module('app.welcome', [
     'app.core'
