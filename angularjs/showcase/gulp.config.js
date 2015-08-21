@@ -22,8 +22,9 @@ module.exports = function() {
       main + 'stubs/**/*.js'
     ],
     index: main + 'index.html',
-    jshintConfigurationFile: '.jshintrc',
+    jsHintConfigurationFile: '.jshintrc',
     jscsConfigurationFile: '.jscsrc',
+    htmlHintConfigurationFile: '.jshintrc',
 
     karmaConf: 'karma.conf.js',
 

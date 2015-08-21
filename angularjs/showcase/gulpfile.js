@@ -21,6 +21,7 @@ var serverConfig = require('./server/server.config')();
 gulp.task('help', plugins.taskListing);
 gulp.task('default', ['help']);
 
+
 /**
  * @ngdoc function
  *
@@ -29,19 +30,48 @@ gulp.task('default', ['help']);
  *
  * @returns {stream}
  */
-gulp.task('vet', function() {
+gulp.task('vet', ['vet-js', 'vet-html']);
 
-  log('*** Checking source files with JSHint and JSCS ***');
+/**
+ * @ngdoc function
+ *
+ * @description
+ * vet (evaluate) the JavaScript code and create coverage report.
+ *
+ * @returns {stream}
+ */
+gulp.task('vet-js', function() {
+
+  log('*** Checking JavaScript source files with JSHint and JSCS ***');
 
   return gulp.src(config.jsAllFiles)
     .pipe(plugins.if(args.verbose, plugins.print()))
-    .pipe(plugins.jshint(config.jshintConfigurationFile))
+    .pipe(plugins.jshint(config.jsHintConfigurationFile))
     .pipe(plugins.jshint.reporter('jshint-stylish', {verbose: true}))
     .pipe(plugins.jshint.reporter('fail'))
     .pipe(plugins.jscs({
       configPath: config.jscsConfigurationFile,
       fix: false
     }));
+});
+
+/**
+ * @ngdoc function
+ *
+ * @description
+ * vet (evaluate) the HTML code and create coverage report.
+ *
+ * @returns {stream}
+ */
+gulp.task('vet-html', function() {
+
+  log('*** Checking HTML source files with HTMLHint ***');
+
+  return gulp.src(config.templates)
+    .pipe(plugins.if(args.verbose, plugins.print()))
+    .pipe(plugins.htmlhint(config.htmlHintConfigurationFile))
+    .pipe(plugins.htmlhint.failReporter());
+
 });
 
 /**
