@@ -54,7 +54,12 @@
   "disallowSpacesInsideParentheses": true,
 
   "jsDoc": {
-    "checkAnnotations": true,
+    "checkAnnotations": {
+      "preset": "jsdoc3",
+      "extra": {
+        "ngdoc": true
+      }
+    },
     "checkParamNames": true,
     "requireParamTypes": true,
     "checkReturnTypes": true,
