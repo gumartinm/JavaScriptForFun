@@ -21,7 +21,6 @@ var serverConfig = require('./server/server.config')();
 gulp.task('help', plugins.taskListing);
 gulp.task('default', ['help']);
 
-
 /**
  * @ngdoc function
  *
@@ -67,11 +66,10 @@ gulp.task('vet-html', function() {
 
   log('*** Checking HTML source files with HTMLHint ***');
 
-  return gulp.src(config.templates)
+  return gulp.src(config.html)
     .pipe(plugins.if(args.verbose, plugins.print()))
     .pipe(plugins.htmlhint(config.htmlHintConfigurationFile))
     .pipe(plugins.htmlhint.failReporter());
-
 });
 
 /**
@@ -82,9 +80,9 @@ gulp.task('vet-html', function() {
  *
  * @returns {Stream}
  */
-gulp.task('wiredep', function() {
+gulp.task('wireup', function() {
 
-  log('*** Wiring bower dependencies into html ***');
+  log('*** Wiring bower dependencies and injecting files into html ***');
 
   var wiredep = require('wiredep').stream;
   var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
@@ -103,7 +101,7 @@ gulp.task('wiredep', function() {
  *
  * @returns {Stream}
  */
-gulp.task('wiredepkarma', function() {
+gulp.task('wireupkarma', function() {
 
   log('*** Wiring bower dependencies into karma.conf.js ***');
 
@@ -120,7 +118,7 @@ gulp.task('wiredepkarma', function() {
  * @description
  * Runs HTTP server.
  */
-gulp.task('server', ['wiredep'], function(done) {
+gulp.task('server', function(done) {
   var environment = 'development';
 
   if (args.environment) {
@@ -141,7 +139,7 @@ gulp.task('server', ['wiredep'], function(done) {
  *
  * @returns {Stream}
  */
-gulp.task('test', ['vet', 'wiredepkarma'], function(done) {
+gulp.task('test', ['vet', 'wireupkarma'], function(done) {
 
   log('*** Run tests once ***');
 
@@ -154,7 +152,7 @@ gulp.task('test', ['vet', 'wiredepkarma'], function(done) {
  * @description
  * Run specs and wait. Watch for file changes and re-run tests on each change
  */
-gulp.task('autotest', ['wiredepkarma'], function(done) {
+gulp.task('autotest', ['wireupkarma'], function(done) {
 
   log('*** Run tests and wait ***');
 
@@ -169,7 +167,7 @@ gulp.task('autotest', ['wiredepkarma'], function(done) {
  *
  * @returns {stream} The stream.
  */
-gulp.task('build', ['wiredep', 'test', 'templatecache'], function() {
+gulp.task('build', ['wireup', 'test', 'templatecache'], function() {
 
   log('*** Building application for production - Optimizing assets - HTML,CSS,JS ***');
 
@@ -302,7 +300,7 @@ gulp.task('templatecache', ['clean'], function() {
   log('*** Creating AngularJS $templateCache ***');
 
   return gulp
-    .src(config.templates)
+    .src(config.html)
     .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
     .pipe(plugins.minifyHtml({
       empty: true,
@@ -347,7 +345,7 @@ function inject(source, label) {
  * Runs HTTP server.
  *
  * @param  {string=} [environment='development'] development or production environments.
- * @returns {undefined}
+ * @returns {stream} The stream
  */
 function server(environment) {
   var nodeOptions = {
@@ -366,6 +364,7 @@ function server(environment) {
     })
     .on('start', function () {
       log('HTTP server started');
+      synchronization(environment);
     })
     .on('crash', function () {
       log('HTTP server crashed');
@@ -428,4 +427,44 @@ function log(message) {
 function byteDiffFormat(data) {
   var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
   return data.fileName + ' is ' + data.percent + '%' + difference;
+}
+
+/**
+ * @ngdoc function
+ *
+ * @description
+ * Files synchronization.
+ *
+ * @param  {string=} [environment='development'] development or production environments.
+ * @returns {undefined}
+ */
+function synchronization(environment) {
+
+  log('Files synchronization');
+
+  var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
+
+  switch (environment) {
+    case 'production':
+      jsFiles = jsFiles.concat(config.html);
+      plugins.watch(jsFiles, {
+        name: 'Files synchronization',
+        verbose: true,
+        readDelay: 200
+      }, plugins.batch(function (events, done) {
+        // TODO: gulp.start going to be deprecated in gulp 4.0.0 version. Alternatives?
+        gulp.start('build', done);
+      }));
+      break;
+    default:
+      plugins.watch(jsFiles, {
+        name: 'Files synchronization',
+        verbose: true,
+        readDelay: 200
+      }, plugins.batch(function (events, done) {
+        // TODO: gulp.start going to be deprecated in gulp 4.0.0 version. Alternatives?
+        gulp.start('wireup', done);
+      }));
+      break;
+  }
 }

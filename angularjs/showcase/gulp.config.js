@@ -32,7 +32,7 @@ module.exports = function() {
       directory: './build/'
     },
 
-    templates: app + '**/*.html',
+    html: app + '**/*.html',
     templateFile: 'templates.js',
 
     temp: './.tmp/',
