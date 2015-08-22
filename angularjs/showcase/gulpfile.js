@@ -477,7 +477,7 @@ function synchronization(environment) {
       plugins.watch(jsFiles, {
         name: 'Files synchronization',
         verbose: true,
-        readDelay: 200
+        readDelay: 250
       }, plugins.batch(function (events, done) {
         // TODO: gulp.start going to be deprecated in gulp 4.0.0 version. Alternatives?
         gulp.start('build', done);
