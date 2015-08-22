@@ -5,7 +5,7 @@ module.exports = function() {
     index: main + 'index.html',
     port: 9000,
     script: 'server/server.js',
-    directory: 'server/'
+    directory: './server/'
   };
 
   return config;

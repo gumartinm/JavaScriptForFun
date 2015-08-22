@@ -3,7 +3,7 @@
 
   /**
    * @ngdoc overview
-   * @name ui.router.util
+   * @name app.welcome
    *
    * @requires app.core
    *
@@ -11,7 +11,7 @@
    * # app.welcome
    *
    * ## Module welcome.
-   * Module in charge of displaying a nice welcome page.
+   * Module in charge of displaying a nice welcome page. LOL ROLF
    */
   angular.module('app.welcome', [
     'app.core'

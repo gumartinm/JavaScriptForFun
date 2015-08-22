@@ -11,10 +11,15 @@
   // Welcome.$inject = ['$location'];
 
   /**
-   * @ngdoc object
-   * @name app.welcome.$Welcome
+   * @ngdoc controller
+   * @name app.welcome.controller:Welcome
    *
    * @requires $location
+   *
+   * <p>
+   * <br>
+   * {@link https://docs.angularjs.org/api/ng/service/$location $location}
+   * </p>
    *
    * @description
    * Welcome controller.

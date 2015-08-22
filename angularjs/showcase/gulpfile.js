@@ -321,6 +321,31 @@ gulp.task('templatecache', ['clean'], function() {
  * @ngdoc function
  *
  * @description
+ * Generate documentation
+ *
+ * @returns {stream}
+ */
+gulp.task('ngdocs', function() {
+  var gulpDocs = require('gulp-ngdocs');
+  var options = {
+    html5Mode: true,
+    startPage: '/api/app',
+    title: 'Showcase'
+  };
+  return gulpDocs.sections({
+    api: {
+      glob:['src/**/*.js', '!src/**/*.spec.js'],
+      api: true,
+      title: 'API Documentation'
+    }})
+    .pipe(gulpDocs.process(options))
+    .pipe(gulp.dest('./docs'));
+});
+
+/**
+ * @ngdoc function
+ *
+ * @description
  * Inject files in a sorted sequence at a specified inject label.
  *
  * @param {Array|string} source Source files (glob patterns)
@@ -350,15 +375,17 @@ function inject(source, label) {
 function server(environment) {
   var nodeOptions = {
     script: serverConfig.script,
-    delayTime: 1,
     env: {
-      'NODE_ENV': environment ? environment : 'development'
+      'NODE_ENV': environment ? environment : 'development',
+      'VERBOSE': args.verbose ? true : false
     },
-    watch: [serverConfig.directory]
+    verbose: args.verbose ? true : false,
+    watch: [serverConfig.directory],
+    delay: 250  // 250ms
   };
 
   return plugins.nodemon(nodeOptions)
-    .on('restart', ['vet'], function(ev) {
+    .on('restart', function(ev) {
       log('HTTP server restarted');
       log('files changed:\n' + ev);
     })
@@ -456,11 +483,21 @@ function synchronization(environment) {
         gulp.start('build', done);
       }));
       break;
+    case 'ngdocs':
+      plugins.watch(jsFiles, {
+        name: 'Files synchronization',
+        verbose: true,
+        readDelay: 250
+      }, plugins.batch(function (events, done) {
+        // TODO: gulp.start going to be deprecated in gulp 4.0.0 version. Alternatives?
+        gulp.start('ngdocs', done);
+      }));
+      break;
     default:
       plugins.watch(jsFiles, {
         name: 'Files synchronization',
         verbose: true,
-        readDelay: 200
+        readDelay: 250
       }, plugins.batch(function (events, done) {
         // TODO: gulp.start going to be deprecated in gulp 4.0.0 version. Alternatives?
         gulp.start('wireup', done);

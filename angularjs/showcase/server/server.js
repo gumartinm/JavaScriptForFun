@@ -7,9 +7,12 @@ var logger = require('morgan');
 var config = require('./server.config')();
 var port = config.port;
 var environment = process.env.NODE_ENV;
+var verbose = process.env.VERBOSE;
 
 app.use(favicon(__dirname + '/favicon.ico'));
-app.use(logger('dev'));
+if (verbose && verbose === true) {
+  app.use(logger('dev'));
+}
 
 switch (environment) {
   case 'production':
@@ -19,6 +22,14 @@ switch (environment) {
 
     // Deep linking
     app.use('/*', express.static('./build/index.html'));
+    break;
+  case 'ngdocs':
+    console.log('ngdocs mode');
+
+    app.use(express.static('./docs'));
+
+    // Deep linking
+    app.use('/*', express.static('./docs'));
     break;
   default:
     console.log('development mode');
