@@ -16,7 +16,7 @@ describe('app.welcome', function() {
     });
 
     it('should map /welcome route to welcome View template', function() {
-      expect($state.get('welcome').templateUrl). toEqual(view.welcome);
+      expect($state.get('welcome').templateUrl).toEqual(view.welcome);
     });
 
   });

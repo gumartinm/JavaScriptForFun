@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<div class="container">
+
+  <form name="myForm" ng-controller="Rest as vm">
+    <label>Single word:</label>
+    <input type="text" name="input" ng-model="vm.example.text"
+           ng-pattern="vm.example.word" required ng-trim="false">
+    <div role="alert">
+    <span class="error" ng-show="myForm.input.$error.required">
+      Required!</span>
+    <span class="error" ng-show="myForm.input.$error.pattern">
+      Single word only!</span>
+    </div>
+    <span>text = {{vm.example.text}}</span><br/>
+    <span>myForm.input.$valid = {{myForm.input.$valid}}</span><br/>
+    <span>myForm.input.$error = {{myForm.input.$error}}</span><br/>
+    <span>myForm.$valid = {{myForm.$valid}}</span><br/>
+    <span>myForm.$error.required = {{!!myForm.$error.required}}</span><br/>
+    <button type="button" class="btn btn-primary" ng-model="vm.singleModel" ng-disabled="myForm.input.$invalid">
+      Single Toggle
+    </button>
+  </form>
+
+
+
+
+</div>

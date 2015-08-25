@@ -3,7 +3,7 @@
 
   /**
    * @ngdoc overview
-   * @name app.welcome
+   * @name app.rest
    *
    * @requires app.core
    *
@@ -11,9 +11,9 @@
    * # app.welcome
    *
    * ## Module welcome.
-   * Module in charge of displaying a nice welcome page.
+   * Module in charge of sending REST requests.
    */
-  angular.module('app.welcome', [
+  angular.module('app.rest', [
     'app.core'
   ]);
 

@@ -8,6 +8,7 @@
    *
    * @requires app.core
    * @requires app.welcome
+   * @requires app.rest
    *
    * @description
    * # app
@@ -20,7 +21,8 @@
     'app.core',
 
     /* Feature areas */
-    'app.welcome'
+    'app.welcome',
+    'app.rest'
   ]);
 
 }());
