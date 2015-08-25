@@ -22,7 +22,7 @@
    * Rest service.
    */
   /* @ngInject */
-  function cars($http, $log) {
+  function cars($http, $log, API) {
     return {
       getAll: getAll
     };
@@ -36,7 +36,7 @@
      * Get cars from API REST.
      */
     function getAll() {
-      return $http.get('/api/cars')
+      return $http.get(API.CARS)
         .then(getAllCompleted)
         .catch(getAllFailed);
 
