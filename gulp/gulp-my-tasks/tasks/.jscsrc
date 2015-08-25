@@ -57,7 +57,8 @@
     "checkAnnotations": {
       "preset": "jsdoc3",
       "extra": {
-        "ngdoc": true
+        "ngdoc": true,
+        "methodOf": true
       }
     },
     "checkParamNames": true,
