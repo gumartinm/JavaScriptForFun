@@ -2,12 +2,17 @@
 
 var currentDir = process.cwd();
 var express = require('express');
+var proxy = require('express-http-proxy');
 var app = express();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var port = 9000;
 var environment = process.env.NODE_ENV;
 var verbose = process.env.VERBOSE;
+
+// Back-end server for XHR requests:
+var serverPort = '8080';
+var serverName = 'localhost';
 
 app.use(favicon(__dirname + '/favicon.ico'));
 if (verbose && verbose === true) {
@@ -20,8 +25,8 @@ switch (environment) {
 
     app.use(express.static(currentDir + '/build/'));
 
-    // Deep linking
-    app.use('/*', express.static(currentDir + '/build/index.html'));
+    // Deep linking (exclude XHR requests)
+    app.use('/((?!api)).*', express.static(currentDir + '/build/index.html'));
     break;
   case 'ngdocs':
     console.log('ngdocs mode');
@@ -37,10 +42,18 @@ switch (environment) {
     app.use(express.static(currentDir + '/src/showcase/'));
     app.use(express.static(currentDir + '/'));
 
-    // Deep linking
-    app.use('/*', express.static(currentDir + '/src/showcase/index.html'));
+    // Deep linking (exclude XHR requests)
+    app.use('/((?!api)).*', express.static(currentDir + '/src/showcase/index.html'));
     break;
 }
+
+app.use('/', proxy('http://' + serverName, {
+  forwardPath: function(req, res) {
+    return require('url').parse(req.url).path;
+  },
+  port: serverPort
+}));
+
 
 app.listen(port, function() {
   console.log('Express server listening on port ' + port);
