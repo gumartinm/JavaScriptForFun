@@ -32,7 +32,11 @@
     vm.cars = undefined;
 
     function getCars() {
-      vm.cars = cars.getAll();
+      cars.getAll().then(function (data) {
+        // Because cars service swallows errors my success function will always be called even when error.
+        // Alternative: using $q.reject when errors in cars service?
+        vm.cars = data;
+      });
     }
   }
 
