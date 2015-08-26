@@ -16,12 +16,15 @@
     <span>myForm.input.$error = {{myForm.input.$error}}</span><br/>
     <span>myForm.$valid = {{myForm.$valid}}</span><br/>
     <span>myForm.$error.required = {{!!myForm.$error.required}}</span><br/>
-    <button type="button" class="btn btn-primary" ng-model="vm.singleModel" ng-disabled="myForm.input.$invalid">
+    <button type="button" class="btn btn-primary" ng-disabled="myForm.input.$invalid">
       Single Toggle
     </button>
+    <ul >
+      <li ng-repeat="car in vm.cars"> {{ car.content }} </li>
+    </ul>
+    <button type="button" class="btn btn-primary" ng-disabled="myForm.input.$invalid"
+            ng-click="vm.getCars()">
+      Get cars
+    </button>
   </form>
-
-
-
-
 </div>

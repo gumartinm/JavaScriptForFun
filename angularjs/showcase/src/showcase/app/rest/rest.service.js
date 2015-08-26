@@ -41,7 +41,7 @@
         .catch(getAllFailed);
 
       function getAllCompleted(response) {
-        return response.data.results;
+        return response.data;
       }
 
       function getAllFailed(error) {

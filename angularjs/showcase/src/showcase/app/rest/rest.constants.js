@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var prefix = 'http://localhost:8080/';
+  var prefix = '/';
 
   angular
     .module('app.rest')
