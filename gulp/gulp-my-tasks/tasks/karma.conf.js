@@ -57,20 +57,21 @@ module.exports = function(config) {
 
     junitReporter: {
       // results will be saved as $outputDir/$browserName.xml
-      outputDir: 'report',
+      outputDir: process.cwd() + '/report',
       // if included, results will be saved as $outputDir/$browserName/$outputFile
       outputFile: 'test-results.xml'
       // suite will become the package name attribute in xml testsuite element
       // suite: ''
     },
 
+
     preprocessors: {
-      'src/showcase/app/**/!(*.spec)+(.js)': ['coverage']
+      '/home/gustavo/github/JavaScriptForFun/angularjs/showcase/src/showcase/app/**/!(*.spec)+(.js)': ['coverage']
     },
 
     coverageReporter: {
       // specify a common output directory
-      dir: 'report/coverage',
+      dir: process.cwd() + '/report/coverage',
       reporters: [
         // reporters not supporting the `file` property
         {type: 'html', subdir: 'report-html'},
