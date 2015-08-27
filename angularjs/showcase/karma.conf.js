@@ -32,7 +32,8 @@ module.exports = function(config) {
       'bower_components/angular-mocks/angular-mocks.js',
       //endbower
       'src/showcase/app/**/*.module.js',
-      'src/showcase/app/**/*.js'
+      'src/showcase/app/**/*.js',
+      '.tmp/templates.js'
     ],
 
     // list of files / patterns to exclude

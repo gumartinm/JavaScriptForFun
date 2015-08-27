@@ -97,10 +97,16 @@ module.exports = function(gulp, customConfig) {
     log('*** Wiring bower dependencies and injecting files into html ***');
 
     var wiredep = require('wiredep').stream;
-    var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
+    var jsFiles = config.jsFilesWithoutSpecs;
+    var options = config.wiredepOptions(args.verbose ? true : false);
+
+    if (args.stubs) {
+      jsFiles = [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs);
+      options.devDependencies = true;
+    }
 
     return gulp.src(config.index)
-      .pipe(wiredep(config.wiredepOptions(args.verbose ? true : false)))
+      .pipe(wiredep(options))
       .pipe(inject(jsFiles, ''))
       .pipe(gulp.dest(config.main));
   });
@@ -118,9 +124,11 @@ module.exports = function(gulp, customConfig) {
     log('*** Wiring bower dependencies into karma.conf.js ***');
 
     var wiredep = require('wiredep').stream;
+    var options = config.wiredepOptions(args.verbose ? true : false);
+    options.devDependencies = true;
 
     return gulp.src(config.karmaConf)
-      .pipe(wiredep(config.wiredepKarmaOptions(args.verbose ? true : false)))
+      .pipe(wiredep(options))
       .pipe(gulp.dest(currentDir));
   });
 
@@ -151,7 +159,7 @@ module.exports = function(gulp, customConfig) {
    *
    * @returns {Stream}
    */
-  gulp.task('test', ['vet', 'wireupkarma'], function(done) {
+  gulp.task('test', ['vet', 'wireupkarma', 'templatecache'], function(done) {
 
     log('*** Run tests once ***');
 
@@ -164,7 +172,7 @@ module.exports = function(gulp, customConfig) {
    * @description
    * Run specs and wait. Watch for file changes and re-run tests on each change
    */
-  gulp.task('autotest', ['wireupkarma'], function(done) {
+  gulp.task('autotest', ['wireupkarma', 'templatecache'], function(done) {
 
     log('*** Run tests and wait ***');
 

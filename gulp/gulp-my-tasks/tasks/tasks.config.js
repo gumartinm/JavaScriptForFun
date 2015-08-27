@@ -72,41 +72,6 @@ module.exports = function() {
       }
 
       return options;
-    },
-
-    /**
-     * wiredep options for karma.conf.js
-     */
-    wiredepKarmaOptions: function(isVerbose) {
-      var options = {
-        // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
-        bowerJson: bower.json,
-        // Your bower.json file contents. default: require('./bower.json')
-        directory: bower.directory,
-        // string or regexp to ignore from the injected filepath
-        ignorePath: bower.ignorePath,
-        dependencies: true,     // default: true
-        devDependencies: true,  // default: false
-      };
-
-      if (isVerbose) {
-        options.onError = function (err) {
-          console.log('wiredep error: ' + err.code);
-        };
-        options.onFileUpdated = function (filePath) {
-          console.log('wiredep updated file: ' + filePath);
-        };
-        options.onPathInjected = function (fileObject) {
-          console.log('wiredep injected file: ' + fileObject.block);
-          console.log('wiredep injected file: ' + fileObject.file);
-          console.log('wiredep injected file: ' + fileObject.path);
-        };
-        options.onMainNotFound = function (pkg) {
-          console.log('wiredep name of bower package without main: ' + pkg);
-        }
-      }
-
-      return options;
     }
   };
 
