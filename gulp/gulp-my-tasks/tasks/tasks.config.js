@@ -43,56 +43,70 @@ module.exports = function() {
     /**
      * wiredep options for index.html
      */
-    wiredepOptions: {
-      // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
-      bowerJson: bower.json,
-      // Your bower.json file contents. default: require('./bower.json')
-      directory: bower.directory,
-      // string or regexp to ignore from the injected filepath
-      ignorePath: bower.ignorePath,
-      dependencies: true,     // default: true
-      onError: function(err) {
-        console.log('wiredep error: ' + err.code);
-      },
-      onFileUpdated: function(filePath) {
-        console.log('wiredep updated file: ' + filePath);
-      },
-      onPathInjected: function(fileObject) {
-        console.log('wiredep injected file: ' + fileObject.block);
-        console.log('wiredep injected file: ' + fileObject.file);
-        console.log('wiredep injected file: ' + fileObject.path);
-      },
-      onMainNotFound: function(pkg) {
-        console.log('wiredep name of bower package without main: ' + pkg);
+    wiredepOptions: function(isVerbose) {
+      var options = {
+        // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
+        bowerJson: bower.json,
+        // Your bower.json file contents. default: require('./bower.json')
+        directory: bower.directory,
+        // string or regexp to ignore from the injected filepath
+        ignorePath: bower.ignorePath,
+        dependencies: true,     // default: true
+      };
+
+      if (isVerbose) {
+        options.onError = function (err) {
+          console.log('wiredep error: ' + err.code);
+        };
+        options.onFileUpdated = function (filePath) {
+          console.log('wiredep updated file: ' + filePath);
+        };
+        options.onPathInjected = function (fileObject) {
+          console.log('wiredep injected file: ' + fileObject.block);
+          console.log('wiredep injected file: ' + fileObject.file);
+          console.log('wiredep injected file: ' + fileObject.path);
+        };
+        options.onMainNotFound = function (pkg) {
+          console.log('wiredep name of bower package without main: ' + pkg);
+        }
       }
+
+      return options;
     },
 
     /**
      * wiredep options for karma.conf.js
      */
-    wiredepKarmaOptions: {
-      // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
-      bowerJson: bower.json,
-      // Your bower.json file contents. default: require('./bower.json')
-      directory: bower.directory,
-      // string or regexp to ignore from the injected filepath
-      ignorePath: bower.ignorePath,
-      dependencies: true,     // default: true
-      devDependencies: true, // default: false
-      onError: function(err) {
-        console.log('wiredep error: ' + err.code);
-      },
-      onFileUpdated: function(filePath) {
-        console.log('wiredep updated file: ' + filePath);
-      },
-      onPathInjected: function(fileObject) {
-        console.log('wiredep injected file: ' + fileObject.block);
-        console.log('wiredep injected file: ' + fileObject.file);
-        console.log('wiredep injected file: ' + fileObject.path);
-      },
-      onMainNotFound: function(pkg) {
-        console.log('wiredep name of bower package without main: ' + pkg);
+    wiredepKarmaOptions: function(isVerbose) {
+      var options = {
+        // The directory of your Bower packages. default: '.bowerrc'.directory || bower_components
+        bowerJson: bower.json,
+        // Your bower.json file contents. default: require('./bower.json')
+        directory: bower.directory,
+        // string or regexp to ignore from the injected filepath
+        ignorePath: bower.ignorePath,
+        dependencies: true,     // default: true
+        devDependencies: true,  // default: false
+      };
+
+      if (isVerbose) {
+        options.onError = function (err) {
+          console.log('wiredep error: ' + err.code);
+        };
+        options.onFileUpdated = function (filePath) {
+          console.log('wiredep updated file: ' + filePath);
+        };
+        options.onPathInjected = function (fileObject) {
+          console.log('wiredep injected file: ' + fileObject.block);
+          console.log('wiredep injected file: ' + fileObject.file);
+          console.log('wiredep injected file: ' + fileObject.path);
+        };
+        options.onMainNotFound = function (pkg) {
+          console.log('wiredep name of bower package without main: ' + pkg);
+        }
       }
+
+      return options;
     }
   };
 

@@ -96,7 +96,7 @@ module.exports = function(gulp, customConfig) {
     var jsFiles = args.stubs ? [].concat(config.jsFilesWithoutSpecs, config.jsFilesStubs) : config.jsFilesWithoutSpecs;
 
     return gulp.src(config.index)
-      .pipe(wiredep(config.wiredepOptions))
+      .pipe(wiredep(config.wiredepOptions(args.verbose ? true : false)))
       .pipe(inject(jsFiles, ''))
       .pipe(gulp.dest(config.main));
   });
@@ -116,7 +116,7 @@ module.exports = function(gulp, customConfig) {
     var wiredep = require('wiredep').stream;
 
     return gulp.src(config.karmaConf)
-      .pipe(wiredep(config.wiredepKarmaOptions))
+      .pipe(wiredep(config.wiredepKarmaOptions(args.verbose ? true : false)))
       .pipe(gulp.dest(currentDir));
   });
 
