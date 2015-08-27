@@ -22,7 +22,17 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       //bower:js
+      'bower_components/angular/angular.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/angular-translate/angular-translate.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.js',
+      'bower_components/oclazyload/dist/ocLazyLoad.min.js',
+      'bower_components/jquery/dist/jquery.js',
+      'bower_components/bootstrap/dist/js/bootstrap.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       //endbower
+      'src/showcase/app/**/*.module.js',
+      'src/showcase/app/**/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -57,21 +67,20 @@ module.exports = function(config) {
 
     junitReporter: {
       // results will be saved as $outputDir/$browserName.xml
-      outputDir: process.cwd() + '/report',
+      outputDir: 'report',
       // if included, results will be saved as $outputDir/$browserName/$outputFile
       outputFile: 'test-results.xml'
       // suite will become the package name attribute in xml testsuite element
       // suite: ''
     },
 
-
     preprocessors: {
-      '/home/gustavo/github/JavaScriptForFun/angularjs/showcase/src/showcase/app/**/!(*.spec)+(.js)': ['coverage']
+      'src/showcase/app/**/!(*.spec)+(.js)': ['coverage']
     },
 
     coverageReporter: {
       // specify a common output directory
-      dir: process.cwd() + '/report/coverage',
+      dir: 'report/coverage',
       reporters: [
         // reporters not supporting the `file` property
         {type: 'html', subdir: 'report-html'},

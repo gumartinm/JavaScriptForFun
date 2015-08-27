@@ -105,6 +105,25 @@ module.exports = function(gulp, customConfig) {
    * @ngdoc function
    *
    * @description
+   * wire up bower dependencies into karma.conf.js
+   *
+   * @returns {Stream}
+   */
+  gulp.task('wireupkarma', function() {
+
+    log('*** Wiring bower dependencies into karma.conf.js ***');
+
+    var wiredep = require('wiredep').stream;
+
+    return gulp.src(config.karmaConf)
+      .pipe(wiredep(config.wiredepKarmaOptions))
+      .pipe(gulp.dest(currentDir));
+  });
+
+  /**
+   * @ngdoc function
+   *
+   * @description
    * Runs HTTP server.
    */
   gulp.task('server', function(done) {
@@ -128,7 +147,7 @@ module.exports = function(gulp, customConfig) {
    *
    * @returns {Stream}
    */
-  gulp.task('test', ['vet'], function(done) {
+  gulp.task('test', ['vet', 'wireupkarma'], function(done) {
 
     log('*** Run tests once ***');
 
@@ -141,7 +160,7 @@ module.exports = function(gulp, customConfig) {
    * @description
    * Run specs and wait. Watch for file changes and re-run tests on each change
    */
-  gulp.task('autotest', function(done) {
+  gulp.task('autotest', ['wireupkarma'], function(done) {
 
     log('*** Run tests and wait ***');
 
@@ -402,17 +421,10 @@ module.exports = function(gulp, customConfig) {
    * @returns {undefined}
    */
   function startTests(singleRun, done) {
-    var wiredep = require('wiredep');
-    var bowerFiles = wiredep(config.wiredepKarmaOptions)['js'];
     var excludeFiles = [];
     var Server = require('karma').Server;
     var karma = new Server({
-      files: [].concat(
-        bowerFiles,
-        process.cwd() + '/src/showcase/app/**/*.module.js',
-        process.cwd() + '/src/showcase/app/**/*.js'
-      ),
-      configFile: __dirname + '/karma.conf.js',
+      configFile: currentDir + '/karma.conf.js',
       exclude: excludeFiles,
       singleRun: singleRun
     }, doneKarma);
