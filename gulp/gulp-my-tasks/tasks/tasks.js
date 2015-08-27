@@ -52,7 +52,9 @@ module.exports = function(gulp, customConfig) {
     log('*** Checking JavaScript source files with JSHint and JSCS ***');
 
     return gulp.src(config.jsAllFiles)
-      .pipe(plugins.if(args.verbose, plugins.print()))
+      .pipe(plugins.if(args.verbose, plugins.print(function(filepath) {
+        return "vet-js: " + filepath;
+      })))
       .pipe(plugins.jshint(config.jsHintConfigurationFile))
       .pipe(plugins.jshint.reporter('jshint-stylish', {verbose: true}))
       .pipe(plugins.jshint.reporter('fail'))
@@ -75,7 +77,9 @@ module.exports = function(gulp, customConfig) {
     log('*** Checking HTML source files with HTMLHint ***');
 
     return gulp.src(config.html)
-      .pipe(plugins.if(args.verbose, plugins.print()))
+      .pipe(plugins.if(args.verbose, plugins.print(function(filepath) {
+        return "vet-html: " + filepath;
+      })))
       .pipe(plugins.htmlhint({htmlhintrc: config.htmlHintConfigurationFile}))
       .pipe(plugins.htmlhint.failReporter());
   });
@@ -369,6 +373,9 @@ module.exports = function(gulp, customConfig) {
 
     return plugins.inject(
       gulp.src(source)
+        .pipe(plugins.if(args.verbose, plugins.print(function(filepath) {
+          return "inject: " + filepath;
+        })))
         .pipe(plugins.angularFilesort()), options);
   }
 
