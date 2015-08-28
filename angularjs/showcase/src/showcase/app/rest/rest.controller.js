@@ -21,7 +21,7 @@
    * Rest controller.
    */
   /* @ngInject */
-  function Rest($location, cars) {
+  function Rest($log, cars) {
     var vm = this;
     vm.example = {
       text: 'try to send data',
@@ -29,14 +29,19 @@
       singleModel: 1
     };
     vm.getCars = getCars;
-    vm.cars = undefined;
 
     function getCars() {
-      cars.getAll().then(function (data) {
-        // Because cars service swallows errors my success function will always be called even when error.
-        // Alternative: using $q.reject when errors in cars service?
-        vm.cars = data;
-      });
+      // ES6 way. success and error are deprecated because they are not following the ES6 way.
+      cars.getAll().then(
+        // Success
+        function (value) {
+          vm.cars = value;
+        },
+        // Error
+        function(reason) {
+          $log.debug('Rest controller error: ' + reason);
+        }
+      );
     }
   }
 

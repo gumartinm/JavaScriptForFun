@@ -22,7 +22,7 @@
    * Rest service.
    */
   /* @ngInject */
-  function cars($http, $log, API) {
+  function cars($http, $log, $q, API) {
     return {
       getAll: getAll
     };
@@ -37,19 +37,15 @@
      */
     function getAll() {
       return $http.get(API.CARS)
-        // a) Using success and error from promise. They are deprecated. DO NOT USE THEM!!!
+        // a) Using success and error from promise. They are deprecated because it is not the ES6 way. DO NOT USE THEM!
         //    https://github.com/angular/angular.js/commit/a8f7e9cfde82ed7eaba3a868d8acafdf57f2d76f
         // .success(successAlternative)
         // .error(errorAlternative)
-        // b) Using then from promise
+        // b) Using then from promise. ES6 way.
         .then(success, error, notify)
-        // catch will be called when there is no error function. In this case it will never be called
-        // because we already have the error function.
-        .catch(failed);
-      // BE CAREFUL!!! If you use error function or catch, when there are errors the success method in the upper layer
-      // (my Rest controller) will be ALWAYS called. It is as if because we caught errors in this layer they won't be
-      // seen by the upper layers using this service :(
-      // Alternative: return $q.reject from errors in this layer?
+        // Pattern: either use error callback or catch but not the same as the same time!!!!
+        // .catch(failed)
+        .finally(finalizer);
 
       function success(resp) {
         /**
@@ -75,10 +71,25 @@
          * status: 200
          * statusText: "OK"
          */
-        return resp.data;
+
+        // In this way, then next chained promise will use just its success callback. :(
+        // What means, promise will be resolved immediately!!! If it is what you want go ahead.
+        //return resp.data;
+
+        // Better return promise. :) Two options:
+
+        // a) ES6 way (it doesn't have notify :(
+        // return $q(function(resolve) {
+        //  resolve(resp.data);
+        // })
+
+        // b) The CommonJS Promise way. It has the notify method (which I am not using here)
+        var deferred = $q.defer();
+        deferred.resolve(resp.data);
+        return deferred.promise;
       }
 
-      // DO NOT USE IT!!! This way has been deprecated.
+      // DO NOT USE IT!!! This way has been deprecated because it is not the ES6 way.
       function successAlternative(data, status, headers, config) {
         $log.debug('XHR SuccessAlternative for getAll. SuccessAlternative, data: ' + data);
         $log.debug('XHR SuccessAlternative for getAll. SuccessAlternative, status: ' + status);
@@ -86,7 +97,7 @@
         $log.debug('XHR SuccessAlternative for getAll. SuccessAlternative, config: ' + config);
       }
 
-      function error(resp) {
+      function error(reason) {
         /**
          * resp, object containing:
          *
@@ -103,13 +114,29 @@
          * status: 500
          * statusText: "Internal Server Error"
          */
-        $log.debug('XHR Error for getAll. Error: ' + resp.data);
+        $log.debug('XHR Error for getAll. Error: ' + reason.data);
 
-        // Should I return $q.reject instead? Right now, the success method in upper layers will always be called. :(
-        return resp.data;
+        // In this way, then next chained promise will use just its success callback. :(
+        // What means, promise will be resolved immediately!!! If it is what you want go ahead.
+        //return resp.data;
+
+        // Better return promise. :) Three options:
+
+        // a) ES6 way, it doesn't have notify :(
+        // return $q(function(resolve, reject) {
+        //  reject(reason.data);
+        // })
+
+        // b) The CommonJS Promise way. It has the notify method (which I am not using here)
+        // var deferred = $q.defer();
+        // deferred.reject(reason.data);
+        // return deferred.promise;
+
+        // c) The CommonJS Promise way. The same as b) but with less code :)
+        return $q.reject(reason.data);
       }
 
-      // DO NOT USE IT!!! This way has been deprecated.
+      // DO NOT USE IT!!! This way has been deprecated because it is not the ES6 way.
       function errorAlternative(data, status, headers, config) {
         $log.debug('XHR ErrorAlternative for getAll. ErrorAlternative, data: ' + data);
         $log.debug('XHR ErrorAlternative for getAll. ErrorAlternative, status: ' + status);
@@ -140,7 +167,29 @@
          */
         $log.debug('XHR Failed for getAll. Reason: ' + reason);
 
-        return reason.data;
+        // In this way, then next chained promise will use just its success callback.
+        // What means, promise will be resolved immediately!!! If it is what you want go ahead.
+        //return resp.data;
+
+        // Better return promise. :) Three options:
+
+        // a) ES6 way, it doesn't have notify :(
+        // return $q(function(resolve, reject) {
+        //  reject(reason.data);
+        // })
+
+        // b) The CommonJS Promise way. It has the notify method (which I am not using here)
+        // var deferred = $q.defer();
+        // deferred.reject(reason.data);
+        // return deferred.promise;
+
+        // c) The CommonJS Promise way. The same as b) but with less code :)
+        return $q.reject(reason.data);
+
+      }
+
+      function finalizer() {
+
       }
     }
   }
