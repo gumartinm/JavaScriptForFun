@@ -8,9 +8,9 @@
    * @requires app.core
    *
    * @description
-   * # app.welcome
+   * # app.rest
    *
-   * ## Module welcome.
+   * ## Module rest.
    * Module in charge of sending REST requests.
    */
   angular.module('app.rest', [
