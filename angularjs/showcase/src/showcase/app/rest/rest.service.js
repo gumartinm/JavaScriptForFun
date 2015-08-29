@@ -3,26 +3,26 @@
 
   angular
     .module('app.rest')
-    .factory('cars', cars);
+    .factory('rest', rest);
 
   /**
    * @ngdoc service
-   * @name app.rest.cars
+   * @name app.rest.rest
    *
    * @requires $http
-   * @requires $log
+   * @requires $q
    *
    * <p>
    * <br>
    * {@link https://docs.angularjs.org/api/ng/service/$http $http} <br>
-   * {@link https://docs.angularjs.org/api/ng/service/$log $log}
+   * {@link https://docs.angularjs.org/api/ng/service/$q $q}
    * </p>
    *
    * @description
    * Rest service.
    */
   /* @ngInject */
-  function cars($http, $log, $q, API) {
+  function rest($http, $q, API) {
     return {
       getAll: getAll
     };
@@ -30,7 +30,7 @@
     /**
      * @ngdoc method
      * @name  getAll
-     * @methodOf app.rest.cars
+     * @methodOf app.rest.rest
      *
      * @description
      * Get cars from API REST.
@@ -43,7 +43,7 @@
         // .error(errorAlternative)
         // b) Using then from promise. ES6 way.
         .then(success, error, notify)
-        // Pattern: either use error callback or catch but not the same as the same time!!!!
+        // Pattern: either use error callback or catch but not both of them as the same time!!!!
         // .catch(failed)
         .finally(finalizer);
 
@@ -74,7 +74,7 @@
 
         // In this way, then next chained promise will use just its success callback. :(
         // What means, promise will be resolved immediately!!! If it is what you want go ahead.
-        //return resp.data;
+        // return resp.data;
 
         // Better return promise. :) Two options:
 
@@ -91,10 +91,10 @@
 
       // DO NOT USE IT!!! This way has been deprecated because it is not the ES6 way.
       function successAlternative(data, status, headers, config) {
-        $log.debug('XHR SuccessAlternative for getAll. SuccessAlternative, data: ' + data);
-        $log.debug('XHR SuccessAlternative for getAll. SuccessAlternative, status: ' + status);
-        $log.debug('XHR SuccessAlternative for getAll. SuccessAlternative, headers (it is a function): ' + headers);
-        $log.debug('XHR SuccessAlternative for getAll. SuccessAlternative, config: ' + config);
+        console.log('XHR SuccessAlternative for getAll. SuccessAlternative, data: ' + data);
+        console.log('XHR SuccessAlternative for getAll. SuccessAlternative, status: ' + status);
+        console.log('XHR SuccessAlternative for getAll. SuccessAlternative, headers (it is a function): ' + headers);
+        console.log('XHR SuccessAlternative for getAll. SuccessAlternative, config: ' + config);
       }
 
       function error(reason) {
@@ -114,11 +114,11 @@
          * status: 500
          * statusText: "Internal Server Error"
          */
-        $log.debug('XHR Error for getAll. Error: ' + reason.data);
+        console.log('XHR Error for getAll. Error: ' + reason.data);
 
         // In this way, then next chained promise will use just its success callback. :(
         // What means, promise will be resolved immediately!!! If it is what you want go ahead.
-        //return resp.data;
+        // return reason.data;
 
         // Better return promise. :) Three options:
 
@@ -138,14 +138,14 @@
 
       // DO NOT USE IT!!! This way has been deprecated because it is not the ES6 way.
       function errorAlternative(data, status, headers, config) {
-        $log.debug('XHR ErrorAlternative for getAll. ErrorAlternative, data: ' + data);
-        $log.debug('XHR ErrorAlternative for getAll. ErrorAlternative, status: ' + status);
-        $log.debug('XHR ErrorAlternative for getAll. ErrorAlternative, headers (it is a function): ' + headers);
-        $log.debug('XHR ErrorAlternative for getAll. ErrorAlternative, config: ' + config);
+        console.log('XHR ErrorAlternative for getAll. ErrorAlternative, data: ' + data);
+        console.log('XHR ErrorAlternative for getAll. ErrorAlternative, status: ' + status);
+        console.log('XHR ErrorAlternative for getAll. ErrorAlternative, headers (it is a function): ' + headers);
+        console.log('XHR ErrorAlternative for getAll. ErrorAlternative, config: ' + config);
       }
 
       function notify(notification) {
-        $log.debug('XHR Notification for getAll. Notification: ' + notification);
+        console.log('XHR Notification for getAll. Notification: ' + notification);
       }
 
       function failed(reason) {
@@ -165,11 +165,11 @@
          * status: 500
          * statusText: "Internal Server Error"
          */
-        $log.debug('XHR Failed for getAll. Reason: ' + reason);
+        console.log('XHR Failed for getAll. Reason: ' + reason);
 
         // In this way, then next chained promise will use just its success callback.
         // What means, promise will be resolved immediately!!! If it is what you want go ahead.
-        //return resp.data;
+        // return reason.data;
 
         // Better return promise. :) Three options:
 
@@ -189,7 +189,8 @@
       }
 
       function finalizer() {
-
+        // This callback doesn't have any input parameter :(
+        console.log('XHR Finalizer for getAll.');
       }
     }
   }
