@@ -2,16 +2,16 @@
   'use strict';
 
   angular
-    .module('app.rest')
-    .controller('Rest', Rest);
+    .module('app.cars')
+    .controller('Cars', Cars);
 
   /**
    * @ngdoc controller
-   * @name app.rest.controller:Rest
+   * @name app.cars.controller:Cars
    *
    * @requires $modal
    * @requires $timeout
-   * @requires app.rest.rest
+   * @requires app.cars.cars
    *
    * <p>
    * <br>
@@ -20,10 +20,10 @@
    * </p>
    *
    * @description
-   * Rest controller.
+   * Cars controller.
    */
   /* @ngInject */
-  function Rest($modal, $timeout, rest) {
+  function Cars($modal, $timeout, cars) {
     var vm = this;
     vm.example = {
       text: 'try to send data',
@@ -34,14 +34,14 @@
 
     function getCars() {
       // ES6 way. success and error are deprecated because they are not following the ES6 way.
-      rest.getAll().then(
+      cars.getAll().then(
         // Success
         function (value) {
           vm.cars = value;
         },
         // Error
         function(reason) {
-          console.log('Rest controller error: ' + reason);
+          console.log('Cars controller error: ' + reason);
           doModal('lg');
         }
       );
@@ -51,8 +51,8 @@
       var cars = ['car1', 'car2', 'car3'];
       var modalInstance = $modal.open({
         animation: true,
-        templateUrl: 'app/rest/rest-error-modal.html',
-        controller: 'RestErrorModal as vm',
+        templateUrl: 'app/cars/cars-error-modal.html',
+        controller: 'CarsErrorModal as vm',
         size: size,
         backdrop: 'static',
         keyboard: false,
@@ -89,9 +89,15 @@
         console.log('Modal rendered error value: ' + reason);
       });
 
-      $timeout(modalInstance.close('closed by tiemout'), 5000);
+      $timeout(function() {
+        console.log('closed by tiemout at: ' + new Date());
+        modalInstance.close('closed by tiemout');
+      }, 5000);
 
-      $timeout(modalInstance.dismiss('closed by tiemout'), 10000);
+      $timeout(function() {
+        console.log('dismissed by tiemout at: ' + new Date());
+        modalInstance.dismiss('dismissed by tiemout');
+      }, 10000);
     }
   }
 

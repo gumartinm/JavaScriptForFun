@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('app.rest')
-    .factory('rest', rest);
+    .module('app.cars')
+    .factory('cars', cars);
 
   /**
    * @ngdoc service
-   * @name app.rest.rest
+   * @name app.cars.cars
    *
    * @requires $http
    * @requires $q
@@ -19,10 +19,10 @@
    * </p>
    *
    * @description
-   * Rest service.
+   * cars service.
    */
   /* @ngInject */
-  function rest($http, $q, API) {
+  function cars($http, $q, API) {
     return {
       getAll: getAll
     };
@@ -30,7 +30,7 @@
     /**
      * @ngdoc method
      * @name  getAll
-     * @methodOf app.rest.rest
+     * @methodOf app.cars.cars
      *
      * @description
      * Get cars from API REST.

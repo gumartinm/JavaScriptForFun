@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('app.rest')
+    .module('app.cars')
     .config(configure);
 
   /**
    * @ngdoc service
-   * @name app.rest.configure
+   * @name app.cars.configure
    *
    * @requires $stateProvider
    * @requires $urlRouterProvider
@@ -20,15 +20,15 @@
    *
    *
    * @description
-   * Router configuration for rest application.
+   * Router configuration for cars application.
    */
   /* @ngInject */
   function configure($stateProvider, $urlRouterProvider) {
-    var state = 'rest';
+    var state = 'cars';
     var config = {
       abstract: false,
-      url: '/rest',
-      templateUrl: 'app/rest/rest.html'
+      url: '/cars',
+      templateUrl: 'app/cars/cars.html'
     };
 
     $urlRouterProvider.otherwise(state);

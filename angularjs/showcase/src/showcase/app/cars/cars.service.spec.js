@@ -1,4 +1,4 @@
-describe('app.rest', function() {
+describe('app.cars', function() {
   'use strict';
 
   var $httpBackend;
@@ -7,7 +7,7 @@ describe('app.rest', function() {
   var API;
 
   beforeEach(function() {
-    module('app.rest');
+    module('app.cars');
 
     inject(function(_$httpBackend_, _$log_, _cars_, _API_) {
       $httpBackend = _$httpBackend_;

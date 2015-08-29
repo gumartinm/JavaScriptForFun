@@ -2,18 +2,18 @@
   'use strict';
 
   angular
-    .module('app.rest')
-    .controller('RestErrorModal', RestErrorModal);
+    .module('app.cars')
+    .controller('CarsErrorModal', CarsErrorModal);
 
   /**
    * @ngdoc controller
-   * @name app.rest.controller:RestErrorModal
+   * @name app.cars.controller:CarsErrorModal
    *
    * @description
-   * Controller for error modal in rest application.
+   * Controller for error modal in cars application.
    */
   /* @ngInject */
-  function RestErrorModal($modalInstance, cars) {
+  function CarsErrorModal($modalInstance, cars) {
     var vm = this;
 
     vm.cars = cars;

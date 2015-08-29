@@ -1,7 +1,7 @@
-describe('app.rest', function() {
+describe('app.cars', function() {
   'use strict';
 
-  var Rest;
+  var Cars;
   var cars = {
     getAll: function() {
       return {};
@@ -10,10 +10,10 @@ describe('app.rest', function() {
   var $q;
 
   beforeEach(function() {
-    module('app.rest');
+    module('app.cars');
 
     inject(function($controller, $location, _$q_) {
-      Rest = $controller('Rest', {
+      Cars = $controller('Cars', {
         $location: $location,
         cars: cars
       });
@@ -21,7 +21,7 @@ describe('app.rest', function() {
     });
   });
 
-  describe('Rest controller', function () {
+  describe('Cars controller', function () {
 
     it('should invoke GET all cars in service', function () {
 
@@ -31,7 +31,7 @@ describe('app.rest', function() {
           return deferred.promise;
         });
 
-      Rest.getCars();
+      Cars.getCars();
 
       expect(cars.getAll).toHaveBeenCalled();
     });

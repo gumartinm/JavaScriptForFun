@@ -3,17 +3,17 @@
 
   /**
    * @ngdoc overview
-   * @name app.rest
+   * @name app.cars
    *
    * @requires app.core
    *
    * @description
-   * # app.rest
+   * # app.cars
    *
-   * ## Module rest.
+   * ## Module cars.
    * Module in charge of sending REST requests.
    */
-  angular.module('app.rest', [
+  angular.module('app.cars', [
     'app.core'
   ]);
 

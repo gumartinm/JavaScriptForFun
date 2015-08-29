@@ -4,7 +4,7 @@
   var prefix = '/';
 
   angular
-    .module('app.rest')
+    .module('app.cars')
     .constant('API', {
       CARS: prefix + 'api/cars',
       CAR: prefix + 'api/cars/:carId'

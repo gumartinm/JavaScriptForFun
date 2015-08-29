@@ -8,7 +8,7 @@
    *
    * @requires app.core
    * @requires app.welcome
-   * @requires app.rest
+   * @requires app.cars
    *
    * @description
    * # app
@@ -22,7 +22,7 @@
 
     /* Feature areas */
     'app.welcome',
-    'app.rest'
+    'app.cars'
   ]);
 
 }());
