@@ -1,13 +1,14 @@
 module.exports = function() {
-  var main = './src/showcase/';
+  var $ = {
+    path: require('path')
+  };
+  var pkg = require($.path.join(process.cwd(), 'package.json'));
+  var main = './src/' + pkg.name + '/';
   var app = main + 'app/';
   var bower = {
     json: require(process.cwd() + '/bower.json'),
     directory: process.cwd() + '/bower_components/',
     ignorePath: '../..'
-  };
-  var $ = {
-    path: require('path')
   };
 
   return {

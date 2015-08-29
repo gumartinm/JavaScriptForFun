@@ -1,6 +1,10 @@
 'use strict';
 
 var currentDir = process.cwd();
+var $ = {
+  path: require('path')
+};
+var pkg = require($.path.join(process.cwd(), 'package.json'));
 var express = require('express');
 var proxy = require('express-http-proxy');
 var app = express();
@@ -39,11 +43,11 @@ switch (environment) {
   default:
     console.log('development mode');
 
-    app.use(express.static(currentDir + '/src/showcase/'));
+    app.use(express.static(currentDir + '/src/' + pkg.name + '/'));
     app.use(express.static(currentDir + '/'));
 
     // Deep linking (exclude XHR requests)
-    app.use('/((?!api)).*', express.static(currentDir + '/src/showcase/index.html'));
+    app.use('/((?!api)).*', express.static(currentDir + '/src/' + pkg.name + '/index.html'));
     break;
 }
 
