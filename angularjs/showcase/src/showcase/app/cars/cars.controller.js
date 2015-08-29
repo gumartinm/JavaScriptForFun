@@ -15,7 +15,7 @@
    *
    * <p>
    * <br>
-   * {@link http://angular-ui.github.io/bootstrap/#/modal $modal}
+   * {@link http://angular-ui.github.io/bootstrap/#/modal $modal} <br>
    * {@link https://docs.angularjs.org/api/ng/service/$timeout $timeout}
    * </p>
    *

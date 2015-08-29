@@ -9,6 +9,14 @@
    * @ngdoc controller
    * @name app.cars.controller:CarsErrorModal
    *
+   * @requires $modalInstance
+   * @requires app.cars.cars
+   *
+   * <p>
+   * <br>
+   * {@link http://angular-ui.github.io/bootstrap/#/modal $modalInstance}
+   * </p>
+   *
    * @description
    * Controller for error modal in cars application.
    */
