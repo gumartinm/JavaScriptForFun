@@ -65,6 +65,7 @@
     "beforeEach" : false,
     "after"      : false,
     "afterEach"  : false,
-    "spyOn"      : false
+    "spyOn"      : false,
+    "jasmine"    : false
   }
 }
