@@ -355,7 +355,7 @@ module.exports = function(gulp, customConfig) {
     };
     return gulpDocs.sections({
       api: {
-        glob:['src/**/*.js', '!src/**/*.spec.js'],
+        glob:['src/**/*.js', '!src/**/*.spec.js', '!src/*/{stubs,stubs/**}'],
         api: true,
         title: 'API Documentation'
       }})
