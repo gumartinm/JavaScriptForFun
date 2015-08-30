@@ -53,6 +53,7 @@
     // b) The one I am using here. Attaching to vm/this because AngularJS is performing new MyController().
     vm.doModal = function (size) {
       var cars = ['car1', 'car2', 'car3'];
+      // The modalInstance object will be seen from here and it will also be injected in CarsErrorModal controller
       var modalInstance = $modal.open({
         animation: true,
         templateUrl: 'app/cars/cars-error-modal.html',
@@ -68,8 +69,12 @@
       });
 
       modalInstance.result.then(function (selectedItem) {
+        // following this path after calling modalInstance.close from either this controller or
+        // CarsErrorModal controller.
         vm.selected = selectedItem;
       }, function (reason) {
+        // following this path after calling modalInstance.dismiss from either this controller or
+        // CarsErrorModal controller.
         if (reason === '$uibUnscheduledDestruction') {
           console.log('Modal\'s scope destroyed by unexpected mechanism');
         }
@@ -94,13 +99,13 @@
       });
 
       $timeout(function() {
-        console.log('closed by tiemout at: ' + new Date());
-        modalInstance.close('closed by tiemout');
+        console.log('closed by timeout at: ' + new Date());
+        modalInstance.close('closed by timeout');
       }, 5000);
 
       $timeout(function() {
-        console.log('dismissed by tiemout at: ' + new Date());
-        modalInstance.dismiss('dismissed by tiemout');
+        console.log('dismissed by timeout at: ' + new Date());
+        modalInstance.dismiss('dismissed by timeout');
       }, 10000);
     };
   }
