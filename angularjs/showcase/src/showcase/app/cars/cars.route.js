@@ -3,11 +3,11 @@
 
   angular
     .module('app.cars')
-    .config(configure);
+    .config(route);
 
   /**
    * @ngdoc service
-   * @name app.cars.configure
+   * @name app.cars.route
    *
    * @requires $stateProvider
    * @requires $urlRouterProvider
@@ -23,7 +23,7 @@
    * Router configuration for cars application.
    */
   /* @ngInject */
-  function configure($stateProvider, $urlRouterProvider) {
+  function route($stateProvider, $urlRouterProvider) {
     var state = 'cars';
     var config = {
       abstract: false,

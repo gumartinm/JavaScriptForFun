@@ -3,11 +3,11 @@
 
   angular
     .module('app.welcome')
-    .config(configure);
+    .config(route);
 
   /**
    * @ngdoc service
-   * @name app.welcome.configure
+   * @name app.welcome.route
    *
    * @requires $stateProvider
    * @requires $urlRouterProvider
@@ -23,7 +23,7 @@
    * Router configuration for welcome application.
    */
   /* @ngInject */
-  function configure($stateProvider, $urlRouterProvider) {
+  function route($stateProvider, $urlRouterProvider) {
     var state = 'welcome';
     var config = {
       abstract: false,
