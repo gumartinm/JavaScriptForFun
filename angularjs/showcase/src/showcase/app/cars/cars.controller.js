@@ -25,14 +25,13 @@
   /* @ngInject */
   function Cars($modal, $timeout, cars) {
     var vm = this;
+
     vm.example = {
       text: 'try to send data',
       word: /^\s*\w*\s*$/,
       singleModel: 1
     };
-    vm.getCars = getCars;
-
-    function getCars() {
+    vm.getCars = function () {
       // ES6 way. success and error are deprecated because they are not following the ES6 way.
       cars.getAll().then(
         // Success
@@ -42,12 +41,17 @@
         // Error
         function(reason) {
           console.log('Cars controller error: ' + reason);
-          doModal('lg');
+          vm.doModal('lg');
         }
       );
-    }
+    };
 
-    function doModal(size) {
+    // How to test "private" methods in controllers?
+    // Two options:
+    // a) Extracting the logic of the "private" method to some service. The service could be
+    //    called ModalService and it could be used by any module. Does that ring a bell? :D
+    // b) The one I am using here. Attaching to vm/this because AngularJS is performing new MyController().
+    vm.doModal = function (size) {
       var cars = ['car1', 'car2', 'car3'];
       var modalInstance = $modal.open({
         animation: true,
@@ -98,7 +102,7 @@
         console.log('dismissed by tiemout at: ' + new Date());
         modalInstance.dismiss('dismissed by tiemout');
       }, 10000);
-    }
+    };
   }
 
 })();
