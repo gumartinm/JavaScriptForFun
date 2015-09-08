@@ -26,6 +26,14 @@
             ng-click="vm.getCars()">
       Get cars
     </button>
+    <button type="button" class="btn btn-primary" ng-disabled="myForm.input.$invalid"
+            ng-click="vm.getCar()">
+      Get car
+    </button>
+    <button type="button" class="btn btn-primary" ng-disabled="myForm.input.$invalid"
+            ng-click="vm.getResolvedPromise()">
+      Get resolved promise
+    </button>
   </form>
 
   <label>controller as directive:</label>

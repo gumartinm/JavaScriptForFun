@@ -45,6 +45,44 @@
         }
       );
     };
+    vm.getCar = function() {
+
+      console.log('getCar: START');
+
+      cars.getById(1).then(
+        function (value) {
+          console.log('getCar getById: Cars controller value: ' + JSON.stringify(value));
+        },
+        function(reason) {
+          console.log('getCar getById: Cars controller reason: ' + JSON.stringify(reason));
+        }
+      );
+
+      cars.getExpectedValue().then(
+        function (value) {
+          console.log('getCar getExpectedValue: Cars controller value: ' + JSON.stringify(value));
+        },
+        function(reason) {
+          console.log('getCar getExpectedValue: Cars controller reason: ' + JSON.stringify(reason));
+        }
+      );
+
+      console.log('getCar: END');
+    };
+    vm.getResolvedPromise = function() {
+      console.log('getResolvedPromise: START');
+
+      cars.getExpectedValue().then(
+        function (value) {
+          console.log('getResolvedPromise getExpectedValue: Cars controller value: ' + JSON.stringify(value));
+        },
+        function(reason) {
+          console.log('getResolvedPromise getExpectedValue: Cars controller reason: ' + JSON.stringify(reason));
+        }
+      );
+
+      console.log('getResolvedPromise: END');
+    };
 
     // How to test "private" methods in controllers?
     // Two options:

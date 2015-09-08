@@ -23,8 +23,12 @@
    */
   /* @ngInject */
   function cars($http, $q, API) {
+    var expectedValue;
+
     return {
-      getAll: getAll
+      getAll: getAll,
+      getById: getById,
+      getExpectedValue: getExpectedValue
     };
 
     /**
@@ -192,6 +196,24 @@
         // This callback doesn't have any input parameter :(
         console.log('XHR Finalizer for getAll.');
       }
+    }
+
+    /**
+     * @ngdoc method
+     * @name  getById
+     * @methodOf app.cars.cars
+     *
+     * @description
+     * Get one car by its id from API REST.
+     */
+    function getById(id) {
+      expectedValue = $http.get(API.CAR.replace(':carId', id));
+
+      return expectedValue;
+    }
+
+    function getExpectedValue() {
+      return expectedValue;
     }
   }
 
