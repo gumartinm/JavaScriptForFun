@@ -45,17 +45,32 @@
       }
     };
 
-    function linkFunc(scope, el, attr, ctrl) {
-      console.log('LINK: scope doesn\'t contain the min and max properties:');
-      console.log('LINK: min, because it was assigned to vm/this');
-      console.log('LINK: max, because we are using bindToController and max is a property of our controller ' +
-        '(vm/this) instead of our scope.');
-      console.log('LINK: scope.min = %s *** should be undefined', scope.min);
-      console.log('LINK: scope.max = %s *** should be undefined', scope.max);
-      console.log('LINK: min has the value assigned in our controller');
-      console.log('LINK: max is undefined because we didn\'t assign any value');
-      console.log('LINK: scope.vm.min = %s', scope.vm.min);
-      console.log('LINK: scope.vm.max = %s', scope.vm.max);
+    function linkFunc(scope, el, attr, vm) {
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: scope doesn\'t contain the min, max and controller properties:');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: min, because it was assigned to vm/this');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: max, because we are using bindToController and max is a property of ' +
+        'our controller (vm/this) instead of our scope.');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: controller, because it was assigned to vm/this');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: scope.min = %s *** should be undefined', scope.min);
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: scope.max = %s *** should be undefined', scope.max);
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: scope.controller = %s *** should be undefined', scope.controller);
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: min has the value assigned in our controller');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: max is undefined because we didn\'t assign any value');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: controller has the value assigned in our controller');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: scope.vm.min = %s', scope.vm.min);
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: scope.vm.max = %s', scope.vm.max);
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: scope.vm.max = %s', scope.vm.controller);
+
+      scope.vm.postlink = 'Value created in postlink';
+
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: because we are using \'controller as\' the fourth parameter is our ' +
+        'controller\'s instance');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: vm.min has the value assigned in our controller');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: vm.max is undefined because we didn\'t assign any value');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: vm.controller has the value assigned in our controller');
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: vm.min = %s', vm.min);
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: vm.max = %s', vm.max);
+      console.log('CONTROLLER-AS-DIRECTIVE LINK: vm.controller = %s', vm.controller);
     }
   }
 
@@ -66,12 +81,15 @@
 
     vm.min = 3;
 
-    console.log('CTRL: $scope object contains vm. It doesn\'t contain max property because we are using ' +
-      'bindToController. What means, max property will be assigned in our controller (vm/this) instead of our scope.');
-    console.log('CTRL: $scope.vm.min = %s', $scope.vm.min);
-    console.log('CTRL: $scope.vm.max = %s', $scope.vm.max);
-    console.log('CTRL: vm.min = %s', vm.min);
-    console.log('CTRL: vm.max = %s', vm.max);
+    console.log('CONTROLLER-AS-DIRECTIVE CTRL: $scope object contains vm. It doesn\'t contain max property because ' +
+      'we are using bindToController. What means, max property will be assigned in our controller (vm/this) instead ' +
+      'of our scope.');
+    console.log('CONTROLLER-AS-DIRECTIVE CTRL: $scope.vm.min = %s', $scope.vm.min);
+    console.log('CONTROLLER-AS-DIRECTIVE CTRL: $scope.vm.max = %s', $scope.vm.max);
+    console.log('CONTROLLER-AS-DIRECTIVE CTRL: vm.min = %s', vm.min);
+    console.log('CONTROLLER-AS-DIRECTIVE CTRL: vm.max = %s', vm.max);
+
+    vm.controller = 'Value created in controller';
   }
 
 })();
