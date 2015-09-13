@@ -16,13 +16,13 @@
     "server.js"
   ],
   "dependencies": {
-    "angular": "~1.4.5",
+    "bootstrap": "~4.0.0-alpha",
+    "font-awesome": "~4.4.0",
+    "oclazyload": "~1.0.5",
     "angular-bootstrap": "~0.13.4",
     "angular-translate": "~2.7.2",
     "angular-ui-router": "~0.2.15",
-    "oclazyload": "~1.0.5",
-    "bootstrap": "~4.0.0-alpha",
-    "font-awesome": "~4.4.0"
+    "angular": "~1.4.5"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.5"
