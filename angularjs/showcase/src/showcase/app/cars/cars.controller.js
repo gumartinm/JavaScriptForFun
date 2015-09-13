@@ -3,11 +3,11 @@
 
   angular
     .module('app.cars')
-    .controller('Cars', Cars);
+    .controller('CarsController', CarsController);
 
   /**
    * @ngdoc controller
-   * @name app.cars.controller:Cars
+   * @name app.cars.controller:CarsController
    *
    * @requires $modal
    * @requires $timeout
@@ -20,10 +20,10 @@
    * </p>
    *
    * @description
-   * Cars controller.
+   * CarsController controller.
    */
   /* @ngInject */
-  function Cars($modal, $timeout, cars) {
+  function CarsController($modal, $timeout, cars) {
     var vm = this;
 
     vm.example = {
@@ -40,7 +40,7 @@
         },
         // Error
         function(reason) {
-          console.log('Cars controller error: ' + reason);
+          console.log('CarsController controller error: ' + reason);
           vm.doModal('lg');
         }
       );
@@ -51,19 +51,19 @@
 
       cars.getById(1).then(
         function (value) {
-          console.log('getCar getById: Cars controller value: ' + JSON.stringify(value));
+          console.log('getCar getById: CarsController controller value: ' + JSON.stringify(value));
         },
         function(reason) {
-          console.log('getCar getById: Cars controller reason: ' + JSON.stringify(reason));
+          console.log('getCar getById: CarsController controller reason: ' + JSON.stringify(reason));
         }
       );
 
       cars.getExpectedValue().then(
         function (value) {
-          console.log('getCar getExpectedValue: Cars controller value: ' + JSON.stringify(value));
+          console.log('getCar getExpectedValue: CarsController controller value: ' + JSON.stringify(value));
         },
         function(reason) {
-          console.log('getCar getExpectedValue: Cars controller reason: ' + JSON.stringify(reason));
+          console.log('getCar getExpectedValue: CarsController controller reason: ' + JSON.stringify(reason));
         }
       );
 
@@ -74,10 +74,12 @@
 
       cars.getExpectedValue().then(
         function (value) {
-          console.log('getResolvedPromise getExpectedValue: Cars controller value: ' + JSON.stringify(value));
+          console.log('getResolvedPromise getExpectedValue: CarsController controller value: ' +
+            JSON.stringify(value));
         },
         function(reason) {
-          console.log('getResolvedPromise getExpectedValue: Cars controller reason: ' + JSON.stringify(reason));
+          console.log('getResolvedPromise getExpectedValue: CarsController controller reason: ' +
+            JSON.stringify(reason));
         }
       );
 
@@ -95,7 +97,7 @@
       var modalInstance = $modal.open({
         animation: true,
         templateUrl: 'app/cars/cars-error-modal.html',
-        controller: 'CarsErrorModal as vm',
+        controller: 'CarsErrorModalController as vm',
         size: size,
         backdrop: 'static',
         keyboard: false,

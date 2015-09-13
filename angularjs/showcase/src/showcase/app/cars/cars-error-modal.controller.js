@@ -3,11 +3,11 @@
 
   angular
     .module('app.cars')
-    .controller('CarsErrorModal', CarsErrorModal);
+    .controller('CarsErrorModalController', CarsErrorModalController);
 
   /**
    * @ngdoc controller
-   * @name app.cars.controller:CarsErrorModal
+   * @name app.cars.controller:CarsErrorModalController
    *
    * @requires $modalInstance
    * @requires app.cars.cars
@@ -21,7 +21,7 @@
    * Controller for error modal in cars application.
    */
   /* @ngInject */
-  function CarsErrorModal($modalInstance, cars) {
+  function CarsErrorModalController($modalInstance, cars) {
     var vm = this;
 
     vm.cars = cars;

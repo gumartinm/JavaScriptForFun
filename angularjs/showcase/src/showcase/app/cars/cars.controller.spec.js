@@ -10,14 +10,14 @@ describe('app.cars', function() {
       return {};
     }
   };
-  var Cars;
+  var CarsController;
   var $q;
 
   beforeEach(function() {
     module('app.cars');
 
     inject(function($controller, $modal, $timeout, _$q_) {
-      Cars = $controller('Cars', {
+      CarsController = $controller('CarsController', {
         $modal: $modal,
         $timeout: $timeout,
         cars: cars
@@ -43,10 +43,10 @@ describe('app.cars', function() {
           };
         });
 
-      Cars.getCars();
+      CarsController.getCars();
 
       expect(cars.getAll).toHaveBeenCalled();
-      expect(Cars.cars).toEqual(onFulfilledValue);
+      expect(CarsController.cars).toEqual(onFulfilledValue);
     });
   });
 
@@ -114,14 +114,14 @@ describe('app.cars', function() {
       })
   };
   var $timeout;
-  var Cars;
+  var CarsController;
   var $q;
 
   beforeEach(function() {
     module('app.cars');
 
     inject(function($controller, _$timeout_, _$q_) {
-      Cars = $controller('Cars', {
+      CarsController = $controller('CarsController', {
         $modal: $modal,
         $timeout: _$timeout_,
         cars: cars
@@ -135,46 +135,46 @@ describe('app.cars', function() {
 
     it('should invoke GET all cars in service with success: alternative way', function () {
 
-      Cars.getCars();
+      CarsController.getCars();
 
       expect(cars.getAll).toHaveBeenCalled();
-      expect(Cars.cars).toEqual(onFulfilledValue);
+      expect(CarsController.cars).toEqual(onFulfilledValue);
     });
 
     it('should invoke GET all cars in service with error: alternative way', function () {
       isSuccessCallBack = false;
-      spyOn(Cars, 'doModal')
+      spyOn(CarsController, 'doModal')
         .and.callFake(function() {
           return {};
         });
 
-      Cars.getCars();
+      CarsController.getCars();
 
       expect(cars.getAll).toHaveBeenCalled();
-      expect(Cars.doModal).toHaveBeenCalled();
+      expect(CarsController.doModal).toHaveBeenCalled();
 
       isSuccessCallBack = true;
     });
 
     it('should invoke $modal.open', function () {
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
 
       expect($modal.open).toHaveBeenCalled();
     });
 
     it('should invoke $modalInstance.result with success', function () {
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
 
       expect($modalInstance.result.then).toHaveBeenCalled();
-      expect(Cars.selected).toEqual(onFulfilledValue);
+      expect(CarsController.selected).toEqual(onFulfilledValue);
     });
 
     it('should invoke $modalInstance.result with error', function () {
       isSuccessCallBack = false;
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
 
       expect($modalInstance.result.then).toHaveBeenCalled();
 
@@ -183,7 +183,7 @@ describe('app.cars', function() {
 
     it('should invoke $modalInstance.opened with success', function () {
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
 
       expect($modalInstance.opened.then).toHaveBeenCalled();
 
@@ -192,7 +192,7 @@ describe('app.cars', function() {
     it('should invoke $modalInstance.opened with error', function () {
       isSuccessCallBack = false;
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
 
       expect($modalInstance.opened.then).toHaveBeenCalled();
 
@@ -201,7 +201,7 @@ describe('app.cars', function() {
 
     it('should invoke $modalInstance.rendered with success', function () {
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
 
       expect($modalInstance.rendered.then).toHaveBeenCalled();
 
@@ -210,7 +210,7 @@ describe('app.cars', function() {
     it('should invoke $modalInstance.rendered with error', function () {
       isSuccessCallBack = false;
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
 
       expect($modalInstance.rendered.then).toHaveBeenCalled();
 
@@ -219,7 +219,7 @@ describe('app.cars', function() {
 
     it('should invoke $modalInstance.close because of timeout', function () {
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
       $timeout.flush();
 
       expect($modalInstance.close).toHaveBeenCalledWith('closed by timeout');
@@ -228,7 +228,7 @@ describe('app.cars', function() {
 
     it('should invoke $modalInstance.dismiss because of timeout', function () {
 
-      Cars.doModal('lg');
+      CarsController.doModal('lg');
       $timeout.flush();
 
       expect($modalInstance.dismiss).toHaveBeenCalledWith('dismissed by timeout');

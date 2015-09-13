@@ -6,13 +6,13 @@ describe('app.cars', function() {
     close: jasmine.createSpy('modalInstance.close'),
     dismiss: jasmine.createSpy('modalInstance.dismiss')
   };
-  var CarsErrorModal;
+  var CarsErrorModalController;
 
   beforeEach(function() {
     module('app.cars');
 
     inject(function($controller) {
-      CarsErrorModal = $controller('CarsErrorModal', {
+      CarsErrorModalController = $controller('CarsErrorModalController', {
         $modalInstance: $modalInstance,
         cars: cars
       });
@@ -20,16 +20,16 @@ describe('app.cars', function() {
 
   });
 
-  describe('CarsErrorModal controller', function () {
+  describe('CarsErrorModalController controller', function () {
 
     it('should invoke $modalInstance.close', function () {
-      CarsErrorModal.ok();
+      CarsErrorModalController.ok();
 
       expect($modalInstance.close).toHaveBeenCalledWith('car1');
     });
 
     it('should invoke $modalInstance.dismiss', function () {
-      CarsErrorModal.cancel();
+      CarsErrorModalController.cancel();
 
       expect($modalInstance.dismiss).toHaveBeenCalledWith('cancel');
     });
