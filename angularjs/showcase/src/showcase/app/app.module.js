@@ -23,7 +23,8 @@
 
     /* Feature areas */
     'app.welcome',
-    'app.cars'
+    'app.cars',
+    'app.users'
   ]);
 
 }());

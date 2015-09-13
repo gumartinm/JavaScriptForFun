@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<div class="container" ng-controller="UsersController as vm">
+  <div>title = {{vm.emitFact.title}}</div>
+  <div>fact = {{vm.emitFact.fact}}</div>
+  <button type="button" class="btn btn-primary" ng-click="vm.getRootScopeBroadcast()">
+    $rootScope.$broadcast
+  </button>
+
+  <button type="button" class="btn btn-primary" ng-click="vm.getScopeBroadcast()">
+    $scope.$broadcast
+  </button>
+
+  <div class="container" ng-controller="UsersChildController as vm">
+    <div>name = {{vm.broadcastUser.name}}</div>
+    <div>lastname = {{vm.broadcastUser.lastName}}</div>
+    <div>city = {{vm.broadcastUser.city}}</div>
+
+    <button type="button" class="btn btn-primary" ng-click="vm.getEmit()">
+      $scope.$emit fact
+    </button>
+  </div>
+
+</div>
