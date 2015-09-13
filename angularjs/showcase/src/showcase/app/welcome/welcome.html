@@ -8,4 +8,34 @@
     <div class="col-md-10">
     </div>
   </div>
+
+  <code>
+    // BE CAREFUL, THE LOADING ORDER IS DIFFERENT WHEN USING templateUrl TO WHEN USING template!!! <br><br>
+
+    // ****** console output when using templateUrl in parent and child directives: ****** <br>
+    //XHR finished loading: GET "http://localhost:9000/app/widgets/example-parent.directive.html" <br>
+    //example-parent.directive.js:67 PARENT-DIRECTIVE: compile <br>
+    //example-parent.directive.js:91 PARENT-DIRECTIVE: controller <br>
+    //example-parent.directive.js:70 PARENT-DIRECTIVE: preLink <br>
+    //example-parent.directive.js:73 PARENT-DIRECTIVE: postLink <br>
+    //XHR finished loading: GET "http://localhost:9000/app/widgets/example-child.directive.html". <br>
+    //example-child.directive.js:63 CHILD-DIRECTIVE: compile <br>
+    //example-child.directive.js:87 CHILD-DIRECTIVE: controller <br>
+    //example-child.directive.js:66 CHILD-DIRECTIVE: preLink <br>
+    //example-child.directive.js:69 CHILD-DIRECTIVE: postLink <br><br>
+
+    // ****** console output when using template in parent and child directives: ****** <br>
+    //example-parent.directive.js:67 PARENT-DIRECTIVE: compile <br>
+    //example-child.directive.js:63 CHILD-DIRECTIVE: compile <br>
+    //example-parent.directive.js:91 PARENT-DIRECTIVE: controller <br>
+    //example-parent.directive.js:70 PARENT-DIRECTIVE: preLink <br>
+    //example-child.directive.js:87 CHILD-DIRECTIVE: controller <br>
+    //example-child.directive.js:66 CHILD-DIRECTIVE: preLink <br>
+    //example-child.directive.js:69 CHILD-DIRECTIVE: postLink <br>
+    //example-parent.directive.js:73 PARENT-DIRECTIVE: postLink <br><br>
+  </code>
+  <label>parent directive:</label>
+  <parent-directive>
+  </parent-directive>
+
 </div>

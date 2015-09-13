@@ -3,11 +3,11 @@
 
   angular
     .module('app.widgets')
-    .directive('childDirective', childDirective);
+    .directive('parentDirective', parentDirective);
 
   /**
    * @ngdoc directive
-   * @name app.widgets.directive:childDirective
+   * @name app.widgets.directive:parentDirective
    * @restrict EA
    * @requires $scope
    *
@@ -17,21 +17,21 @@
    * </p>
    *
    * @description
-   * Controller child directive example.
+   * Controller parent directive example.
    *
-   * @element child-directive
+   * @element parent-directive
    *
    * @example
     <example name="controller-directive" module="app.widgets">
       <file name="index.html">
-        <child-directive>
+        <parent-directive>
       </file>
     </example>
    */
-  function childDirective() {
+  function parentDirective() {
     return {
       restrict: 'EA',
-      templateUrl: 'app/widgets/example-child.directive.html',
+      templateUrl: 'app/widgets/example-parent.directive.html',
 
       // BE CAREFUL, THE LOADING ORDER IS DIFFERENT WHEN USING templateUrl TO WHEN USING template!!!
 
@@ -57,20 +57,24 @@
       //example-child.directive.js:69 CHILD-DIRECTIVE: postLink
       //example-parent.directive.js:73 PARENT-DIRECTIVE: postLink
 
-      //template: '<div>child directive html template</div>',
+      //template: '' +
+      //'<div>parent directive html template</div>' +
+      //'<label>child directive:</label>' +
+      //'<child-directive>' +
+      //'</child-directive>',
       link: linkFunc,
       compile: function compile(element, attributes, transcludeFn) {
-        console.log('CHILD-DIRECTIVE: compile');
+        console.log('PARENT-DIRECTIVE: compile');
         return {
           pre: function preLink(scope, element, attributes, controller, transcludeFn) {
-            console.log('CHILD-DIRECTIVE: preLink');
+            console.log('PARENT-DIRECTIVE: preLink');
           },
           post: function postLink(scope, element, attributes, controller, transcludeFn) {
-            console.log('CHILD-DIRECTIVE: postLink');
+            console.log('PARENT-DIRECTIVE: postLink');
           }
         };
       },
-      controller: ExampleChildController,
+      controller: ExampleParentController,
       scope: {
         max: '='
       }
@@ -78,13 +82,13 @@
 
     function linkFunc(scope, el, attr, ctrl) {
       // This function will never be used because we are implementing the compile attribute.
-      console.log('CHILD-DIRECTIVE: linkFunc');
+      console.log('PARENT-DIRECTIVE: linkFunc');
     }
   }
 
   /* @ngInject */
-  function ExampleChildController($scope) {
-    console.log('CHILD-DIRECTIVE: controller');
+  function ExampleParentController($scope) {
+    console.log('PARENT-DIRECTIVE: controller');
 
     $scope.min = 3;
   }
