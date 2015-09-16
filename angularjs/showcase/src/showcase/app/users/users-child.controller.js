@@ -17,7 +17,7 @@
    * </p>
    *
    * @description
-   * Users controller.
+   * UsersChildController controller.
    */
   /* @ngInject */
   function UsersChildController($rootScope, $scope, USERS) {
@@ -30,6 +30,10 @@
     vm.getEmit = function () {
       $scope.$emit(USERS.SCOPE.EMIT_FACT, emitFact);
     };
+    vm.usersChildOnScopeBroadcast = function (events, broadcastUser) {
+      vm.broadcastUser = broadcastUser;
+      console.log('usersChildOnScopeBroadcast, events.name: ' + events.name);
+    };
 
     // NEVER USE $rootScope.$on IN CONTROLLER BECAUSE IT IS NOT DESTROYED EVEN IF CONTROLLER WAS DESTROYED!!!
     // YOU WILL END UP HAVING AS MANY EVENT LISTENERS AS TIMES THIS CONTROLLER IS CREATED!!!!
@@ -37,17 +41,12 @@
 
     // LISTENING FOR EVENTS IN $scope IS THE RIGHT THING BECAUSE THESE EVENT LISTENERS ARE DESTROYED
     // AT THE SAME TIME AS THIS CONTROLLER :)
-    $scope.$on(USERS.ROOTSCOPE.BROADCAST, usersChildOnScopeBroadcast);
+    $scope.$on(USERS.ROOTSCOPE.BROADCAST, vm.usersChildOnScopeBroadcast);
 
     // function usersChildOnRootBroadcast(events, broadcastUser) {
     //   vm.broadcastUser = broadcastUser;
     //   console.log('usersChildOnRootBroadcast, events.name: ' + events.name);
     // }
-
-    function usersChildOnScopeBroadcast(events, broadcastUser) {
-      vm.broadcastUser = broadcastUser;
-      console.log('usersChildOnScopeBroadcast, events.name: ' + events.name);
-    }
 
   }
 })();

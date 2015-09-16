@@ -20,7 +20,7 @@ describe('app.cars', function() {
 
   });
 
-  describe('CarsErrorModalController controller', function () {
+  describe('CarsErrorModalController', function () {
 
     it('should invoke $modalInstance.close', function () {
       CarsErrorModalController.ok();

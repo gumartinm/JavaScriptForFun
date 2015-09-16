@@ -39,13 +39,12 @@
     vm.getScopeBroadcast = function () {
       $scope.$broadcast(USERS.ROOTSCOPE.BROADCAST, scopeBroadcastUser);
     };
-
-    $scope.$on(USERS.SCOPE.EMIT_FACT, usersOnEmitFact);
-
-    function usersOnEmitFact(events, emitFact) {
+    vm.usersOnEmitFact = function (events, emitFact) {
       vm.emitFact = emitFact;
       console.log('usersOnEmitFact, events.name: ' + events.name);
-    }
+    };
+
+    $scope.$on(USERS.SCOPE.EMIT_FACT, vm.usersOnEmitFact);
   }
 
 })();

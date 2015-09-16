@@ -14,7 +14,7 @@ describe('app.users', function() {
       USERS = _USERS_;
       $scope = $rootScope.$new();
 
-      jasmine.createSpy($rootScope, '$rootScope.$broadcast');
+      spyOn($rootScope, '$broadcast');
       jasmine.createSpy($scope, '$scope.$broadcast');
       UsersController = $controller('UsersController', {
         $rootScope: $rootScope,
@@ -24,7 +24,7 @@ describe('app.users', function() {
     });
   });
 
-  describe('UsersController controller', function () {
+  describe('UsersController', function () {
 
     it('should be created successfully', function () {
       expect(UsersController).toBeDefined();
@@ -52,6 +52,20 @@ describe('app.users', function() {
       UsersController.getScopeBroadcast();
 
       expect($scope.$broadcast).toHaveBeenCalledWith(USERS.ROOTSCOPE.BROADCAST, scopeBroadcastUser);
+    });
+
+    it('should be assigned emitFact', function () {
+      var emitFact = {
+        title: 'Snake and Scarlett',
+        fact: 'it is canon'
+      };
+      var event = {
+        name: 'USERS_SCOPE_EMIT_FACT'
+      };
+
+      UsersController.usersOnEmitFact(event, emitFact);
+
+      expect(UsersController.emitFact).toEqual(emitFact);
     });
   });
 

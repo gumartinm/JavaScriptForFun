@@ -14,7 +14,7 @@ describe('app.welcome', function() {
     });
   });
 
-  describe('WelcomeController controller', function () {
+  describe('WelcomeController', function () {
 
     it('should be created successfully', function () {
       expect(WelcomeController).toBeDefined();

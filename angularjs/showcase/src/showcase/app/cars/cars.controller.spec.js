@@ -26,7 +26,7 @@ describe('app.cars', function() {
     });
   });
 
-  describe('Cars controller', function () {
+  describe('CarsController', function () {
 
     it('should invoke GET all cars in service with success: old fashionable way', function () {
 
@@ -131,7 +131,7 @@ describe('app.cars', function() {
     });
   });
 
-  describe('Cars controller', function () {
+  describe('CarsController', function () {
 
     it('should invoke GET all cars in service with success: alternative way', function () {
 
