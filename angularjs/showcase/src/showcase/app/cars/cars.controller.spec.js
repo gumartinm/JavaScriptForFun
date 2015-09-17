@@ -52,6 +52,13 @@ describe('app.cars', function() {
 
 });
 
+// I AM BEGINNING TO DISLIKE THIS WAY OF TESTING thenables.
+// I PREFER THE WAY USING $scope.$apply/$scope.$digest/$rootScope.$apply
+// SEE AT THE END THE WAY I THINK IS THE NICEST. THERE IS WAY LESS CODE AND IT IS MORE READEABLE!!!
+
+// GO TO THE END WHERE THERE ARE TESTS USING $scope.$apply() THEY ARE BETTER TESTS THAN THE ONES
+// HERE MOCKING THE then METHOD. THIS WAY REQUIRES TOO MUCH CODE AND IT IS NOT READEABLE :(
+// GO TO THE BOTTOM FOR THE COOL WAY OF TESTING THIS STUFF :)
 describe('app.cars', function() {
   'use strict';
 
@@ -233,6 +240,70 @@ describe('app.cars', function() {
 
       expect($modalInstance.dismiss).toHaveBeenCalledWith('dismissed by timeout');
 
+    });
+
+  });
+
+});
+
+describe('app.cars', function() {
+  'use strict';
+
+  var $rootScope;
+  var $scope;
+  var $q;
+  var reason = 'error';
+  var value = 'car1';
+  var cars = {
+    getAll: function() {
+      return {};
+    }
+  };
+  var CarsController;
+
+  beforeEach(function() {
+    module('app.cars');
+
+    inject(function($controller, $modal, $timeout, _$q_, _$rootScope_) {
+      CarsController = $controller('CarsController', {
+        $modal: $modal,
+        $timeout: $timeout,
+        cars: cars
+      });
+      $rootScope = _$rootScope_;
+      $q = _$q_;
+      $scope = $rootScope.$new();
+    });
+  });
+
+  describe('CarsController', function () {
+
+    it('should invoke GET all cars in service with success: using digest/apply', function () {
+      spyOn(cars, 'getAll')
+        .and.returnValue($q.resolve(value));
+
+      CarsController.getCars();
+
+      $scope.$apply();
+
+      expect(cars.getAll).toHaveBeenCalled();
+      expect(CarsController.cars).toEqual(value);
+    });
+
+    it('should invoke GET all cars in service with error: using digest/apply', function () {
+      spyOn(cars, 'getAll')
+        .and.returnValue($q.reject(reason));
+      spyOn(CarsController, 'doModal')
+        .and.callFake(function() {
+          return {};
+        });
+
+      CarsController.getCars();
+
+      $scope.$apply();
+
+      expect(cars.getAll).toHaveBeenCalled();
+      expect(CarsController.doModal).toHaveBeenCalled();
     });
 
   });
