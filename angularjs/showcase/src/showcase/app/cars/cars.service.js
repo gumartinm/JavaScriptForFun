@@ -51,6 +51,13 @@
         // .catch(failed)
         .finally(finalizer);
 
+      // NOTE:
+      // * IF YOU DON'T IMPLEMENT THE success METHOD AND $http ENDS WITH SUCCESS, THE then METHOD
+      // IN OUR CONTROLLER WILL SEE THE OBJECT COMING FROM $http IN ITS success METHOD
+      // * IF YOU DON'T IMPLEMENT THE error METHOD AND $http ENDS WITH ERROR, THE then METHOD
+      // IN OUR CONTROLLER WILL SEE THE OBJECT COMING FROM $http IN ITS error METHOD
+      // * I GUESS THE SAME FOR notify METHOD BUT NOT SURE BECAUSE I HAVE NEVER USED IT. :(
+
       function success(resp) {
         /**
          * resp, object containing:
@@ -80,17 +87,20 @@
         // What means, promise will be resolved immediately!!! If it is what you want go ahead.
         // return resp.data;
 
-        // Better return promise. :) Two options:
+        // Better return promise. :) Three options:
 
-        // a) ES6 way (it doesn't have notify :(
+        // a) ES6 way, it doesn't have notify :(
         // return $q(function(resolve) {
-        //  resolve(resp.data);
-        // })
+        //   resolve(resp.data);
+        // });
 
         // b) The CommonJS Promise way. It has the notify method (which I am not using here)
-        var deferred = $q.defer();
-        deferred.resolve(resp.data);
-        return deferred.promise;
+        //var deferred = $q.defer();
+        //deferred.resolve(resp.data);
+        //return deferred.promise;
+
+        // c) The ES6/CommonJS Promise way. The same as b) but with less code :)
+        return $q.resolve(resp.data);
       }
 
       // DO NOT USE IT!!! This way has been deprecated because it is not the ES6 way.
@@ -136,7 +146,7 @@
         // deferred.reject(reason.data);
         // return deferred.promise;
 
-        // c) The CommonJS Promise way. The same as b) but with less code :)
+        // c) The ES6/CommonJS Promise way. The same as b) but with less code :)
         return $q.reject(reason.data);
       }
 
