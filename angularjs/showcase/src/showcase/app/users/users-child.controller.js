@@ -24,6 +24,7 @@
   /* @ngInject */
   function UsersChildController($rootScope, $scope, USERS) {
     var vm = this;
+
     var emitFact = {
       title: 'Snake and Scarlett',
       fact: 'it is canon'
@@ -38,6 +39,12 @@
       lastName: 'rootscope broadcasting to UsersSecondChild from UserChild',
       city: 'UserChild'
     };
+
+    // This is the right way for accessing to a parent controller from a child one when using the "Controller as" way.
+    // Problem: we need to name our controllers with something different to the "vm standard", otherwise
+    // here we wouldn't be able to access to the parent controller because it would have the same name as our child
+    // controller (vm). So, we need different names for parent and child controllers.
+    vm.valueForChildControllers = $scope.usersController.toBeCalledFromChildControllers();
 
     vm.getEmit = function () {
       $scope.$emit(USERS.SCOPE.EMIT_FACT, emitFact);

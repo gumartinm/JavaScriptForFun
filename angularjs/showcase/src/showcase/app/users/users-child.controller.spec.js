@@ -1,6 +1,15 @@
 describe('app.users', function() {
   'use strict';
 
+  var valueForChildControllers = {
+    variable: 'This is a variable from UsersController',
+    value: 'Hello child controller'
+  };
+  var usersController = {
+    toBeCalledFromChildControllers: function() {
+      return valueForChildControllers;
+    }
+  };
   var $rootScope;
   var $scope;
   var USERS;
@@ -14,9 +23,12 @@ describe('app.users', function() {
       USERS = _USERS_;
       $scope = $rootScope.$new();
 
+      $scope.usersController = usersController;
       spyOn($scope, '$emit');
       spyOn($rootScope, '$broadcast');
       jasmine.createSpy($scope, '$scope.$broadcast');
+      spyOn($scope.usersController, 'toBeCalledFromChildControllers')
+        .and.callThrough();
       UsersChildController = $controller('UsersChildController', {
         $rootScope: $rootScope,
         $scope: $scope,
@@ -29,6 +41,9 @@ describe('app.users', function() {
 
     it('should be created successfully', function () {
       expect(UsersChildController).toBeDefined();
+
+      expect($scope.usersController.toBeCalledFromChildControllers).toHaveBeenCalled();
+      expect(UsersChildController.valueForChildControllers).toEqual(valueForChildControllers);
     });
 
     it('should be called $scope.$emit', function () {

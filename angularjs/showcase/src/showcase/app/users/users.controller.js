@@ -34,6 +34,10 @@
       lastName: 'M. O\'Hara',
       city: 'Atlanta'
     };
+    var valueForChildControllers = {
+      variable: 'This is a variable from UsersController',
+      value: 'Hello child controller'
+    };
 
     vm.getRootScopeBroadcast = function () {
       $rootScope.$broadcast(USERS.ROOTSCOPE.BROADCAST, rootScopeBroadcastUser);
@@ -44,6 +48,9 @@
     vm.usersOnEmitFact = function (events, emitFact) {
       vm.emitFact = emitFact;
       console.log('usersOnEmitFact, events.name: ' + events.name);
+    };
+    vm.toBeCalledFromChildControllers = function () {
+      return valueForChildControllers;
     };
 
     $scope.$on(USERS.SCOPE.EMIT_FACT, vm.usersOnEmitFact);
