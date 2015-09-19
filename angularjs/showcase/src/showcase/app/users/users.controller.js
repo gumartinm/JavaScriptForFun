@@ -10,10 +10,12 @@
    * @name app.users.controller:UsersController
    *
    * @requires $rootScope
+   * @requires $scope
    *
    * <p>
    * <br>
    * {@link https://docs.angularjs.org/api/ng/service/$rootScope $rootScope}
+   * {@link https://docs.angularjs.org/api/ng/type/$rootScope.Scope $scope}
    * </p>
    *
    * @description

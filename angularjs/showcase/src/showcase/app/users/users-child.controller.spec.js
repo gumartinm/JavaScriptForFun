@@ -15,6 +15,8 @@ describe('app.users', function() {
       $scope = $rootScope.$new();
 
       spyOn($scope, '$emit');
+      spyOn($rootScope, '$broadcast');
+      jasmine.createSpy($scope, '$scope.$broadcast');
       UsersChildController = $controller('UsersChildController', {
         $rootScope: $rootScope,
         $scope: $scope,
@@ -47,13 +49,34 @@ describe('app.users', function() {
         city: 'classified'
       };
       var event = {
-        name: 'USERS.ROOTSCOPE.BROADCAST'
+        name: USERS.ROOTSCOPE.BROADCAST
       };
 
       UsersChildController.usersChildOnScopeBroadcast(event, rootScopeBroadcastUser);
 
       expect(UsersChildController.broadcastUser).toEqual(rootScopeBroadcastUser);
     });
+
+    it('should be called $rootScope.$broadcast', function () {
+      var scopeBroadcastToSecondChild = {
+        name: 'UsersChild To UsersSecondChild',
+        lastName: 'scope broadcasting to UsersSecondChild from UserChild',
+        city: 'UserChild'
+      };
+      var rootScopeBroadcastToSecondChild = {
+        name: 'UsersChild To UsersSecondChild',
+        lastName: 'rootscope broadcasting to UsersSecondChild from UserChild',
+        city: 'UserChild'
+      };
+
+      UsersChildController.broadcastToSencondChild();
+
+      expect($rootScope.$broadcast).toHaveBeenCalledWith(
+        USERS.ROOTSCOPE.BROADCAST_TO_SENCONDCHILD, rootScopeBroadcastToSecondChild);
+      expect($scope.$broadcast).toHaveBeenCalledWith(
+        USERS.SCOPE.BROADCAST_TO_SENCONDCHILD, scopeBroadcastToSecondChild);
+    });
+
   });
 
 });

@@ -10,10 +10,12 @@
    * @name app.users.controller:UsersChildController
    *
    * @requires $rootScope
+   * @requires $scope
    *
    * <p>
    * <br>
    * {@link https://docs.angularjs.org/api/ng/service/$rootScope $rootScope}
+   * {@link https://docs.angularjs.org/api/ng/type/$rootScope.Scope $scope}
    * </p>
    *
    * @description
@@ -26,9 +28,26 @@
       title: 'Snake and Scarlett',
       fact: 'it is canon'
     };
+    var scopeBroadcastToSecondChild = {
+      name: 'UsersChild To UsersSecondChild',
+      lastName: 'scope broadcasting to UsersSecondChild from UserChild',
+      city: 'UserChild'
+    };
+    var rootScopeBroadcastToSecondChild = {
+      name: 'UsersChild To UsersSecondChild',
+      lastName: 'rootscope broadcasting to UsersSecondChild from UserChild',
+      city: 'UserChild'
+    };
 
     vm.getEmit = function () {
       $scope.$emit(USERS.SCOPE.EMIT_FACT, emitFact);
+    };
+    vm.broadcastToSencondChild = function () {
+      // $scope.$broadcast will never be seen by controllers in the same level as this controller. :(
+      $scope.$broadcast(USERS.SCOPE.BROADCAST_TO_SENCONDCHILD, scopeBroadcastToSecondChild);
+      // The only way is either using $rootScope or creating a new controllers hierarchy where
+      // UsersSecondChildController would be in a lower level than UsersChildController.
+      $rootScope.$broadcast(USERS.ROOTSCOPE.BROADCAST_TO_SENCONDCHILD, rootScopeBroadcastToSecondChild);
     };
     vm.usersChildOnScopeBroadcast = function (events, broadcastUser) {
       vm.broadcastUser = broadcastUser;

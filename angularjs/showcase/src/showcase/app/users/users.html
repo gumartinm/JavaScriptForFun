@@ -18,6 +18,26 @@
     <button type="button" class="btn btn-primary" ng-click="vm.getEmit()">
       $scope.$emit fact
     </button>
+    <br>
+    <button type="button" class="btn btn-primary" ng-click="vm.broadcastToSencondChild()">
+      $scope.$broadcast and $rootScope.$broadcast to second child
+    </button>
+  </div>
+  <div class="container" ng-controller="UsersSecondChildController as vm">
+    <br>
+    <label>secondchild $scope.$on listening for $rootScope.$broadcast from UsersChildController:</label>
+    <br>
+    <div>name = {{vm.rootScopeBroadcastUser.name}}</div>
+    <div>lastname = {{vm.rootScopeBroadcastUser.lastName}}</div>
+    <div>city = {{vm.rootScopeBroadcastUser.city}}</div>
+
+    <br>
+    <label>secondchild $scope.$on listening for $scope.$broadcast from UsersChildController, same level never works:</label>
+    <br>
+    <div>name = {{vm.scopeBroadcastUser.name}}</div>
+    <div>lastname = {{vm.scopeBroadcastUser.lastName}}</div>
+    <div>city = {{vm.scopeBroadcastUser.city}}</div>
+
   </div>
 
 </div>
