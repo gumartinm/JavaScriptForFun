@@ -109,6 +109,9 @@
         console.log('XHR SuccessAlternative for getAll. SuccessAlternative, status: ' + status);
         console.log('XHR SuccessAlternative for getAll. SuccessAlternative, headers (it is a function): ' + headers);
         console.log('XHR SuccessAlternative for getAll. SuccessAlternative, config: ' + config);
+        // IT IS WEIRD, BUT RETURNING FROM THIS METHOD IS USELESS BECAUSE IT DOESN'T DO ANYTHING,
+        // IT WON'T RESOLVE OUR PROMISE!!!!
+        // return data;
       }
 
       function error(reason) {
@@ -156,6 +159,9 @@
         console.log('XHR ErrorAlternative for getAll. ErrorAlternative, status: ' + status);
         console.log('XHR ErrorAlternative for getAll. ErrorAlternative, headers (it is a function): ' + headers);
         console.log('XHR ErrorAlternative for getAll. ErrorAlternative, config: ' + config);
+        // IT IS WEIRD, BUT RETURNING FROM THIS METHOD IS USELESS BECAUSE IT DOESN'T DO ANYTHING,
+        // IT WON'T RESOLVE OUR PROMISE!!!!
+        // return data;
       }
 
       function notify(notification) {
