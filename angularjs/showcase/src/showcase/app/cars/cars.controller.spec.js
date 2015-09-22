@@ -5,6 +5,9 @@ describe('app.cars', function() {
   var onFulfilledValue = 'car1';
   var onRejectedValue = 'error';
   // Why the heck do I need this stupid object if it is going to be spied by means of Jasmine?
+  // This is completely stupid and you will never see me doing something like this again!!!
+  // In this case, IMHO it is better to inject the real service (using the inject function, see below)
+  // and create as many spies as needed (and when there are required)
   var cars = {
     getAll: function() {
       return {};
@@ -252,19 +255,21 @@ describe('app.cars', function() {
   var $rootScope;
   var $scope;
   var $q;
+
+  // I have to inject cars service in CarsController. Declaring here the cars variable enables me to use
+  // spies for this service in my tests. I do not create any stub, instead I will use the injected service by Jasmine
+  // (see just below)
+  var cars;
+
+  var CarsController;
   var reason = 'error';
   var value = 'car1';
-  var cars = {
-    getAll: function() {
-      return {};
-    }
-  };
-  var CarsController;
 
   beforeEach(function() {
     module('app.cars');
 
-    inject(function($controller, $modal, $timeout, _$q_, _$rootScope_) {
+    inject(function($controller, $modal, $timeout, _$q_, _$rootScope_, _cars_) {
+      cars = _cars_;
       CarsController = $controller('CarsController', {
         $modal: $modal,
         $timeout: $timeout,
