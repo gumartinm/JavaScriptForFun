@@ -219,6 +219,8 @@
      * @name  getById
      * @methodOf app.cars.cars
      *
+     * @param {number} id Car's identifier number.
+     *
      * @description
      * Get one car by its id from API REST.
      */
