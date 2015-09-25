@@ -38,6 +38,8 @@
      *
      * @description
      * Get cars from API REST.
+     *
+     * @returns {Promise} Promise that will be resolved or rejected when $http responds.
      */
     function getAll() {
       return $http.get(API.CARS)
@@ -223,6 +225,8 @@
      *
      * @description
      * Get one car by its id from API REST.
+     *
+     * @returns {Promise} Promise that will be resolved or rejected when $http responds.
      */
     function getById(id) {
       expectedValue = $http.get(API.CAR.replace(':carId', id));
@@ -230,6 +234,16 @@
       return expectedValue;
     }
 
+    /**
+     * @ngdoc method
+     * @name getExpectedValue
+     * @methodOf app.cars.cars
+     *
+     * @description
+     * Returns expected value as promise.
+     *
+     * @returns {Promise} Promise that will be resolved or rejected when $http responds.
+     */
     function getExpectedValue() {
       return expectedValue;
     }
