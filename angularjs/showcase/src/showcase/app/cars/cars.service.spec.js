@@ -29,43 +29,53 @@ describe('app.cars', function() {
   describe('cars service', function () {
 
     it('should invoke GET all cars without error', function () {
+      var respValue;
+
       $httpBackend.expectGET(API.CARS).respond(200, carsResponseSuccess);
-
       cars.getAll().then(function(resp) {
-        expect(carsResponseSuccess).toEqual(resp);
+        respValue = resp;
       });
-
       $httpBackend.flush();
+
+      expect(carsResponseSuccess).toEqual(respValue);
     });
 
     it('should invoke GET all cars with error', function () {
+      var reasonValue;
+
       $httpBackend.expectGET(API.CARS).respond(400, carsResponseError);
-
       cars.getAll().then(function() {}, function(reason) {
-        expect(carsResponseError).toEqual(reason);
+        reasonValue = reason;
       });
-
       $httpBackend.flush();
+
+      expect(carsResponseError).toEqual(reasonValue);
     });
 
     it('should invoke GET car by id without error', function () {
-      $httpBackend.expectGET(API.CAR.replace(':carId', id)).respond(200, carResponseSuccess);
+      var respValue;
 
+      $httpBackend.expectGET(API.CAR.replace(':carId', id)).respond(200, carResponseSuccess);
       cars.getById(id).then(function(resp) {
-        expect(carResponseSuccess).toEqual(resp.data);
+        respValue = resp.data;
       });
 
       $httpBackend.flush();
+
+      expect(carResponseSuccess).toEqual(respValue);
     });
 
     it('should invoke GET car by id with error', function () {
-      $httpBackend.expectGET(API.CAR.replace(':carId', id)).respond(400, carsResponseError);
+      var reasonValue;
 
+      $httpBackend.expectGET(API.CAR.replace(':carId', id)).respond(400, carsResponseError);
       cars.getById(id).then(function() {}, function(reason) {
-        expect(carsResponseError).toEqual(reason.data);
+        reasonValue = reason.data;
       });
 
       $httpBackend.flush();
+
+      expect(carsResponseError).toEqual(reasonValue);
     });
 
   });
