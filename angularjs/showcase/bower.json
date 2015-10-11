@@ -18,14 +18,16 @@
   "dependencies": {
     "bootstrap": "~4.0.0-alpha",
     "font-awesome": "~4.4.0",
-    "oclazyload": "~1.0.5",
-    "angular-bootstrap": "~0.13.4",
-    "angular-translate": "~2.7.2",
+    "oclazyload": "~1.0.6",
+    "angular-animate": "~1.4.7",
+    "angular-bootstrap": "~0.14.0",
+    "angular-translate": "~2.8.1",
     "angular-ui-router": "~0.2.15",
-    "angular": "~1.4.5"
+    "angular": "~1.4.7"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.5"
+    "angular-mocks": "~1.4.7",
+    "marked": "~0.3.4"
   },
   "overrides": {
     "bootstrap": {

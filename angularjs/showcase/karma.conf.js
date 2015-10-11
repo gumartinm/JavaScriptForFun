@@ -26,10 +26,12 @@ module.exports = function(config) {
       'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/angular/angular.js',
       'bower_components/oclazyload/dist/ocLazyLoad.js',
+      'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-translate/angular-translate.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/marked/lib/marked.js',
       //endbower
       'src/showcase/app/**/*.module.js',
       'src/showcase/app/**/*.js',
