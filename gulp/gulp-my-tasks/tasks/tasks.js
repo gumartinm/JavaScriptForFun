@@ -351,7 +351,14 @@ module.exports = function(gulp, customConfig) {
     var options = {
       html5Mode: true,
       startPage: '/api/app',
-      title: pkg.description
+      title: pkg.description,
+      scripts: [
+        'bower_components/angular/angular.min.js',
+        'bower_components/angular/angular.min.js.map',
+        'bower_components/angular-animate/angular-animate.min.js',
+        'bower_components/angular-animate/angular-animate.min.js.map',
+        'bower_components/marked/lib/marked.js'
+      ]
     };
     return gulpDocs.sections({
       api: {
