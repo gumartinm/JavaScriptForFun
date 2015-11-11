@@ -191,7 +191,7 @@ module.exports = function(gulp, customConfig) {
 
     log('*** Building application for production - Optimizing assets - HTML,CSS,JS ***');
 
-    var assets = plugins.useref.assets({searchPath: './'});
+    var assets = plugins.useref({searchPath: './'});
     // Filters are named for the gulp-useref path
     var cssFilter = plugins.filter('**/*.css', {restore: true});
     var jsAppFilter = plugins.filter('**/app.min.js', {restore: true});
@@ -254,10 +254,6 @@ module.exports = function(gulp, customConfig) {
 
       // Take inventory of the file names for future rev numbers
       .pipe(plugins.rev())
-
-      // Apply the concat and file replacement with useref
-      .pipe(assets.restore())
-      .pipe(plugins.useref())
 
       // Replace the file names in the html with rev numbers
       .pipe(plugins.revReplace())
