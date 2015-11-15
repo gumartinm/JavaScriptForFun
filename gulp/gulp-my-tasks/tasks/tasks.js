@@ -56,12 +56,13 @@ module.exports = function(gulp, customConfig) {
         return "vet-js: " + filepath;
       })))
       .pipe(plugins.jshint(config.jsHintConfigurationFile))
-      .pipe(plugins.jshint.reporter('jshint-stylish', {verbose: true}))
-      .pipe(plugins.jshint.reporter('fail'))
       .pipe(plugins.jscs({
         configPath: config.jscsConfigurationFile,
         fix: false
-      }));
+      }))
+      .pipe(plugins.jscsStylish.combineWithHintResults())
+      .pipe(plugins.jshint.reporter('jshint-stylish', {verbose: true}))
+      .pipe(plugins.jshint.reporter('fail'));
   });
 
   /**
