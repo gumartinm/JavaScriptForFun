@@ -69,12 +69,12 @@
 
   "disallowMultipleLineBreaks": true,
 
-  "disallowCommaBeforeLineBreak": null,
-  "disallowDanglingUnderscores": null,
-  "disallowEmptyBlocks": null,
-  "disallowTrailingComma": null,
-  "requireCommaBeforeLineBreak": null,
-  "requireDotNotation": null,
-  "requireMultipleVarDecl": null,
+  "disallowCommaBeforeLineBreak": false,
+  "disallowDanglingUnderscores": false,
+  "disallowEmptyBlocks": true,
+  "disallowTrailingComma": true,
+  "requireCommaBeforeLineBreak": true,
+  "requireDotNotation": true,
+  "requireMultipleVarDecl": false,
   "requireParenthesesAroundIIFE": true
 }
