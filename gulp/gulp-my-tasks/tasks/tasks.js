@@ -53,7 +53,7 @@ module.exports = function(gulp, customConfig) {
 
     return gulp.src(config.jsAllFiles)
       .pipe(plugins.if(args.verbose, plugins.print(function(filepath) {
-        return "vet-js: " + filepath;
+        return 'vet-js: ' + filepath;
       })))
       .pipe(plugins.jshint(config.jsHintConfigurationFile))
       .pipe(plugins.jscs({
@@ -79,7 +79,7 @@ module.exports = function(gulp, customConfig) {
 
     return gulp.src(config.html)
       .pipe(plugins.if(args.verbose, plugins.print(function(filepath) {
-        return "vet-html: " + filepath;
+        return 'vet-html: ' + filepath;
       })))
       .pipe(plugins.htmlhint({htmlhintrc: config.htmlHintConfigurationFile}))
       .pipe(plugins.htmlhint.failReporter());
@@ -210,7 +210,7 @@ module.exports = function(gulp, customConfig) {
       // Get the css
       .pipe(cssFilter)
       .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
-      .pipe(plugins.minifyCss())
+      .pipe(plugins.cssnano())
       .pipe(plugins.if(args.verbose, plugins.bytediff.stop(byteDiffFormat)))
       .pipe(cssFilter.restore)
 
@@ -319,10 +319,10 @@ module.exports = function(gulp, customConfig) {
     return gulp
       .src(config.html)
       .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
-      .pipe(plugins.minifyHtml({
-        empty: true,
-        spare: true,
-        quotes: true
+      .pipe(plugins.htmlmin({
+        removeEmptyAttributes: false,
+        removeRedundantAttributes: false,
+        removeAttributeQuotes: false
       }))
       .pipe(plugins.if(args.verbose, plugins.bytediff.stop(byteDiffFormat)))
       .pipe(plugins.angularTemplatecache(config.templateFile, {
@@ -386,7 +386,7 @@ module.exports = function(gulp, customConfig) {
     return plugins.inject(
       gulp.src(source)
         .pipe(plugins.if(args.verbose, plugins.print(function(filepath) {
-          return "inject: " + filepath;
+          return 'inject: ' + filepath;
         })))
         .pipe(plugins.angularFilesort()), options);
   }
