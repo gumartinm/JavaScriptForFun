@@ -7,6 +7,9 @@ npm-debug.log
 # bower
 bower_components/
 
+# jspm
+jspm_packages/
+
 # gulp temporary folder
 .tmp/
 
