@@ -23,7 +23,7 @@
    * CarsController controller.
    */
   /* @ngInject */
-  function CarsController($modal, $timeout, cars) {
+  function CarsController($uibModal, $timeout, cars) {
     var vm = this;
 
     vm.example = {
@@ -94,7 +94,7 @@
     vm.doModal = function (size) {
       var cars = ['car1', 'car2', 'car3'];
       // The modalInstance object will be seen from here and it will also be injected in CarsErrorModal controller
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'app/cars/cars-error-modal.html',
         controller: 'CarsErrorModalController as vm',
