@@ -12,7 +12,10 @@
   "scripts": {
     "build": "tsc -w"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "express": "~4.13.4",
+    "express-http-proxy": "~0.6.0"
+  },
   "jspm": {
     "dependencies": {
       "angular2": "npm:angular2@^2.0.0-beta.3",
