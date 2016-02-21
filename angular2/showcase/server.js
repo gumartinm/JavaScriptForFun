@@ -15,7 +15,7 @@ switch (environment) {
   default:
     console.log('development mode');
 
-    app.use(express.static(currentDir + '/'));
+    app.use(express.static(currentDir + '/src/'));
 
     // Deep linking (exclude XHR requests)
     app.use('/((?!api)).*', express.static(currentDir + '/src/index.html'));
