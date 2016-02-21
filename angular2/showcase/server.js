@@ -5,7 +5,6 @@ var express = require('express');
 var app = express();
 var port = 9000;
 var environment = process.env.NODE_ENV;
-var verbose = process.env.VERBOSE;
 
 // Back-end server for XHR requests:
 var serverPort = '8080';
@@ -19,7 +18,7 @@ switch (environment) {
     app.use(express.static(currentDir + '/'));
 
     // Deep linking (exclude XHR requests)
-    app.use('/((?!api)).*', express.static(currentDir + '/index.html'));
+    app.use('/((?!api)).*', express.static(currentDir + '/src/index.html'));
     break;
 }
 
