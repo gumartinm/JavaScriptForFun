@@ -10,7 +10,7 @@
   "homepage": "http://gumartinm.name",
   "license": "Apache-2.0",
   "devDependencies": {
-    "gulp": "~3.9.0",
+    "gulp": "~3.9.1",
     "gulp-my-tasks": "~0.0.1"
   },
   "scripts": {
