@@ -1,0 +1,20 @@
+{
+  "name": "stomp",
+  "version": "0.0.1",
+  "description": "STOMP client example",
+  "author": {
+    "name": "Gustavo Martin Morcuende",
+    "email": "noemail@noemail.invalid",
+    "url": "http://gumartinm.name"
+  },
+  "homepage": "http://gumartinm.name",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "gulp": "~3.9.1",
+    "gulp-my-tasks": "~0.0.1"
+  },
+  "scripts": {
+    "test": "gulp test",
+    "postinstall": "bower install --force-latest"
+  }
+}

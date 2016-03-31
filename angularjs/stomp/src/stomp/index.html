@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>STOMP client with SockJS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+
+    <!--
+    * Using wiredep for filling up index.html file with bower dependencies (no devDependencies) by means of tags:
+    bower:css/bower:js/
+
+    * Using gulp-inject for filling up index.html file with the required files for this application by means of tags:
+    inject:css/inject:js/inject:templates:js
+
+    * Using gulp-useref for combining css and js files by means of the found tags in index.html file:
+    build:css/build:js/build:remove
+    -->
+
+    <!-- Vendor styles -->
+    <!-- build:css(.) styles/lib.min.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- Custom styles -->
+    <!-- build:css(.tmp) styles/app.min.css -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
+
+
+    <!-- Vendor JavaScript -->
+    <!-- build:js(.) js/lib.min.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/oclazyload/dist/ocLazyLoad.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/angular-translate/angular-translate.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/bower_components/sockjs/sockjs.js"></script>
+    <script src="/bower_components/stomp-websocket/lib/stomp.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+
+    <!-- Custom JavaScript -->
+    <!-- build:js(.) js/app.min.js -->
+    <!-- inject:js -->
+    <script src="/src/stomp/app/users/users.module.js"></script>
+    <script src="/src/stomp/app/users/users.route.js"></script>
+    <script src="/src/stomp/app/users/users.controller.js"></script>
+    <script src="/src/stomp/app/users/users.constants.js"></script>
+    <script src="/src/stomp/app/users/users-second-child.controller.js"></script>
+    <script src="/src/stomp/app/users/users-child.controller.js"></script>
+    <script src="/src/stomp/app/core/core.module.js"></script>
+    <script src="/src/stomp/app/app.module.js"></script>
+    <!-- endinject -->
+
+
+    <!-- AngularJS templates -->
+    <!-- inject:templates:js -->
+    <!-- endinject -->
+    <!-- endbuild -->
+  </head>
+
+
+  <body>
+
+    <!-- See: https://docs.angularjs.org/guide/bootstrap -->
+
+    <!-- Automatic initialization. Using strict dependency injection.
+
+         In my case title is not going to be changed from AngularJS, so ng-app is being used in body section
+         instead of html section (documentation recommends html section)
+
+         AngularJS will work with DOM elements under the div section where ng-app is declared.
+         This could be useful when using different frameworks in the same html application where one framework
+         works with some DOM elements and another framework works with other DOM elements.
+    -->
+    <!-- <div ng-app="app" ng-strict-di>
+        When using ng-strict-di we must manually identify dependencies.
+        For example, Welcome controller, if using strict mode, would require
+        Welcome.$inject = ['$location'];
+
+        Instead I am going to use @ngInject because it is cool.
+    -->
+    <div ng-app="app">
+      <div>
+        <ui-view>
+          <i>Hello World!!! You should never see this message if ui-router works as expected.</i>
+        </ui-view>
+      </div>
+    </div>
+
+    <!-- Manual initialization, instead of ng-app. It could be useful in case of loading more
+         than one AngularJS application (what is not usual) In my case I load just one, called 'app'.
+         I will always use strict dependency injection. Better instead, I use @ngInject!!!
+    <script>
+      (function() {
+        'use strict';
+
+        angular
+          .element(document)
+            .ready(function() {
+              angular.bootstrap(document.body, ['app'], {
+                strictDi: true
+              });
+            });
+      })();
+    </script>
+    -->
+
+  </body>
+
+</html>

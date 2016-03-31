@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<div class="container" ng-controller="UsersController as usersController">
+  <div>title = {{usersController.emitFact.title}}</div>
+  <div>fact = {{usersController.emitFact.fact}}</div>
+  <button type="button" class="btn btn-primary" ng-click="usersController.getRootScopeBroadcast()">
+    $rootScope.$broadcast
+  </button>
+
+  <button type="button" class="btn btn-primary" ng-click="usersController.getScopeBroadcast()">
+    $scope.$broadcast
+  </button>
+
+  <div class="container" ng-controller="UsersChildController as usersChildController">
+    <div>name = {{usersChildController.broadcastUser.name}}</div>
+    <div>lastname = {{usersChildController.broadcastUser.lastName}}</div>
+    <div>city = {{usersChildController.broadcastUser.city}}</div>
+
+    <button type="button" class="btn btn-primary" ng-click="usersChildController.getEmit()">
+      $scope.$emit fact
+    </button>
+    <br>
+    <button type="button" class="btn btn-primary" ng-click="usersChildController.broadcastToSencondChild()">
+      $scope.$broadcast and $rootScope.$broadcast to second child
+    </button>
+    <br><br>
+    <label>controller as, retrieving value from parent controller:</label>
+    <br>
+    <div>valueForChildControllers.variable = {{usersChildController.valueForChildControllers.variable}}</div>
+    <div>valueForChildControllers.value = {{usersChildController.valueForChildControllers.value}}</div>
+  </div>
+  <div class="container" ng-controller="UsersSecondChildController as usersSecondChildController">
+    <br>
+    <label>secondchild $scope.$on listening for $rootScope.$broadcast from UsersChildController:</label>
+    <br>
+    <div>name = {{usersSecondChildController.rootScopeBroadcastUser.name}}</div>
+    <div>lastname = {{usersSecondChildController.rootScopeBroadcastUser.lastName}}</div>
+    <div>city = {{usersSecondChildController.rootScopeBroadcastUser.city}}</div>
+
+    <br>
+    <label>secondchild $scope.$on listening for $scope.$broadcast from UsersChildController, same level never works:</label>
+    <br>
+    <div>name = {{usersSecondChildController.scopeBroadcastUser.name}}</div>
+    <div>lastname = {{usersSecondChildController.scopeBroadcastUser.lastName}}</div>
+    <div>city = {{usersSecondChildController.scopeBroadcastUser.city}}</div>
+
+  </div>
+
+</div>
