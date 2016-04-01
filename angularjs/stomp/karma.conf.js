@@ -30,6 +30,8 @@ module.exports = function(config) {
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-translate/angular-translate.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
+      'bower_components/sockjs/sockjs.js',
+      'bower_components/stomp-websocket/lib/stomp.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/marked/lib/marked.js',
       //endbower

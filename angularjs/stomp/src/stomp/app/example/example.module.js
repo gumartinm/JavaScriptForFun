@@ -3,17 +3,17 @@
 
   /**
    * @ngdoc overview
-   * @name app.users
+   * @name app.example
    *
    * @requires app.core
    *
    * @description
-   * # app.users
+   * # app.example
    *
-   * ## Module users.
-   * Module in charge of dealing with users.
+   * ## Module STOMP example.
+   * STOMP example
    */
-  angular.module('app.users', [
+  angular.module('app.example', [
     'app.core'
   ]);
 

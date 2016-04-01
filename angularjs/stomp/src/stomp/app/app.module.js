@@ -7,8 +7,7 @@
    * @name app
    *
    * @requires app.core
-   * @requires app.welcome
-   * @requires app.cars
+   * @requires app.users
    *
    * @description
    * # app
@@ -21,7 +20,7 @@
     'app.core',
 
     /* Feature areas */
-    'app.users'
+    'app.example'
   ]);
 
 }());

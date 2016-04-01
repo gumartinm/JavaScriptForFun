@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <title>STOMP-Example</title>
+</head>
+<body class="ng-scope" ng-app="stomp-ui" ng-controller="ExampleController as vm">
+
+<div class="sidebar">
+  <div class="box">
+    <span class="up">1. Connect</span>
+    <button class="up-right" ng-click="vm.connect()">Connect to Endpoint</button>
+
+    <label>
+      Endpoint:
+      <input value="http://localhost:8080" class="ng-pristine ng-untouched ng-valid" ng-model="vm.url" placeholder="url">
+    </label>
+    <hr>
+    <label>
+      Headers:
+      <textarea class="ng-pristine ng-valid ng-touched" ng-model="vm.connectHeaders" placeholder="headers">
+        {"login":"superadmin","passcode":"12345678"}
+      </textarea>
+    </label>
+  </div>
+  <div class="box">
+    <span class="up">2. Subscribe</span>
+    <button class="up-right" ng-click="vm.subscribe()">Subscribe to destination</button>
+
+    <label>
+      Queue:
+      <input value="/rpc/" class="ng-pristine ng-untouched ng-valid" ng-model="vm.clientDestination"
+             placeholder="Client-Destination">
+    </label><br>
+  </div>
+  <div class="box">
+    <span class="up">3. Send</span>
+    <button class="up-right" ng-click="vm.send()">Send message to server</button>
+
+    <label>
+      Server-Destination:
+      <input value="/dest" class="ng-pristine ng-untouched ng-valid" ng-model="vm.serverDestination" placeholder="channel">
+    </label>
+    <hr>
+    <label>
+      Body / Payload
+      <textarea ng-model="vm.payload" size="50" class="full ng-pristine ng-untouched ng-valid" placeholder="payload">
+        {"key":"value"}
+      </textarea>
+    </label>
+    <hr>
+    <label>
+      Headers
+      <textarea ng-model="vm.headers" size="50" class="full ng-pristine ng-untouched ng-valid" placeholder="headers">
+        {"rid": 1234}
+      </textarea>
+    </label>
+  </div>
+
+</div>
+
+<textarea id="log"></textarea>
+
+</body>
+
+</html>

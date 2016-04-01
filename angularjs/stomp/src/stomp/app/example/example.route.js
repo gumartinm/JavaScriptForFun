@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('app.users')
+    .module('app.example')
     .config(route);
 
   /**
    * @ngdoc service
-   * @name app.users.route
+   * @name app.example.route
    *
    * @requires $stateProvider
    * @requires $urlRouterProvider
@@ -20,15 +20,15 @@
    *
    *
    * @description
-   * Router configuration for users application.
+   * Router configuration for example application.
    */
   /* @ngInject */
   function route($stateProvider, $urlRouterProvider) {
-    var state = 'users';
+    var state = 'example';
     var config = {
       abstract: false,
-      url: '/users',
-      templateUrl: 'app/users/users.html'
+      url: '/example',
+      templateUrl: 'app/example/example.html'
     };
 
     $urlRouterProvider.otherwise(state);
