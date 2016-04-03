@@ -7,8 +7,7 @@
     .run('register', register);
 
   /* @ngInject */
-  function register(carsStub) {
-    carsStub.register();
+  function register() {
   }
 
 }());

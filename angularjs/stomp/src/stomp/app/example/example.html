@@ -1,67 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta charset="UTF-8">
-  <title>STOMP-Example</title>
-</head>
-<body class="ng-scope" ng-app="stomp-ui" ng-controller="ExampleController as vm">
-
-<div class="sidebar">
-  <div class="box">
-    <span class="up">1. Connect</span>
-    <button class="up-right" ng-click="vm.connect()">Connect to Endpoint</button>
+<div class="container" ng-controller="ExampleController as vm">
+  <div>
+    <span>1. Connect</span><br>
+    <button ng-click="vm.connect()">Connect to Endpoint</button>
+    <br>
 
     <label>
-      Endpoint:
-      <input value="http://localhost:8080" class="ng-pristine ng-untouched ng-valid" ng-model="vm.url" placeholder="url">
+      Endpoint:<br>
+      <input value="http://localhost:8080" ng-model="vm.url" placeholder="url">
     </label>
-    <hr>
+    <br>
     <label>
-      Headers:
-      <textarea class="ng-pristine ng-valid ng-touched" ng-model="vm.connectHeaders" placeholder="headers">
+      Headers:<br>
+      <textarea ng-model="vm.connectHeaders" placeholder="headers">
         {"login":"superadmin","passcode":"12345678"}
       </textarea>
     </label>
   </div>
-  <div class="box">
-    <span class="up">2. Subscribe</span>
-    <button class="up-right" ng-click="vm.subscribe()">Subscribe to destination</button>
+
+  <hr>
+
+  <div>
+    <span>2. Disconnect</span><br>
+    <button ng-click="vm.disconnect()">Disconnect from Endpoint</button>
+  </div>
+
+  <hr>
+
+  <div>
+    <span>3. Subscribe</span><br>
+    <button ng-click="vm.subscribe()">Subscribe to destination</button>
+    <br>
 
     <label>
-      Queue:
-      <input value="/rpc/" class="ng-pristine ng-untouched ng-valid" ng-model="vm.clientDestination"
-             placeholder="Client-Destination">
+      Queue:<br>
+      <input value="/rpc/" ng-model="vm.clientDestination" placeholder="Client-Destination">
     </label><br>
   </div>
-  <div class="box">
-    <span class="up">3. Send</span>
-    <button class="up-right" ng-click="vm.send()">Send message to server</button>
+
+  <hr>
+
+  <div>
+    <span>4. Send</span><br>
+    <button ng-click="vm.send()">Send message to server</button>
+    <br>
 
     <label>
-      Server-Destination:
-      <input value="/dest" class="ng-pristine ng-untouched ng-valid" ng-model="vm.serverDestination" placeholder="channel">
+      Server-Destination:<br>
+      <input value="/dest" ng-model="vm.serverDestination" placeholder="channel">
     </label>
-    <hr>
+    <br>
     <label>
-      Body / Payload
-      <textarea ng-model="vm.payload" size="50" class="full ng-pristine ng-untouched ng-valid" placeholder="payload">
+      Body / Payload:<br>
+      <textarea ng-model="vm.payload" size="50" placeholder="payload">
         {"key":"value"}
       </textarea>
     </label>
-    <hr>
+    <br>
     <label>
-      Headers
-      <textarea ng-model="vm.headers" size="50" class="full ng-pristine ng-untouched ng-valid" placeholder="headers">
+      Headers:<br>
+      <textarea ng-model="vm.headers" size="50" placeholder="headers">
         {"rid": 1234}
       </textarea>
     </label>
   </div>
 
+  <textarea id="log"></textarea>
+
 </div>
-
-<textarea id="log"></textarea>
-
-</body>
-
-</html>
