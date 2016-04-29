@@ -12,7 +12,8 @@
     <br>
     <label>
       Headers:<br>
-      <textarea ng-model="vm.connectHeaders" placeholder="headers">
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.connectHeaders" placeholder="headers">
         {"login":"superadmin","passcode":"12345678"}
       </textarea>
     </label>
@@ -35,7 +36,15 @@
     <label>
       Queue:<br>
       <input value="/rpc/" ng-model="vm.clientDestination" placeholder="Client-Destination">
-    </label><br>
+    </label>
+    <br>
+    <label>
+      Headers:<br>
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.subscribeHeaders" placeholder="headers">
+        {"rid": 1234}
+      </textarea>
+    </label>
   </div>
 
   <hr>
@@ -59,14 +68,16 @@
     <br>
     <label>
       Body / Payload:<br>
-      <textarea ng-model="vm.payload" size="50" placeholder="payload">
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.payload" placeholder="payload">
         {"key":"value"}
       </textarea>
     </label>
     <br>
     <label>
       Headers:<br>
-      <textarea ng-model="vm.headers" size="50" placeholder="headers">
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.sendHeaders" size="50" placeholder="headers">
         {"rid": 1234}
       </textarea>
     </label>

@@ -9,28 +9,41 @@
    * @ngdoc controller
    * @name app.example.controller:ExampleController
    *
-   * @requires $rootScope
-   * @requires $scope
+   * @requires $location
    *
    * <p>
    * <br>
-   * {@link https://docs.angularjs.org/api/ng/service/$rootScope $rootScope}
-   * {@link https://docs.angularjs.org/api/ng/type/$rootScope.Scope $scope}
+   * {@link https://docs.angularjs.org/api/ng/service/$location $location}
    * </p>
    *
    * @description
    * ExampleController controller.
    */
   /* @ngInject */
-  function ExampleController() {
+  function ExampleController($location) {
     var vm = this;
-
     var client;
     var subscription;
 
-    // vm.serverDestination = {};
-    // vm.payload = {};
-    // vm.headers = {};
+    vm.url = $location.protocol() + '://' + $location.host() + '/spring-stomp-server/portfolio';
+    vm.clientDestination = '/topic/greeting';
+    vm.serverDestination = '/app/greeting';
+    vm.connectHeaders = JSON.stringify({
+      login: 'mylogin',
+      passcode: 'mypasscode',
+      //  User defined headers
+      'client-id': 'gumartin-id'
+    }, null, 4);
+    //  User defined headers
+    vm.sendHeaders = JSON.stringify({
+      priority: 9
+    }, null, 4);
+    //  User defined headers
+    vm.subscribeHeaders = JSON.stringify({
+      id: 123456
+    }, null, 4);
+
+
 
     vm.connect = function () {
       // use SockJS implementation instead of the browser's native implementation
@@ -46,11 +59,11 @@
       client = Stomp.over(ws);
       client.heartbeat.outgoing = 20000; // client will send heartbeats every 20000ms
       client.heartbeat.incoming = 0;     // client does not want to receive heartbeats from the server
-      client.connect(vm.connectHeaders, connectCallback, errorCallback);
+      client.connect(JSON.parse(vm.connectHeaders), connectCallback, errorCallback);
     };
 
     vm.subscribe = function () {
-      subscription = client.subscribe(vm.clientDestination, subscribeCallback);
+      subscription = client.subscribe(vm.clientDestination, subscribeCallback, JSON.parse(vm.subscribeHeaders));
     };
 
     vm.unsubscribe = function () {
@@ -58,7 +71,7 @@
     };
 
     vm.send = function () {
-      client.send(vm.serverDestination, vm.headers, vm.payload);
+      client.send(vm.serverDestination, JSON.parse(vm.sendHeaders), vm.payload);
     };
 
     vm.disconnect = function() {
@@ -78,7 +91,7 @@
     function subscribeCallback(message) {
       // called when the client receives a STOMP message from the server
       if (message.body) {
-        alert('got message with body ' + message.body)
+        alert('got message with body ' + message.body);
       } else {
         alert('got empty message');
       }
