@@ -25,7 +25,7 @@
     var client;
     var subscription;
 
-    vm.url = $location.protocol() + '://' + $location.host() + '/spring-stomp-server/portfolio';
+    vm.url = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-full/fullportfolio';
     vm.clientDestination = '/topic/greeting';
     vm.serverDestination = '/app/greeting';
     vm.connectHeaders = JSON.stringify({
