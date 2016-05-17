@@ -10,12 +10,12 @@
     // Shared worker will be released once every tab using that worker is closed.
     // see: chrome://inspect/#workers
     var sharedWorker = new SharedWorker('shared.js', 'shared-worker-example');
+    sharedWorker.onerror = onError;
 
     var sendButton = document.getElementById('sendButton');
     sendButton.addEventListener('click', postMessage);
 
     messagePort = sharedWorker.port;
-    messagePort.onerror = onError;
     messagePort.onmessage = onMessage;
     // Starts the sending of messages queued on the port
     // (only needed when using EventTarget.addEventListener; it is implied when using MessagePort.onmessage.)
@@ -30,8 +30,8 @@
     log.insertAdjacentHTML('beforeend', 'Message posted to worker: ' + sendText.value + ' <br>');
   }
 
-  function onMessage(e) {
-    log.insertAdjacentHTML('beforeend', 'Message received from worker: ' + e.data + ' <br>');
+  function onMessage(event) {
+    log.insertAdjacentHTML('beforeend', 'Message received from worker: ' + event.data + ' <br>');
   }
 
   function onError() {
@@ -39,7 +39,7 @@
   }
 
   function close() {
-    // I think, calling close method is not required. Once all tabs are closed, shared worker will be released.
+    // When should I call close method?
     messagePort.close();
   }
 
