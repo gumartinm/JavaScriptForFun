@@ -3,27 +3,9 @@
 var lastData;
 var messagePorts = [];
 
-onconnect = function(event) {
+self.onconnect = function(event) {
   var messagePort = event.ports[0];
-  messagePort.onmessage = function(event) {
-
-    var workerResult;
-    if (lastData) {
-      workerResult = 'Result: ' + event.data + ' Last data: ' + lastData;
-    } else {
-      workerResult = 'Result: ' + event.data;
-    }
-    lastData = event.data;
-
-    console.log('SharedWorkerGlobalScope name: ' + name);
-    console.log('SharedWorkerGlobalScope location: ' + location);
-    console.log('SharedWorkerGlobalScope result: ' + event.data);
-
-    messagePorts.forEach(function (messagePort) {
-      messagePort.postMessage(workerResult);
-    });
-  };
-
+  messagePort.onmessage = onMessage;
   messagePorts.push(messagePort);
 
   // When and where should I call close method?
@@ -32,6 +14,24 @@ onconnect = function(event) {
 
 };
 
-onerror = function() {
-  console.log('SharedWorkerGlobalScope: There is an error with the shared worker!');
+self.onerror = function() {
+  self.console.log('SharedWorkerGlobalScope: There is an error with the shared worker!');
 };
+
+function onMessage(event) {
+  var workerResult;
+  if (lastData) {
+    workerResult = 'Result: ' + event.data + ' Last data: ' + lastData;
+  } else {
+    workerResult = 'Result: ' + event.data;
+  }
+  lastData = event.data;
+
+  self.console.log('SharedWorkerGlobalScope name: ' + self.name);
+  self.console.log('SharedWorkerGlobalScope location: ' + self.location);
+  self.console.log('SharedWorkerGlobalScope result: ' + event.data);
+
+  messagePorts.forEach(function (messagePort) {
+    messagePort.postMessage(workerResult);
+  });
+}

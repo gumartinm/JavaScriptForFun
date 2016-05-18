@@ -31,7 +31,11 @@
   }
 
   function onMessage(event) {
-    log.insertAdjacentHTML('beforeend', 'Message received from worker: ' + event.data + ' <br>');
+    if (event.data.error) {
+      log.insertAdjacentHTML('beforeend', 'Error received from worker: ' + event.data.error + ' <br>');
+    } else {
+      log.insertAdjacentHTML('beforeend', 'Message received from worker: ' + event.data + ' <br>');
+    }
   }
 
   function onError() {
