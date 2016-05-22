@@ -10,17 +10,19 @@
    * @name app.shared-stomp.sharedWorker
    *
    * @requires $window
+   * @requires $location
    *
    * <p>
    * <br>
    * {@link https://docs.angularjs.org/api/ng/service/$window $window} <br>
+   * {@link https://docs.angularjs.org/api/ng/service/$location $location}
    * </p>
    *
    * @description
    * sharedWorker service.
    */
   /* @ngInject */
-  function sharedWorker($window) {
+  function sharedWorker($window, $location) {
     var _messagePort;
     var _connectSuccessCallback;
     var _connectErrorCallback;
@@ -64,6 +66,7 @@
       var message = {
         command: 'connect',
         url: url,
+        urlImports: $location.protocol() + '://' + $location.host(),
         connectHeaders: connectHeaders
       };
 
@@ -151,16 +154,17 @@
   }
 
   function makeSharedWorker($window) {
+    var sharedWorkerName = 'shared-stomp';
     var sharedWorker;
 
     //Make sure blob and create object URL are supported
     if (workers && $window.Blob && $window.URL.createObjectURL) {
       //worker's string was loaded successfully
       var blob = new Blob([workers['shared.js']], {type: 'application/javascript'});
-      sharedWorker = new $window.SharedWorker($window.URL.createObjectURL(blob));
+      sharedWorker = new $window.SharedWorker($window.URL.createObjectURL(blob), sharedWorkerName);
     } else {
       //Fallback! Can be used for debugging purposes.
-      sharedWorker = new $window.SharedWorker('scripts/workers/shared.js');
+      sharedWorker = new $window.SharedWorker('scripts/workers/shared.js', sharedWorkerName);
     }
 
     return sharedWorker;

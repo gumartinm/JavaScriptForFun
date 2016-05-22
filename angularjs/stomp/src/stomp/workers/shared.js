@@ -1,8 +1,5 @@
 'use strict';
 
-importScripts('sockjs.js');
-importScripts('stomp.min.js');
-
 var messagePorts = [];
 var client;
 var subscription;
@@ -38,6 +35,7 @@ function postMessage(message) {
 function callCommand(data) {
   switch(data.command) {
     case 'connect':
+      doImports(data.urlImports);
       connect(data.url, data.connectHeaders);
       break;
     case 'subscribe':
@@ -114,4 +112,9 @@ function disconnectCallback() {
   postMessage({
     command: 'disconnectCallback'
   });
+}
+
+function doImports(url) {
+  importScripts(url + '/stomp/js/sockjs.js');
+  importScripts(url + '/stomp/js/stomp.min.js');
 }
