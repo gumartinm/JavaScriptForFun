@@ -24,7 +24,6 @@
   function SharedStompController($location, sharedWorker) {
     var vm = this;
 
-
     vm.url = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-full/fullportfolio';
     vm.clientDestination = '/topic/greeting';
     vm.serverDestination = '/app/greeting';
@@ -46,11 +45,11 @@
 
 
     vm.connect = function () {
-      sharedWorker.connect(JSON.parse(connectHeaders), connectSuccessCallback, connectErrorCallback);
+      sharedWorker.connect(vm.url, JSON.parse(vm.connectHeaders), connectSuccessCallback, connectErrorCallback);
     };
 
     vm.subscribe = function () {
-      sharedWorker.subscribe(clientDestination, subscribeCallback, JSON.parse(subscribeHeaders));
+      sharedWorker.subscribe(vm.clientDestination, subscribeCallback, JSON.parse(subscribeHeaders));
     };
 
     vm.unSubscribe = function () {
