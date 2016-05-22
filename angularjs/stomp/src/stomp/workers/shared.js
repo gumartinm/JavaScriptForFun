@@ -1,7 +1,7 @@
 'use strict';
 
-importScripts('/bower_components/sockjs/sockjs.js');
-importScripts('/bower_components/stomp-websocket/lib/stomp.min.js');
+importScripts('sockjs.js');
+importScripts('stomp.min.js');
 
 var messagePorts = [];
 var client;

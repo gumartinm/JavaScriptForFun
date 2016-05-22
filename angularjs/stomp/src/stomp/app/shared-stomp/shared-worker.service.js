@@ -38,13 +38,12 @@
     };
 
     function init() {
-      if (!!$window.SharedWorker) {
-        var sharedWorker = new $window.SharedWorker('scripts/workers/shared.js');
-        _messagePort = sharedWorker.port;
-        _messagePort.onmessage = onMessage;
-      } else {
+      if (!$window.SharedWorker) {
         throw new Error('Shared Web Workers not supported. Try with a modern browser');
       }
+      var sharedWorker = makeSharedWorker($window);
+      _messagePort = sharedWorker.port;
+      _messagePort.onmessage = onMessage;
     }
 
     /**
@@ -149,6 +148,22 @@
       }
 
     }
+  }
+
+  function makeSharedWorker($window) {
+    var sharedWorker;
+
+    //Make sure blob and create object URL are supported
+    if (workers && $window.Blob && $window.URL.createObjectURL) {
+      //worker's string was loaded successfully
+      var blob = new Blob([workers['shared.js']], {type: 'application/javascript'});
+      sharedWorker = new $window.SharedWorker($window.URL.createObjectURL(blob));
+    } else {
+      //Fallback! Can be used for debugging purposes.
+      sharedWorker = new $window.SharedWorker('scripts/workers/shared.js');
+    }
+
+    return sharedWorker;
   }
 
 }());
