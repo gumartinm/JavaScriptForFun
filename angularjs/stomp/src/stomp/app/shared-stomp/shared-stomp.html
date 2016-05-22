@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<div class="container" ng-controller="ExampleController as vm">
+  <div>
+    <span>1. Connect</span><br>
+    <button ng-click="vm.connect()">Connect to Endpoint</button>
+    <br>
+
+    <label>
+      Endpoint:<br>
+      <input value="http://localhost:8080" ng-model="vm.url" placeholder="url">
+    </label>
+    <br>
+    <label>
+      Headers:<br>
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.connectHeaders" placeholder="headers">
+        {"login":"superadmin","passcode":"12345678"}
+      </textarea>
+    </label>
+  </div>
+
+  <hr>
+
+  <div>
+    <span>2. Disconnect</span><br>
+    <button ng-click="vm.disconnect()">Disconnect from Endpoint</button>
+  </div>
+
+  <hr>
+
+  <div>
+    <span>3. Subscribe</span><br>
+    <button ng-click="vm.subscribe()">Subscribe to destination</button>
+    <br>
+
+    <label>
+      Queue:<br>
+      <input value="/rpc/" ng-model="vm.clientDestination" placeholder="Client-Destination">
+    </label>
+    <br>
+    <label>
+      Headers:<br>
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.subscribeHeaders" placeholder="headers">
+        {"rid": 1234}
+      </textarea>
+    </label>
+  </div>
+
+  <hr>
+
+  <div>
+    <span>4. Unsubscribe</span><br>
+    <button ng-click="vm.unSubscribe()">Unsubscribe from destination</button>
+  </div>
+
+  <hr>
+
+  <div>
+    <span>5. Send</span><br>
+    <button ng-click="vm.send()">Send message to server</button>
+    <br>
+
+    <label>
+      Server-Destination:<br>
+      <input value="/dest" ng-model="vm.serverDestination" placeholder="channel">
+    </label>
+    <br>
+    <label>
+      Body / Payload:<br>
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.payload" placeholder="payload">
+        {"key":"value"}
+      </textarea>
+    </label>
+    <br>
+    <label>
+      Headers:<br>
+      <textarea style="width: 200%; border: none" auto-height
+                ng-model="vm.sendHeaders" size="50" placeholder="headers">
+        {"rid": 1234}
+      </textarea>
+    </label>
+  </div>
+
+  <textarea id="log"></textarea>
+
+</div>

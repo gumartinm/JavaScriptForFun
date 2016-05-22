@@ -21,7 +21,8 @@
     'app.widgets',
 
     /* Feature areas */
-    'app.example'
+    'app.example',
+    'app.shared-stomp'
   ]);
 
 }());
