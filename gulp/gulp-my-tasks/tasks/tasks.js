@@ -188,7 +188,7 @@ module.exports = function(gulp, customConfig) {
    *
    * @returns {stream} The stream.
    */
-  gulp.task('build', ['wireup', 'templatecache'], function() {
+  gulp.task('build', ['wireup', 'templatecache', 'workers'], function() {
 
     log('*** Building application for production - Optimizing assets - HTML,CSS,JS ***');
 
@@ -198,11 +198,15 @@ module.exports = function(gulp, customConfig) {
     var jsAppFilter = plugins.filter('**/app.min.js', {restore: true});
     var jslibFilter = plugins.filter('**/lib.min.js', {restore: true});
     var templateCache = config.temp + config.templateFile;
+    var workersFile = config.temp + config.workersFile;
 
     return gulp.src(config.index)
 
       // Inject templates
       .pipe(inject(templateCache, 'templates'))
+
+      // Inject workers
+      .pipe(inject(workersFile, 'workers'))
 
       // Gather all assets from the html with useref
       .pipe(assets)
@@ -365,6 +369,29 @@ module.exports = function(gulp, customConfig) {
       }})
       .pipe(gulpDocs.process(options))
       .pipe(gulp.dest('./docs'));
+  });
+
+  /**
+   * @ngdoc function
+   *
+   * @description
+   * Inline workers and shared workers
+   *
+   * @returns {stream}
+   */
+  gulp.task('workers', function() {
+
+    log('*** Inline workers or shared workers ***');
+
+    return gulp
+      .src(config.jsFilesWorkers)
+      .pipe(plugins.contentToVariable({
+        variableName: 'workers',
+        asMap: true
+      }))
+      .pipe(plugins.rename(config.workersFile))
+      .pipe(gulp.dest(config.temp));;
+
   });
 
   /**

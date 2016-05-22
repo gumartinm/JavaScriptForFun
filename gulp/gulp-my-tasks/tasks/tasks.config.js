@@ -25,6 +25,9 @@ module.exports = function() {
     jsFilesStubs: [
       main + 'stubs/**/*.js'
     ],
+    jsFilesWorkers: [
+      main + 'workers/**/*.js'
+    ],
     index: main + 'index.html',
     jsHintConfigurationFile: $.path.join(__dirname, '.jshintrc'),
     jscsConfigurationFile: $.path.join(__dirname, '.jscsrc'),
@@ -38,6 +41,7 @@ module.exports = function() {
 
     html: app + '**/*.html',
     templateFile: 'templates.js',
+    workersFile: 'workers.js',
 
     temp: './.tmp/',
 
