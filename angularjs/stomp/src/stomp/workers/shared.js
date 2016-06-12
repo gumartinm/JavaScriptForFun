@@ -18,8 +18,18 @@ self.onconnect = function(event) {
   // SharedWorker doesn't have close method but SharedWorkerGlobalScope has one :(
 };
 
-self.onerror = function() {
+self.onerror = function (msg, url, lineNo, columnNo, error) {
+  var string = msg.toLowerCase();
+  var substring = 'script error';
+
   self.console.log('SharedWorkerGlobalScope: There is an error with the shared worker!');
+  if (string.indexOf(substring) > -1) {
+    self.console.log('Script Error: See Browser Console for Detail');
+  } else {
+    self.console.log(msg, url, lineNo, columnNo, error);
+  }
+
+  return false;
 };
 
 function onMessage(event) {
@@ -69,7 +79,7 @@ function connect(url, connectHeaders) {
   client = Stomp.over(ws);
   client.heartbeat.outgoing = 20000; // client will send heartbeats every 20000ms
   client.heartbeat.incoming = 20000;     // client does not want to receive heartbeats from the server
-  client.connect(JSON.parse(connectHeaders), connectSuccessCallback, connectErrorCallback);
+  client.connect(connectHeaders, connectSuccessCallback, connectErrorCallback);
 }
 
 function subscribe(clientDestination, subscribeHeaders) {
