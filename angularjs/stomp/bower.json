@@ -25,7 +25,7 @@
     "angular-ui-router": "~0.3.0",
     "angular": "~1.5.5",
     "sockjs-client": "~1.1.1",
-    "stomp-websocket": "~2.3.4"
+    "stomp-websocket": "git://github.com/gumartinm/stomp-websocket.git"
 
   },
   "devDependencies": {
