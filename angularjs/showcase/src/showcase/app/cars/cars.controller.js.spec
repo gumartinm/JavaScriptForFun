@@ -19,9 +19,9 @@ describe('app.cars', function() {
   beforeEach(function() {
     module('app.cars');
 
-    inject(function($controller, $modal, $timeout, _$q_) {
+    inject(function($controller, $uibModal, $timeout, _$q_) {
       CarsController = $controller('CarsController', {
-        $modal: $modal,
+        $uibModal: $uibModal,
         $timeout: $timeout,
         cars: cars
       });
@@ -117,8 +117,8 @@ describe('app.cars', function() {
         })
     }
   };
-  var $modal = {
-    open: jasmine.createSpy('$modal.open')
+  var $uibModal = {
+    open: jasmine.createSpy('$uibModal.open')
       .and.callFake(function() {
         return $modalInstance;
       })
@@ -132,7 +132,7 @@ describe('app.cars', function() {
 
     inject(function($controller, _$timeout_, _$q_) {
       CarsController = $controller('CarsController', {
-        $modal: $modal,
+        $uibModal: $uibModal,
         $timeout: _$timeout_,
         cars: cars
       });
@@ -170,7 +170,7 @@ describe('app.cars', function() {
 
       CarsController.doModal('lg');
 
-      expect($modal.open).toHaveBeenCalled();
+      expect($uibModal.open).toHaveBeenCalled();
     });
 
     it('should invoke $modalInstance.result with success', function () {
@@ -268,10 +268,10 @@ describe('app.cars', function() {
   beforeEach(function() {
     module('app.cars');
 
-    inject(function($controller, $modal, $timeout, _$q_, _$rootScope_, _cars_) {
+    inject(function($controller, $uibModal, $timeout, _$q_, _$rootScope_, _cars_) {
       cars = _cars_;
       CarsController = $controller('CarsController', {
-        $modal: $modal,
+        $uibModal: $uibModal,
         $timeout: $timeout,
         cars: cars
       });
