@@ -37,6 +37,7 @@ module.exports = function(config) {
       //endbower
       'src/showcase/app/**/*.module.js',
       'src/showcase/app/**/*.js',
+      'src/showcase/app/**/*.js.spec',
       '.tmp/templates.js'
     ],
 
