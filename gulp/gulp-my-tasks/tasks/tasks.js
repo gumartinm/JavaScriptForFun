@@ -197,6 +197,7 @@ module.exports = function(gulp, customConfig) {
     var cssFilter = plugins.filter('**/*.css', {restore: true});
     var jsAppFilter = plugins.filter('**/app.min.js', {restore: true});
     var jslibFilter = plugins.filter('**/lib.min.js', {restore: true});
+    var indexHtmlFilter = plugins.filter(['**/*', '!**/index.html'], { restore: true });
     var templateCache = config.temp + config.templateFile;
     var workersFile = config.temp + config.workersFile;
 
@@ -258,7 +259,9 @@ module.exports = function(gulp, customConfig) {
       .pipe(jslibFilter.restore)
 
       // Take inventory of the file names for future rev numbers
+      .pipe(indexHtmlFilter)
       .pipe(plugins.rev())
+      .pipe(indexHtmlFilter.restore)
 
       // Replace the file names in the html with rev numbers
       .pipe(plugins.revReplace())
