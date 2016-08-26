@@ -7,7 +7,9 @@
 
     <label>
       Endpoint:<br>
-      <input value="http://localhost:8080" ng-model="vm.url" placeholder="url">
+      <textarea style="width: 200%; border: none">{{vm.endpointSimple}}</textarea><br>
+      <textarea style="width: 200%; border: none">{{vm.endpointFull}}</textarea><br>
+      <input value="http://localhost:8080" ng-model="vm.url" placeholder="url"/>
     </label>
     <br>
     <label>
@@ -35,7 +37,7 @@
 
     <label>
       Queue:<br>
-      <input value="/rpc/" ng-model="vm.clientDestination" placeholder="Client-Destination">
+      <input value="/rpc/" ng-model="vm.clientDestination" placeholder="Client-Destination"/>
     </label>
     <br>
     <label>
@@ -63,7 +65,7 @@
 
     <label>
       Server-Destination:<br>
-      <input value="/dest" ng-model="vm.serverDestination" placeholder="channel">
+      <input value="/dest" ng-model="vm.serverDestination" placeholder="channel"/>
     </label>
     <br>
     <label>
@@ -83,6 +85,13 @@
     </label>
   </div>
 
-  <textarea id="log"></textarea>
-
+  <div>
+    <br>
+    <label>
+      Output Debug:<br>
+      <textarea id="log" style="width: 200%; border: none" auto-height placeholder="log">
+        {{vm.debugLog}}
+      </textarea>
+    </label>
+  </div>
 </div>

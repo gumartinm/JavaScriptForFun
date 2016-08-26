@@ -25,7 +25,9 @@
     var client;
     var subscription;
 
-    vm.url = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-full/fullportfolio';
+    vm.endpointSimple = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-simple/portfolio';
+    vm.endpointFull = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-full/fullportfolio';
+    vm.url = vm.endpointSimple;
     vm.clientDestination = '/topic/greeting';
     vm.serverDestination = '/app/greeting';
     vm.connectHeaders = JSON.stringify({
@@ -46,6 +48,7 @@
 
 
     vm.connect = function () {
+      vm.debugLog = '';
       // use SockJS implementation instead of the browser's native implementation
       var options = {
         debug: true,
@@ -58,7 +61,8 @@
       var ws = new SockJS(vm.url, undefined, options);
       client = Stomp.over(ws);
       client.heartbeat.outgoing = 20000; // client will send heartbeats every 20000ms
-      client.heartbeat.incoming = 0;     // client does not want to receive heartbeats from the server
+      client.heartbeat.incoming = 20000; // server will send heartbeats every 20000ms
+      client.debug = stompClientDebug;
       client.connect(JSON.parse(vm.connectHeaders), connectCallback, errorCallback);
     };
 
@@ -85,7 +89,11 @@
 
     function errorCallback(error) {
       // display the error's message header:
-      alert(error.headers.message);
+      if (error.headers) {
+        alert(error.headers.message);
+      } else {
+        alert(error);
+      }
     }
 
     function subscribeCallback(message) {
@@ -99,6 +107,10 @@
 
     function disconnectCallback() {
       alert('See you next time!');
+    }
+
+    function stompClientDebug(string) {
+        vm.debugLog = vm.debugLog + string + '\n';
     }
   }
 
