@@ -89,20 +89,12 @@
 
     function errorCallback(error) {
       // display the error's message header:
-      if (error.headers) {
-        alert(error.headers.message);
-      } else {
-        alert(error);
-      }
+      alert('error call back: \n' + JSON.stringify(error, null, 4));
     }
 
     function subscribeCallback(message) {
       // called when the client receives a STOMP message from the server
-      if (message.body) {
-        alert('got message with body ' + message.body);
-      } else {
-        alert('got empty message');
-      }
+      alert('subscribe message: \n' + JSON.stringify(message, null, 4));
     }
 
     function disconnectCallback() {
