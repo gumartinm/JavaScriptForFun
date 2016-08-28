@@ -24,7 +24,9 @@
   function SharedStompController($location, sharedWorker) {
     var vm = this;
 
-    vm.url = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-full/fullportfolio';
+    vm.endpointSimple = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-simple/portfolio';
+    vm.endpointFull = $location.protocol() + '://' + $location.host() + '/spring-stomp-server-full/fullportfolio';
+    vm.url = vm.endpointSimple;
     vm.clientDestination = '/topic/greeting';
     vm.serverDestination = '/app/greeting';
     vm.connectHeaders = JSON.stringify({
@@ -42,14 +44,12 @@
       id: 123456
     }, null, 4);
 
-
-
     vm.connect = function () {
       sharedWorker.connect(vm.url, JSON.parse(vm.connectHeaders), connectSuccessCallback, connectErrorCallback);
     };
 
     vm.subscribe = function () {
-      sharedWorker.subscribe(vm.clientDestination, subscribeCallback, JSON.parse(subscribeHeaders));
+      sharedWorker.subscribe(vm.clientDestination, subscribeCallback, JSON.parse(vm.subscribeHeaders));
     };
 
     vm.unSubscribe = function () {
@@ -69,18 +69,14 @@
       alert('got connection');
     }
 
-    function connectErrorCallback(error) {
+    function connectErrorCallback(jsonConnectErrorAsString) {
       // display the error's message header:
-      alert(error.headers.message);
+      alert('error call back: \n' + jsonConnectErrorAsString);
     }
 
-    function subscribeCallback(message) {
+    function subscribeCallback(jsonMessageAsString) {
       // called when the client receives a STOMP message from the server
-      if (message.body) {
-        alert('got message with body ' + message.body);
-      } else {
-        alert('got empty message');
-      }
+      alert('subscribe message: \n' + jsonMessageAsString);
     }
 
     function disconnectCallback() {

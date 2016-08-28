@@ -3,6 +3,7 @@
 var messagePorts = [];
 var client;
 var subscription;
+var isConnected = false;
 
 self.onconnect = function(event) {
   var messagePort = event.ports[0];
@@ -66,6 +67,12 @@ function callCommand(data) {
 }
 
 function connect(url, connectHeaders) {
+  if (!isConnected) {
+    doConnect(url, connectHeaders)
+  }
+}
+
+function doConnect(url, connectHeaders) {
   var options = {
     debug: true,
     devel: true,
@@ -78,12 +85,13 @@ function connect(url, connectHeaders) {
   var ws = new SockJS(url, undefined, options);
   client = Stomp.over(ws);
   client.heartbeat.outgoing = 20000; // client will send heartbeats every 20000ms
-  client.heartbeat.incoming = 20000;     // client does not want to receive heartbeats from the server
+  client.heartbeat.incoming = 20000; // server will send heartbeats every 20000ms
+  client.debug = stompClientDebug;
   client.connect(connectHeaders, connectSuccessCallback, connectErrorCallback);
 }
 
 function subscribe(clientDestination, subscribeHeaders) {
-  subscription = client.subscribe(clientDestination, subscribeCallback, JSON.parse(subscribeHeaders));
+  subscription = client.subscribe(clientDestination, subscribeCallback, subscribeHeaders);
 }
 
 function unSubscribe() {
@@ -91,7 +99,7 @@ function unSubscribe() {
 }
 
 function send(serverDestination, sendHeaders, payload) {
-  client.send(serverDestination, JSON.parse(sendHeaders), payload);
+  client.send(serverDestination, sendHeaders, payload);
 }
 
 function disconnect() {
@@ -99,29 +107,38 @@ function disconnect() {
 }
 
 function connectSuccessCallback() {
+  isConnected = true;
   postMessage({
     command: 'connectSuccessCallback'
   });
 }
 
 function connectErrorCallback(error) {
+  isConnected = false;
+  var jsonConnectErrorAsString = JSON.stringify(error, null, 4);
   postMessage({
     command: 'connectErrorCallback',
-    connectError: error
+    jsonConnectErrorAsString: jsonConnectErrorAsString
   });
 }
 
 function subscribeCallback(message) {
+  var jsonMessageAsString = JSON.stringify(message, null, 4);
   postMessage({
     command: 'subscribeCallback',
-    message: message
+    jsonMessageAsString: jsonMessageAsString
   });
 }
 
 function disconnectCallback() {
+  isConnected = false;
   postMessage({
     command: 'disconnectCallback'
   });
+}
+
+function stompClientDebug(string) {
+  self.console.log(string);
 }
 
 function doImports(url) {

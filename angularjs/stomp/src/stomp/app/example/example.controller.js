@@ -45,8 +45,6 @@
       id: 123456
     }, null, 4);
 
-
-
     vm.connect = function () {
       vm.debugLog = '';
       // use SockJS implementation instead of the browser's native implementation
@@ -102,7 +100,7 @@
     }
 
     function stompClientDebug(string) {
-        vm.debugLog = vm.debugLog + string + '\n';
+      vm.debugLog = vm.debugLog + string + '\n';
     }
   }
 

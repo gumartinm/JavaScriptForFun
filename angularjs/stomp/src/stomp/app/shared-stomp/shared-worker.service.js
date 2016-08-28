@@ -138,10 +138,10 @@
           _connectSuccessCallback();
           break;
         case 'connectErrorCallback':
-          _connectErrorCallback(data.connectError);
+          _connectErrorCallback(data.jsonConnectErrorAsString);
           break;
         case 'subscribeCallback':
-          _subscribeCallback(data.message);
+          _subscribeCallback(data.jsonMessageAsString);
           break;
         case 'disconnectCallback':
           _disconnectCallback();
