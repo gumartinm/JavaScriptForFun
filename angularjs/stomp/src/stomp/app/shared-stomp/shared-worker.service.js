@@ -72,7 +72,7 @@
 
       _connectSuccessCallback = connectSuccessCallback;
       _connectErrorCallback = connectErrorCallback;
-      _messagePort.postMessage(message);
+      doPostMessage(message);
     }
 
     function subscribe(clientDestination, subscribeCallback, subscribeHeaders) {
@@ -83,7 +83,7 @@
       };
 
       _subscribeCallback = subscribeCallback;
-      _messagePort.postMessage(message);
+      doPostMessage(message);
     }
 
     function unSubscribe() {
@@ -91,7 +91,7 @@
         command: 'unSubscribe'
       };
 
-      _messagePort.postMessage(message);
+      doPostMessage(message);
     }
 
     function send(serverDestination, sendHeaders, payload) {
@@ -102,7 +102,7 @@
         payload: payload
       };
 
-      _messagePort.postMessage(message);
+      doPostMessage(message);
     }
 
     function disconnect(disconnectCallback) {
@@ -111,15 +111,18 @@
       };
 
       _disconnectCallback = disconnectCallback;
-      _messagePort.postMessage(message);
+      doPostMessage(message);
     }
 
+    function doPostMessage(message) {
+      _messagePort.postMessage(JSON.stringify(message, null, 4));
+    }
 
     function onMessage(event) {
       if (event.data.error) {
         // Error
       } else {
-        callBack(event.data);
+        callBack(JSON.parse(event.data));
       }
     }
     // var send {
@@ -128,20 +131,19 @@
     // }
     // var result {
     //     command:
-    //     connectError:
+    //     error:
     //     message:
     // };
     function callBack(data) {
-
       switch(data.command) {
         case 'connectSuccessCallback':
           _connectSuccessCallback();
           break;
         case 'connectErrorCallback':
-          _connectErrorCallback(data.jsonConnectErrorAsString);
+          _connectErrorCallback(data.error);
           break;
         case 'subscribeCallback':
-          _subscribeCallback(data.jsonMessageAsString);
+          _subscribeCallback(data.message);
           break;
         case 'disconnectCallback':
           _disconnectCallback();

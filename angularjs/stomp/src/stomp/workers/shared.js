@@ -34,12 +34,13 @@ self.onerror = function (msg, url, lineNo, columnNo, error) {
 };
 
 function onMessage(event) {
-  callCommand(event.data);
+  callCommand(JSON.parse(event.data));
 }
 
 function postMessage(message) {
+  var jsonMessageAsString = JSON.stringify(message, null, 4);
   messagePorts.forEach(function (messagePort) {
-    messagePort.postMessage(message);
+    messagePort.postMessage(jsonMessageAsString);
   });
 }
 
@@ -115,18 +116,16 @@ function connectSuccessCallback() {
 
 function connectErrorCallback(error) {
   isConnected = false;
-  var jsonConnectErrorAsString = JSON.stringify(error, null, 4);
   postMessage({
     command: 'connectErrorCallback',
-    jsonConnectErrorAsString: jsonConnectErrorAsString
+    error: error
   });
 }
 
 function subscribeCallback(message) {
-  var jsonMessageAsString = JSON.stringify(message, null, 4);
   postMessage({
     command: 'subscribeCallback',
-    jsonMessageAsString: jsonMessageAsString
+    message: message
   });
 }
 

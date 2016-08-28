@@ -69,14 +69,14 @@
       alert('got connection');
     }
 
-    function connectErrorCallback(jsonConnectErrorAsString) {
+    function connectErrorCallback(error) {
       // display the error's message header:
-      alert('error call back: \n' + jsonConnectErrorAsString);
+      alert('error call back: \n' + JSON.stringify(error, null, 4));
     }
 
-    function subscribeCallback(jsonMessageAsString) {
+    function subscribeCallback(message) {
       // called when the client receives a STOMP message from the server
-      alert('subscribe message: \n' + jsonMessageAsString);
+      alert('subscribe message: \n' + JSON.stringify(message, null, 4));
     }
 
     function disconnectCallback() {
