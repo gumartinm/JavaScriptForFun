@@ -43,7 +43,7 @@
       if (!$window.SharedWorker) {
         throw new Error('Shared Web Workers not supported. Try with a modern browser');
       }
-      var sharedWorker = makeSharedWorker($window);
+      var sharedWorker = makeWorker($window);
       _messagePort = sharedWorker.port;
       _messagePort.onmessage = onMessage;
     }
@@ -155,7 +155,19 @@
     }
   }
 
-  function makeSharedWorker($window) {
+  /**
+   * @ngdoc method
+   * @name  makeWorker
+   * @methodOf app.shared-stomp.makeWorker
+   *
+   * @description
+   * Creates WORKER. IT DOES NOT WORK WITH SHARED WORKERS!!!! NO WAY OF USING SHARED WORKERS
+   * IN A PAINLESS WAY!!!! SO, THIS APPLICATION DOES NOT WORK YET WITH SHARED WORKERS :(
+   *
+   * @param {object} $window
+   *
+   */
+  function makeWorker($window) {
     var sharedWorkerName = 'shared-stomp';
     var sharedWorker;
 
