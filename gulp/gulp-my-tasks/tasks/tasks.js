@@ -384,7 +384,7 @@ module.exports = function(gulp, customConfig) {
    */
   gulp.task('workers', function() {
 
-    log('*** Inline workers or shared workers ***');
+    log('*** Inline workers ***');
 
     return gulp
       .src(config.jsFilesWorkers)
