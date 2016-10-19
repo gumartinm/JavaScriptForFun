@@ -54,12 +54,14 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
+    // - /mnt/chrome/chrome/chromium/src/out/Debug/karma-launcher.sh  (chromium headless, compiled by me)
     browsers: [
-      'PhantomJS'
+        '/mnt/chrome/chrome/chromium/src/out/Debug/karma-launcher.sh'
     ],
 
     // Which plugins to enable
     plugins: [
+      'karma-script-launcher',
       'karma-phantomjs-launcher',
       'karma-jasmine',
       'karma-coverage',
