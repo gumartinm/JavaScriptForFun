@@ -393,7 +393,7 @@ module.exports = function(gulp, customConfig) {
         asMap: true
       }))
       .pipe(plugins.rename(config.workersFile))
-      .pipe(gulp.dest(config.temp));;
+      .pipe(gulp.dest(config.temp));
 
   });
 
@@ -484,6 +484,7 @@ module.exports = function(gulp, customConfig) {
       log('Karma completed');
       log('Karma: tests exited with code ' + result);
       done();
+      process.exit(result);
     }
   }
 

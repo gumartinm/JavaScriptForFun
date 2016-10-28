@@ -51,6 +51,7 @@
     "karma-jasmine": "~1.0.2",
     "karma-junit-reporter": "~1.0.0",
     "karma-phantomjs-launcher": "~1.0.0",
+    "karma-script-launcher": "~1.0.0",
     "morgan": "~1.7.0",
     "phantomjs": "~2.1.7",
     "phantomjs-prebuilt": "~2.1.7",
