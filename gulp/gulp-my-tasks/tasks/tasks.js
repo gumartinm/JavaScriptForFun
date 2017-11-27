@@ -228,7 +228,7 @@ module.exports = function(gulp, customConfig) {
         //jscs:enable
         add: true
       }))
-      .pipe(plugins.uglify({
+      .pipe(plugins.uglifyEs.default({
         compress: {
           //jscs:disable
           drop_console: true, // jshint ignore:line
@@ -248,7 +248,7 @@ module.exports = function(gulp, customConfig) {
       // Get the vendor javascript
       .pipe(jslibFilter)
       .pipe(plugins.if(args.verbose, plugins.bytediff.start()))
-      .pipe(plugins.uglify({
+      .pipe(plugins.uglifyEs.default({
         output: {
           //jscs:disable
           quote_style: 3 // jshint ignore:line
