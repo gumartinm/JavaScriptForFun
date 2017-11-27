@@ -23,6 +23,7 @@
    */
   /* @ngInject */
   function cars($http, $q, API) {
+    const gustavo = 'Mola';
     var expectedValue;
 
     return {
@@ -42,6 +43,7 @@
      * @returns {Promise} Promise that will be resolved or rejected when $http responds.
      */
     function getAll() {
+      // var multiply = (x, y) => { return x * y; };
       return $http.get(API.CARS)
         // a) Using success and error from promise. They are deprecated because it is not the ES6 way. DO NOT USE THEM!
         //    https://github.com/angular/angular.js/commit/a8f7e9cfde82ed7eaba3a868d8acafdf57f2d76f
