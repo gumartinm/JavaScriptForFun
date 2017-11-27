@@ -41,8 +41,20 @@
       // What means, max will become a property of this/vm and we could get rid of scope/$scope.
       // THIS WORKS ONLY WHEN USING controllerAs IN DIRECTIVES!!!
       bindToController: {
-        max: '='
+        max: '=?'
       }
+      // Only with '=', (without '=?') I see the following error:
+      // Error: [$compile:nonassign] Expression 'undefined' in attribute 'max' used with directive
+      //        'controllerAsDirective' is non-assignable!
+      // Explanation:
+      // All 4 kinds of bindings (@, =, <, and &) can be made optional by adding ? to the expression.
+      // The marker must come after the mode and before the attribute name.
+      // See the Invalid Isolate Scope Definition error for definition examples.
+      // This is useful to refine the interface directives provide.
+      // One subtle difference between optional and non-optional happens when the binding attribute is not set:
+      //
+      // * the binding is optional: the property will not be defined
+      // * the binding is not optional: the property is defined
     };
 
     function linkFunc(scope, el, attr, vm) {
